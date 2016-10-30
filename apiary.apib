@@ -1,0 +1,526 @@
+FORMAT: 1A
+HOST: http://sl-timetracker.apiblueprint.org/
+
+# SL-TimeTracker
+
+Backend endpoints for the Service Learning Time Tracker project.
+
+## Student [/students]
+
+### Get Student Information [GET]
+
+Takes a Student ID and returns the associated Student.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Fa Kename",
+                "classes": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                ],
+                "projects": [
+                    000,
+                ]
+            }
+        ]
+
+### Create a new Student [POST]
+
+You may create a new Student using this action. It takes a JSON
+object containing a name, a list of class IDs, and a list of project IDs.
+
+
++ Request (application/json)
+
+        {
+            "name": "Fa Kename",
+            "classes": [
+                00000,
+                11111,
+                22222,
+                33333,
+            ],
+            "projects": [
+                00000
+            ],
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /students/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "name": "Fa Kename",
+                "classes": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                ],
+                "projects": [
+                    00000
+                ]
+            }
+            
+## Class [/classes]
+
+### Get Class Information [GET]
+
+Takes a Class ID and returns the associated Class.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Software Development",
+                "professors": [
+                    00000,
+                    11111,
+                    22222
+                ],
+                "students": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                    44444,
+                    55555,
+                    66666,
+                    77777,
+                    88888,
+                    99999
+                ],
+                "projects": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                    44444
+                ]
+            }
+        ]
+
+### Create a new Class [POST]
+
+You may create a new Class using this action. It takes a JSON 
+object containing a name, a list of Professors, a list of Students,
+and a list of Projects.
+
++ Request (application/json)
+
+        {
+            "name": "Software Development",
+            "professors": [
+                00000,
+                11111,
+                22222,
+            ],
+            "students": [
+                00000,
+                11111,
+                22222,
+                33333,
+                44444,
+                55555,
+                66666,
+                77777,
+                88888,
+                99999
+            ],
+            "projects": [
+                00000,
+                11111,
+                22222,
+                33333,
+                44444
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /classes/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "name": "Software Development",
+                "professors": [
+                    00000,
+                    11111,
+                    22222
+                ],
+                "students": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                    44444,
+                    55555,
+                    66666,
+                    77777,
+                    88888,
+                    99999
+                ],
+                "projects": [
+                    00000,
+                    11111,
+                    22222,
+                    33333,
+                    44444
+                ]
+            }
+            
+## Project [/projects]
+
+### Get a Project [GET]
+
+Takes a Project ID and returns the associated Project.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "community partner": 00000,
+                "description": "Creating a new system for tracking the hours worked by students doing service learning.",
+                "start date": "2016-09-01 00:00:00",
+                "end date": "2016-12-31 23:59:59.999999",
+                "locations": [
+                    {
+                        "latitude": 40.0,
+                        "longitude": 40.0,
+                    },
+                    {
+                        "latitude": 50.0,
+                        "longitude": 50.0,
+                    },
+                ],
+                "students": [
+                    00000,
+                    11111,
+                    22222,
+                ],
+            }
+        ]
+
+### Create a new Project [POST]
+
+You may create a new Project using this action. It takes a JSON
+object containing a Community Partner ID, a description, 
+a start date, an end date, a list of locations (long/lat pairs in JSON format), 
+and a list of Student IDs.
+
+
++ Request (application/json)
+
+        {
+            "community partner": 00000,
+            "description": "Creating a new system for tracking the hours worked by students doing service learning.",
+            "start date": "2016-09-01 00:00:00",
+            "end date": "2016-12-31 23:59:59.999999",
+            "locations": [
+                {
+                    "latitude": 40.0,
+                    "longitude": 40.0,
+                },
+                {
+                    "latitude": 50.0,
+                    "longitude": 50.0,
+                },
+            ],
+            "students": [
+                00000,
+                11111,
+                22222,
+            ],
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /projects/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "community partner": 00000,
+                "description": "Creating a new system for tracking the hours worked by students doing service learning.",
+                "start date": "2016-09-01 00:00:00",
+                "end date": "2016-12-31 23:59:59.999999",
+                "locations": [
+                    {
+                        "latitude": 40.0,
+                        "longitude": 40.0,
+                    },
+                    {
+                        "latitude": 50.0,
+                        "longitude": 50.0,
+                    },
+                ],
+                "students": [
+                    00000,
+                    11111,
+                    22222,
+                ],
+            }
+
+## Community Partner [/communityPartners]
+
+### Get a Community Partner [GET]
+
+Takes a Community Partner ID and returns the associated Community Partner.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Northeastern University Service Learning Department",
+                "projects": [
+                    00000,
+                    11111,
+                    22222,
+                ]
+            }
+        ]
+
+### Create a new Community Partner [POST]
+
+You may create a new Community Partner using this action. It takes a JSON
+object containing a name and a list of Project IDs.
+
+
++ Request (application/json)
+
+        {
+            "name": "Northeastern University Service Learning Department",
+            "projects": [
+                00000,
+                11111,
+                22222,
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /communityPartners/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "name": "Northeastern University Service Learning Department",
+                "projects": [
+                    00000,
+                    11111,
+                    22222,
+                ]
+            }
+  
+## Instructor [/instructors]
+
+### Get an Instructor [GET]
+
+Takes an Instructor ID and returns the associated Instructor.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Ken Bone",
+                "role": "professor",
+                "classes": [
+                    00000,
+                    11111,
+                    22222,
+                ]
+            }
+        ]
+
+### Create a new Instructor [POST]
+
+You may create a new Instructor using this action. It takes a JSON
+object containing a name, a role (Professor/TA) and a list of Class IDs.
+
+
++ Request (application/json)
+
+        {
+            "name": "Ken Bone",
+            "role": "professor,
+            "classes": [
+                00000,
+                11111,
+                22222,
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /instructors/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "name": "Ken Bone",
+                "role": "professor",
+                "classes": [
+                    00000,
+                    11111,
+                    22222,
+                ]
+            }
+
+## Record [/records]
+
+### Get a Record [GET]
+
+Takes a Record ID and returns the associated Record.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "student": 00000,
+                "start time": "2016-09-31 14:00:00",
+                "end time": "2016-09-31 16:00:00",
+                "project": 00000,
+                "class": 00000,
+                "location": 
+                    {
+                        "latitude": 40.0,
+                        "longitude": 40.0,
+                    },
+                "category": "Direct Service",
+                "notes": "Did a good job."
+            }
+        ]
+
+### Create a new Record [POST]
+
+You may create a new Record using this action. It takes a JSON
+object containing a Student ID, a start time, an end time, 
+a Project ID, a Class ID, a location (long/lat in JSON format), 
+a category (Training/Direct Service), and notes.
+
+
++ Request (application/json)
+
+        {
+            "student": 00000,
+            "start time": "2016-09-31 14:00:00",
+            "end time": "2016-09-31 16:00:00",
+            "project": 00000,
+            "class": 00000,
+            "location": 
+                {
+                    "latitude": 40.0,
+                    "longitude": 40.0,
+                },
+            "category": "Direct Service",
+            "notes": "Did a good job."
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /records/2
+
+    + Body
+
+            {
+                "id": 00000,
+                "student": 00000,
+                "start time": "2016-09-31 14:00:00",
+                "end time": "2016-09-31 16:00:00",
+                "project": 00000,
+                "class": 00000,
+                "location": 
+                    {
+                        "latitude": 40.0,
+                        "longitude": 40.0,
+                    },
+                "category": "Direct Service",
+                "notes": "Did a good job."
+            }
+
+## Admin [/admins]
+
+### Get an Admin [GET]
+
+Takes an Admin ID and returns the associated Admin.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Ad Min"
+            }
+        ]
