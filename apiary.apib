@@ -9,12 +9,12 @@ Backend endpoints for the Service Learning Time Tracker project.
 
 ### Get Student Information [GET]
 
-Takes a Student ID and returns the associated Student.
+Takes a Student email and returns the associated Student.
 
 + Request (application/json)
 
         {
-            "id": 00000
+            "email": "kename.f@husky.neu.edu",
         }
 
 + Response 200 (application/json)
@@ -23,6 +23,7 @@ Takes a Student ID and returns the associated Student.
             {
                 "id": 00000,
                 "name": "Fa Kename",
+                "email": "kename.f@husky.neu.edu",
                 "classes": [
                     00000,
                     11111,
@@ -45,6 +46,7 @@ object containing a name, a list of class IDs, and a list of project IDs.
 
         {
             "name": "Fa Kename",
+            "email": "kename.f@husky.neu.edu",
             "classes": [
                 00000,
                 11111,
@@ -67,6 +69,7 @@ object containing a name, a list of class IDs, and a list of project IDs.
             {
                 "id": 00000,
                 "name": "Fa Kename",
+                "email": "kename.f@husky.neu.edu",
                 "classes": [
                     00000,
                     11111,
@@ -82,7 +85,7 @@ object containing a name, a list of class IDs, and a list of project IDs.
 
 ### Get Class Information [GET]
 
-Takes a Class ID and returns the associated Class.
+Takes a Class ID (CRN) and returns the associated Class.
 
 + Request (application/json)
 
@@ -132,6 +135,7 @@ and a list of Projects.
 + Request (application/json)
 
         {
+            "id": 00000,
             "name": "Software Development",
             "professors": [
                 00000,
@@ -363,12 +367,12 @@ object containing a name and a list of Project IDs.
 
 ### Get an Instructor [GET]
 
-Takes an Instructor ID and returns the associated Instructor.
+Takes an Instructor email and returns the associated Instructor.
 
 + Request (application/json)
 
         {
-            "id": 00000
+            "email": "bone.k@husky.neu.edu"
         }
 
 + Response 200 (application/json)
@@ -377,6 +381,7 @@ Takes an Instructor ID and returns the associated Instructor.
             {
                 "id": 00000,
                 "name": "Ken Bone",
+                "email": "bone.k@husky.neu.edu",
                 "role": "professor",
                 "classes": [
                     00000,
@@ -508,12 +513,12 @@ a category (Training/Direct Service), and notes.
 
 ### Get an Admin [GET]
 
-Takes an Admin ID and returns the associated Admin.
+Takes an Admin email and returns the associated Admin.
 
 + Request (application/json)
 
         {
-            "id": 00000
+            "email": "min.a@husky.neu.edu"
         }
 
 + Response 200 (application/json)
@@ -521,6 +526,7 @@ Takes an Admin ID and returns the associated Admin.
         [
             {
                 "id": 00000,
+                "email": "min.a@husky.neu.edu",
                 "name": "Ad Min"
             }
         ]
