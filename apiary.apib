@@ -5,7 +5,7 @@ HOST: http://sl-timetracker.apiblueprint.org/
 
 Backend endpoints for the Service Learning Time Tracker project.
 
-## Student [/students]
+## Student [/students/{student_id}]
 
 ### Get Student Information [GET]
 
@@ -81,7 +81,41 @@ object containing a name, a list of class IDs, and a list of project IDs.
                 ]
             }
             
-## Class [/classes]
+### Update a Student [PUT]
+
+Updates a Student with the given fields.
+
++ Request (application/json)
+        
+        {
+            "classes": [
+                44444,
+                55555,
+            ]
+        }
+        
++ Response 200
+            
+## Class Collection [/classes]
+
+### Get all Classes [GET]
+
+Returns all IDs (CRNs) of all existing classes.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "ids": [
+                    00000,
+                    11111,
+                    22222,
+                    33333
+                ]
+            }
+        ]
+            
+## Class [/classes/{class_id}]
 
 ### Get Class Information [GET]
 
@@ -162,7 +196,7 @@ and a list of Projects.
                 44444
             ]
         }
-
+        
 + Response 201 (application/json)
 
     + Headers
@@ -200,7 +234,26 @@ and a list of Projects.
                 ]
             }
             
-## Project [/projects]
+### Update a Class [PUT]
+
+Updates a Class with the given fields.
+
++ Request (application/json)
+
+        {
+            "professors": [
+                33333,
+                44444,
+            ],
+            "projects": [
+                55555,
+                66666,
+            ]
+        }
+
++ Response 200
+  
+## Project [/projects/{project_id}]
 
 ### Get a Project [GET]
 
@@ -301,8 +354,26 @@ and a list of Student IDs.
                     22222,
                 ],
             }
+            
+### Update a Project [PUT]
 
-## Community Partner [/communityPartners]
+Updates a Project with the given fields.
+
++ Request (application/json)
+
+        {
+            "description": "Created a backend system for the hours worked by Northeastern Students.",
+            "locations": [
+                {
+                    "latitude": 30.0,
+                    "longitude": 30.0,
+                }
+            ]
+        }
+
++ Response 200
+
+## Community Partner [/communityPartners/{communityPartner_id}]
 
 ### Get a Community Partner [GET]
 
@@ -362,8 +433,23 @@ object containing a name and a list of Project IDs.
                     22222,
                 ]
             }
+            
+### Update a Community Partner [PUT]
+
+Updates a Community Partner with the given fields.
+
++ Request (application/json)
+
+        {
+            "projects": [
+                33333,
+                44444,
+            ]
+        }
+
++ Response 200
   
-## Instructor [/instructors]
+## Instructor [/instructors/{instructor_id}]
 
 ### Get an Instructor [GET]
 
@@ -427,8 +513,21 @@ object containing a name, a role (Professor/TA) and a list of Class IDs.
                     22222,
                 ]
             }
+            
+### Update an Instructor [PUT]
 
-## Record [/records]
+Updates a Class with the given fields.
+
++ Request (application/json)
+
+        {
+            "name": "KenBot 2000",
+            "role": "TA",
+        }
+
++ Response 200
+
+## Record [/records/{record_id}]
 
 ### Get a Record [GET]
 
@@ -456,7 +555,11 @@ Takes a Record ID and returns the associated Record.
                         "longitude": 40.0,
                     },
                 "category": "Direct Service",
-                "notes": "Did a good job."
+                "notes": "Did a good job.",
+                "extra":
+                    {
+                        "example": "some info"
+                    }
             }
         ]
 
@@ -506,10 +609,40 @@ a category (Training/Direct Service), and notes.
                         "longitude": 40.0,
                     },
                 "category": "Direct Service",
-                "notes": "Did a good job."
+                "notes": "Did a good job.",
+                "extra": {},
             }
+            
+### Update a Record [PUT]
 
-## Admin [/admins]
+Updates a Class with the given fields.
+
++ Request (application/json)
+
+        {
+            "location": 
+                {
+                    "latitude": 30.0,
+                    "longitude": 30.0
+                },
+            "notes": "Great once again"
+        }
+
++ Response 200
+
+### Delete a Record [DELETE]
+
+Takes a Record ID and deletes that record.
+
++ Request (application/json)
+        
+        {
+            "id": 00000,    
+        }
+
++ Response 202
+
+## Admin [/admins/{admin_id}]
 
 ### Get an Admin [GET]
 
