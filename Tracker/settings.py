@@ -25,7 +25,10 @@ SECRET_KEY = '2#6jt@*$ywekl#=q#87_e=dvrzi4xo93f=#dz7%z!_r847z%l*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'ec2-54-147-212-27.compute-1.amazonaws.com',
+    '54.147.212.27',
+]
 
 
 # Application definition
@@ -89,7 +92,7 @@ DATABASES = {
         'USER': 'root',
         'HOST': '/var/run/mysqld/mysqld.sock',
         'PORT': 3306,
-        'PASSWORD': 'tracker',
+        'PASSWORD': 'tracker10',
     }
 }
 
@@ -130,6 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
