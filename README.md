@@ -24,6 +24,9 @@ Install the following using apt-get (or equivalent):
 Run `source ./env/bin/activate` before you start programming to get back in the environment.
 When you're done programming for the day, run `deactivate` to close the virtual environment.
 
+# Testing
+
+Run `python manage.py test`
 
 ### Some useful aliases to add to your bashrc
 
