@@ -29,9 +29,12 @@ When you're done programming for the day, run `deactivate` to close the virtual 
 
 **Starts the server for the project:**
 `alias runserv='python3 manage.py runserver'`
+
 **Starts the virtual environment:**
 `alias startenv='source ./env/bin/activate'`
+
 **Auto generates new migrations for model changes:**
 alias makemigrate='python3 manage.py makemigrations base'
+
 **Runs all of the migrations:**
 alias migrate='python3 manage.py migrate'
