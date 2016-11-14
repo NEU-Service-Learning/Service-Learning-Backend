@@ -6,11 +6,15 @@ services:
   - mysql
 
 # command to install dependencies
-install: "pip3 install -r requirements.txt"
+install:
+  - "pip3 install -r requirements.txt"
+  - pip3 install -q Django==$DJANGO --use-mirrors
+  - pip3 install pep8 --use-mirrors
+  - pip3 install mysql-python --use-mirrors
 
 before_script:
   - mysql -e 'create database sldb;'
   - python manage.py syncdb --noinput
-  
+
 # command to run the tests
 script: python manage.py test
