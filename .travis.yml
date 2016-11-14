@@ -8,5 +8,9 @@ services:
 # command to install dependencies
 install: "pip3 install -r requirements.txt"
 
+before_script:
+  - mysql -e 'create database sldb;'
+  - python manage.py syncdb --noinput
+  
 # command to run the tests
 script: python manage.py test
