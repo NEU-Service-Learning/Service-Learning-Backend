@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.5"
+
+services:
+  - mysql
+
+env:
+  global:
+    - BUILD_ON_TRAVIS=true
+
+# command to install dependencies
+install:
+  - "pip3 install -r requirements.txt"
+
+before_script:
+  - mysql -e 'create database travis_ci_db;'
+
+# command to run the tests
+script: python manage.py test
