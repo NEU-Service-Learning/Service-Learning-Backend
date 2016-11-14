@@ -85,7 +85,6 @@ WSGI_APPLICATION = 'Tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 if os.getenv('BUILD_ON_TRAVIS', None):
-    SECRET_KEY = "SecretKeyForUseOnTravis"
     DEBUG = False
     TEMPLATE_DEBUG = True
 
