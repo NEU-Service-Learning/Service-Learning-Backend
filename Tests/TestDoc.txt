@@ -1,0 +1,11 @@
+Test for the Following:
+
+Model			   Requests
+--------------------------------------
+Student			GET, POST, PUT		
+Class			GET, POST, PUT
+Project			GET, POST, PUT
+Community Project	GET, POST, PUT
+Instructor		GET, POST, PUT
+Record			GET, POST, PUT, DELETE
+Admin			GET
