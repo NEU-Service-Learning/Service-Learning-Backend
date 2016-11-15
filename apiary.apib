@@ -662,6 +662,31 @@ Takes a Record ID and deletes that record.
 
 ## Admin [/admins/{admin_id}]
 
+### Create an Admin [POST]
+
+Creates a new Admin with the given attributes.
+
++ Request (application/json)
+
+        {
+           "email": "min.a@husky.neu.edu",
+            "name": "Ad Min"
+        }
+    
++ Response 201 (application/json)
+
+    + Headers
+            
+            Location: /admins/2
+
+    + Body
+    
+            {
+                "email": "min.a@husky.neu.edu",
+                "name": "Ad Min"
+            }
+
+
 ### Get an Admin [GET]
 
 Takes an Admin email and returns the associated Admin.
