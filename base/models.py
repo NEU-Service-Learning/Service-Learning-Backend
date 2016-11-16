@@ -10,162 +10,120 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class AccountEmailaddress(models.Model):
-    email = models.CharField(unique=True, max_length=254)
-    verified = models.IntegerField()
-    primary = models.IntegerField()
-    user = models.ForeignKey('AuthUser', models.DO_NOTHING)
+class Administrator(models.Model):
+    first_name = models.CharField(max_length=45)
+    last_name = models.CharField(max_length=45)
+    user = models.CharField(max_length=45)
+    pwd = models.CharField(max_length=45)
 
     class Meta:
-        managed = False
-        db_table = 'account_emailaddress'
+        db_table = 'Administrator'
 
 
-class AccountEmailconfirmation(models.Model):
-    created = models.DateTimeField()
-    sent = models.DateTimeField(blank=True, null=True)
-    key = models.CharField(unique=True, max_length=64)
-    email_address = models.ForeignKey(AccountEmailaddress, models.DO_NOTHING)
+class College(models.Model):
+    name = models.CharField(max_length=200)
 
     class Meta:
-        managed = False
-        db_table = 'account_emailconfirmation'
+        db_table = 'College'
 
 
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=80)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+class CommunityPartner(models.Model):
+    name = models.CharField(max_length=45)
 
     class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
+        db_table = 'Community_Partner'
 
 
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
+class Course(models.Model):
+    course_no = models.CharField(primary_key=True, max_length=8)
+    name = models.CharField(max_length=45)
+    instructor = models.ForeignKey('Instructor', models.DO_NOTHING, blank=True, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    department = models.ForeignKey('Department', models.DO_NOTHING)
 
     class Meta:
-        managed = False
-        db_table = 'auth_user'
+        db_table = 'Course'
 
 
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+class Department(models.Model):
+    id = models.ForeignKey(College, models.DO_NOTHING, db_column='id', primary_key=True)
+    name = models.CharField(max_length=45)
+    college_id = models.IntegerField()
 
     class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        db_table = 'Department'
 
 
-class BaseCourse(models.Model):
-    created = models.DateTimeField()
-    is_positive = models.IntegerField()
-    instructor = models.ForeignKey('BaseInstructor', models.DO_NOTHING)
-    owner = models.ForeignKey(AuthUser, models.DO_NOTHING)
+class Enrollment(models.Model):
+    student = models.ForeignKey('Student', models.DO_NOTHING)
+    course_no = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_no')
+    current_class = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'base_course'
+        db_table = 'Enrollment'
+        unique_together = (('student', 'course_no'),)
 
 
-class BaseInstructor(models.Model):
-    created = models.DateTimeField()
-    owner = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'base_instructor'
-
-
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+class Instructor(models.Model):
+    first_name = models.CharField(max_length=45)
+    last_name = models.CharField(max_length=45)
+    user = models.CharField(max_length=45)
+    pwd = models.CharField(max_length=45)
+    role = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'django_admin_log'
+        db_table = 'Instructor'
 
 
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
+class Project(models.Model):
+    name = models.CharField(max_length=45)
+    community_partner = models.ForeignKey(CommunityPartner, models.DO_NOTHING)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'django_migrations'
+        db_table = 'Project'
 
 
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
-class DjangoSite(models.Model):
-    domain = models.CharField(unique=True, max_length=100)
-    name = models.CharField(max_length=50)
+class ProjectLocation(models.Model):
+    project = models.ForeignKey(Project, models.DO_NOTHING)
+    name = models.CharField(max_length=45, blank=True, null=True)
+    location = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
-        managed = False
-        db_table = 'django_site'
+        db_table = 'Project_Location'
+
+
+class Record(models.Model):
+    student = models.ForeignKey('Student', models.DO_NOTHING)
+    course_no = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_no')
+    project = models.ForeignKey(Project, models.DO_NOTHING)
+    date = models.DateField()
+    total_hours = models.DecimalField(max_digits=4, decimal_places=2)
+    location = models.ForeignKey(ProjectLocation, models.DO_NOTHING)
+    category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
+    comments = models.TextField(blank=True, null=True)
+    extra_field = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        db_table = 'Record'
+
+
+class RecordCategory(models.Model):
+    name = models.CharField(unique=True, max_length=45, blank=True, null=True)
+
+    class Meta:
+        db_table = 'Record_Category'
+
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=45)
+    last_name = models.CharField(max_length=45)
+    user = models.CharField(max_length=45)
+    pwd = models.CharField(max_length=45)
+
+    class Meta:
+        db_table = 'Student'
+        unique_together = (('id', 'user'),)
