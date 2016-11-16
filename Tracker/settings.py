@@ -101,11 +101,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'TimeTracker',
-            'USER': 'admin',
-            'HOST': 'sl-timetracker.czqx1sy98bqz.us-east-1.rds.amazonaws.com',
+            'NAME': 'sldb',
+            'USER': 'root',
+            'HOST': '/var/run/mysqld/mysqld.sock',
             'PORT': 3306,
-            'PASSWORD': 's3rvic3-l3arning',
+            'PASSWORD': 'tracker10',
         }
     }
 
