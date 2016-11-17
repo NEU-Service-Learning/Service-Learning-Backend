@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'ec2-54-147-212-27.compute-1.amazonaws.com',
     '54.147.212.27',
-    'localhost'
+    'localhost',
 ]
 
 
@@ -102,11 +102,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'sldb',
-            'USER': 'root',
-            'HOST': '/var/run/mysqld/mysqld.sock',
+            'NAME': 'TimeTracker',
+            'USER': 'admin',
+            'HOST': 'sl-timetracker.czqx1sy98bqz.us-east-1.rds.amazonaws.com',
             'PORT': 3306,
-            'PASSWORD': 'tracker10',
+            'PASSWORD': 's3rvic3-l3arning',
         }
     }
 
