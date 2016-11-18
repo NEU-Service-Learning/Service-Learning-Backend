@@ -55,11 +55,11 @@ insert into Instructor (first_name, last_name, user, pwd, role)
 	values ('Kevin', 'Smith', 'james.s@northeastern.edu', 'password123', false);
     
 -- Course --
-insert into Course (course_no, name, instructor_id, start_date, end_date, department_id)
-	values ('CS4500', 'Software Development', 101, '2016-09-01', '2016-12-20', 1001);
+insert into Course (course_no, name, semester_id, instructor_id, start_date, end_date, department_id)
+	values ('CS4500', 'Software Development', 'FALL2016', 101, '2016-09-01', '2016-12-20', 1001);
 
-insert into Course (course_no, name, instructor_id, start_date, end_date, department_id)
-	values ('CS1200', 'Overview 1', 102, '2016-08-01', '2017-01-01', 1001);
+insert into Course (course_no, name, semester_id, instructor_id, start_date, end_date, department_id)
+	values ('CS1200', 'Overview 1','Spring2015', 102, '2016-08-01', '2017-01-01', 1001);
 	
 -- Enrollment --
 insert into Enrollment (student_id, course_no, current_class)
