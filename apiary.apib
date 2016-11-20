@@ -414,6 +414,30 @@ Updates a Project with the given fields, must provide all fields.
 
 + Response 200
 
+## All Students from a Project [/project/{project_id}/allstudents]
+
+### Get all Students who worked on a given Project ID [GET]
+
+Takes a Project ID and returns the names and IDs of all students ever associated with that project
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+
+        [
+            {
+            "results":
+                {
+                "Fa Kename": "00000",
+                "Fals Eid": "11111"
+                }
+            }
+        ]
+        oject
 ## Community Partner [/communityPartner/{communityPartner_id}]
 
 ### Get a Community Partner [GET]
