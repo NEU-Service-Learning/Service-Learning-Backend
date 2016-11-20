@@ -182,17 +182,7 @@ Takes a Course ID and returns the associated Course.
                 "id": 00000,
                 "course number": "CS4500",
                 "course name": "Software Development",
-                "semester": "fall2016",
-                "instructors": [
-                    00000,
-                    11111,
-                    22222
-                ],
-                "meeting times": {
-                    "days": "MWR",
-                    "start time": "9:50:00",
-                    "end time": "11:30:00",
-                }
+                "semester": "fall2016"
             }
         ]
 
@@ -206,17 +196,7 @@ object containing a course number, course name, semester, a list of Professors, 
         {
             "course number": "CS4500",
             "course name": "Software Development",
-            "semester": "fall2016",
-            "instructors": [
-                00000,
-                11111,
-                22222
-            ],
-            "meeting times": {
-                "days": "MWR",
-                "start time": "9:50:00",
-                "end time": "11:30:00",
-            }
+            "semester": "fall2016"
         }
         
 + Response 201 (application/json)
@@ -231,17 +211,7 @@ object containing a course number, course name, semester, a list of Professors, 
                 "id": 00000,
                 "course number": "CS4500",
                 "course name": "Software Development",
-                "semester": "fall2016",
-                "instructors": [
-                    00000,
-                    11111,
-                    22222
-                ],
-                "meeting times": {
-                    "days": "MWR",
-                    "start time": "9:50:00",
-                    "end time": "11:30:00",
-                }
+                "semester": "fall2016"
             }
             
 ### Update a Course [PUT]
@@ -254,25 +224,17 @@ Updates a Course with the given fields, must provide all fields.
             "id": 00000,
             "course number": "CS4500",
             "course name": "Software Development",
-            "semester": "spri2016",
-            "instructors": [
-                00000,
-                11111,
-            ],
-            "meeting times": {
-                "days": "MWR",
-                "start time": "9:50:00",
-                "end time": "11:30:00",
-            }
+            "semester": "spri2016"
         }
 
 + Response 200
 
-## Expanded Course Info [/course/{course_id}/expanded]
+## Course Instructors [/course/{course_id}/instructors]
 
-### Get Course Expanded Info [GET]
+### Get Instructors for a Course [GET]
 
-Get Course info with full instructor names. Takes Course ID.
+Returns all instructors for a course
+
 
 + Request (application/json)
 
@@ -285,19 +247,11 @@ Get Course info with full instructor names. Takes Course ID.
         [
             {
                 "id": 00000,
-                "course number": "CS4500",
-                "course name": "Software Development",
-                "semester": "fall2016",
                 "instructors": [
-                    "Michael Weintraub",
-                    "Joyesh Kakkar",
-                    "Smitha Bangalore Naresh"
-                ],
-                "meeting times": {
-                    "days": "MWR",
-                    "start time": "9:50:00",
-                    "end time": "11:30:00",
-                }
+                    00000: "Michael Weintraub",
+                    11111: "Joyesh Kakkar",
+                    22222: "Smitha Bangalore Naresh",
+                ]
             }
         ]
 
