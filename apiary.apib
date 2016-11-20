@@ -661,3 +661,78 @@ Takes a Record ID and deletes that record.
         }
 
 + Response 202
+
+## User Records [/record/user/{user_id}]
+
+### Get all Records for a User [GET]
+
+Takes a User ID and returns all Records for that User.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "record IDs": [
+                    11111,
+                    22222,
+                    33333,
+                    44444
+                ]
+            }
+        ]
+
+## Course Records [/record/course/{course_id}]
+
+### Get all Records for a Course [GET]
+
+Takes a Course ID and returns all Records for that Course.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "record IDs": [
+                    11111,
+                    22222,
+                    33333,
+                    44444
+                ]
+            }
+        ]
+
+## Project Records [/record/project/{project_id}]
+
+### Get all Records for a Project [GET]
+
+Takes a Project ID and returns all Records for that Project.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "record IDs": [
+                    11111,
+                    22222,
+                    33333,
+                    44444
+                ]
+            }
+        ]
