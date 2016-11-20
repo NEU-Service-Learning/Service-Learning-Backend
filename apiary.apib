@@ -5,11 +5,11 @@ HOST: http://sl-timetracker.apiblueprint.org/
 
 Backend endpoints for the Service Learning Time Tracker project.
 
-## Student [/students/{student_id}]
+## User [/user/{user_id}]
 
-### Get Student Information [GET]
+### Get User Information [GET]
 
-Takes a Student email and returns the associated Student.
+Takes a User email and returns the associated User.
 
 + Request (application/json)
 
@@ -23,31 +23,41 @@ Takes a Student email and returns the associated Student.
             {
                 "id": 00000,
                 "name": "Fa Kename",
-                "email": "kename.f@husky.neu.edu",
-                "classes": [
+                "username": "kename.f@husky.neu.edu",
+                "role": "student",
+                "courses": [
                     00000,
                     11111,
                     22222,
                     33333,
                 ],
                 "projects": [
-                    000,
+                    00000,
                 ]
             }
         ]
 
-### Create a new Student [POST]
+### Create a new User [POST]
 
-You may create a new Student using this action. It takes a JSON
-object containing a name, a list of class IDs, and a list of project IDs.
+You may create a new User using this action. It takes a JSON
+object containing a name, a username (email address), a role for the user (student/professor/admin),
+a list of course IDs, and a list of project IDs.
+
+If the role of the User is noted as "student", the courses array will refer to the list of courses that User is currently enrolled in.
+
+If the role of the User is noted as "professor", the courses array will refer to the list of courses that User is currently teaching. In addition,
+when the User's role is "professor", the project array will be left blank.
+
+If the role of the User is noted as "admin", the courses array and projects array will be left blank.
 
 
 + Request (application/json)
 
         {
             "name": "Fa Kename",
-            "email": "kename.f@husky.neu.edu",
-            "classes": [
+            "username": "kename.f@husky.neu.edu",
+            "role": "student",
+            "courses": [
                 00000,
                 11111,
                 22222,
@@ -62,15 +72,16 @@ object containing a name, a list of class IDs, and a list of project IDs.
 
     + Headers
 
-            Location: /students/2
+            Location: /user/{user_id}
 
     + Body
 
             {
                 "id": 00000,
                 "name": "Fa Kename",
-                "email": "kename.f@husky.neu.edu",
-                "classes": [
+                "username": "kename.f@husky.neu.edu",
+                "role": "student",
+                "courses": [
                     00000,
                     11111,
                     22222,
@@ -81,26 +92,62 @@ object containing a name, a list of class IDs, and a list of project IDs.
                 ]
             }
             
-### Update a Student [PUT]
+### Update a User [PUT]
 
-Updates a Student with the given fields.
+Updates a User with the given fields. Have to provide all the fields, provide exisiting data if there is no change
 
 + Request (application/json)
         
         {
-            "classes": [
+            "id": 00000,
+            "name": "Fa Kename",
+            "username": "kename.f@husky.neu.edu",
+            "role": "student",
+            "courses": [
+                00000,
+                11111,
                 44444,
                 55555,
-            ]
+            ],
+            "projects": [],
         }
-        
+
 + Response 200
-            
-## Class Collection [/classes]
 
-### Get all Classes [GET]
+## Expanded User Info [/user/{user_id}/expanded]
 
-Returns all IDs (CRNs) of all existing classes.
+### Get User Expanded Info [GET]
+
+Get an expanded version of the user, including full name of courses and projects. Takes User ID.
+
++ Request (application/json)
+
+        {
+            "email": "kename.f@husky.neu.edu",
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Fa Kename",
+                "username": "kename.f@husky.neu.edu",
+                "role": "student",
+                "courses": [
+                    "Software Development",
+                ],
+                "projects": [
+                    "Service-Learning Time Tracker",
+                ]
+            }
+        ]
+
+## Course Collection [/courses]
+
+### Get all Courses [GET]
+
+Returns all IDs of all existing courses.
 
 + Response 200 (application/json)
 
@@ -114,12 +161,30 @@ Returns all IDs (CRNs) of all existing classes.
                 ]
             }
         ]
-            
-## Class [/classes/{class_id}]
 
-### Get Class Information [GET]
+## Course Name Collection [/courses/names]
 
-Takes a Class ID (CRN) and returns the associated Class.
+### Get Course Names Collection [GET]
+
+Returns names of all courses.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "names": [
+                    "Algorithms and Data",
+                    "Fundamentals of Computer Science 1",
+                    "Software Development",
+                ]
+            }
+        ]
+   
+## Course [/course/{course_id}]
+
+### Get Course Information [GET]
+
+Takes a Course ID and returns the associated Course.
 
 + Request (application/json)
 
@@ -132,80 +197,42 @@ Takes a Class ID (CRN) and returns the associated Class.
         [
             {
                 "id": 00000,
-                "name": "Software Development",
-                "professors": [
+                "course number": "CS4500",
+                "course name": "Software Development",
+                "semester": "fall2016",
+                "instructors": [
                     00000,
                     11111,
                     22222
                 ],
-                "students": [
-                    00000,
-                    11111,
-                    22222,
-                    33333,
-                    44444,
-                    55555,
-                    66666,
-                    77777,
-                    88888,
-                    99999
-                ],
-                "projects": [
-                    00000,
-                    11111,
-                    22222,
-                    33333,
-                    44444
-                ],
                 "meeting times": {
-                    "days": [
-                        "M", "W", "R"
-                    ],
-                    "time": "9:50:00",
+                    "days": "MWR",
+                    "start time": "9:50:00",
+                    "end time": "11:30:00",
                 }
             }
         ]
 
-### Create a new Class [POST]
+### Create a new Course [POST]
 
-You may create a new Class using this action. It takes a JSON 
-object containing a name, a list of Professors, a list of Students,
-and a list of Projects.
+You may create a new Course using this action. It takes a JSON 
+object containing a course number, course name, semester, a list of Professors, and meeting times.
 
 + Request (application/json)
 
         {
-            "id": 00000,
-            "name": "Software Development",
-            "professors": [
+            "course number": "CS4500",
+            "course name": "Software Development",
+            "semester": "fall2016",
+            "instructors": [
                 00000,
                 11111,
-                22222,
-            ],
-            "students": [
-                00000,
-                11111,
-                22222,
-                33333,
-                44444,
-                55555,
-                66666,
-                77777,
-                88888,
-                99999
-            ],
-            "projects": [
-                00000,
-                11111,
-                22222,
-                33333,
-                44444
+                22222
             ],
             "meeting times": {
-                "days": [
-                    "M", "W", "R"
-                ],
-                "time": "9:50:00",
+                "days": "MWR",
+                "start time": "9:50:00",
+                "end time": "11:30:00",
             }
         }
         
@@ -213,65 +240,85 @@ and a list of Projects.
 
     + Headers
 
-            Location: /classes/2
+            Location: /course/{course_id}
 
     + Body
 
             {
                 "id": 00000,
-                "name": "Software Development",
-                "professors": [
+                "course number": "CS4500",
+                "course name": "Software Development",
+                "semester": "fall2016",
+                "instructors": [
                     00000,
                     11111,
                     22222
                 ],
-                "students": [
-                    00000,
-                    11111,
-                    22222,
-                    33333,
-                    44444,
-                    55555,
-                    66666,
-                    77777,
-                    88888,
-                    99999
-                ],
-                "projects": [
-                    00000,
-                    11111,
-                    22222,
-                    33333,
-                    44444
-                ],
                 "meeting times": {
-                    "days": [
-                        "M", "W", "R"
-                    ],
-                    "time": "9:50:00",
+                    "days": "MWR",
+                    "start time": "9:50:00",
+                    "end time": "11:30:00",
                 }
             }
             
-### Update a Class [PUT]
+### Update a Course [PUT]
 
-Updates a Class with the given fields.
+Updates a Course with the given fields, must provide all fields.
 
 + Request (application/json)
 
         {
-            "professors": [
-                33333,
-                44444,
+            "id": 00000,
+            "course number": "CS4500",
+            "course name": "Software Development",
+            "semester": "spri2016",
+            "instructors": [
+                00000,
+                11111,
             ],
-            "projects": [
-                55555,
-                66666,
-            ]
+            "meeting times": {
+                "days": "MWR",
+                "start time": "9:50:00",
+                "end time": "11:30:00",
+            }
         }
 
 + Response 200
-  
-## Project [/projects/{project_id}]
+
+## Expanded Course Info [/course/{course_id}/expanded]
+
+### Get Course Expanded Info [GET]
+
+Get Course info with full instructor names. Takes Course ID.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "course number": "CS4500",
+                "course name": "Software Development",
+                "semester": "fall2016",
+                "instructors": [
+                    "Michael Weintraub",
+                    "Joyesh Kakkar",
+                    "Smitha Bangalore Naresh"
+                ],
+                "meeting times": {
+                    "days": "MWR",
+                    "start time": "9:50:00",
+                    "end time": "11:30:00",
+                }
+            }
+        ]
+
+## Project [/project/{project_id}]
 
 ### Get a Project [GET]
 
@@ -288,110 +335,86 @@ Takes a Project ID and returns the associated Project.
         [
             {
                 "id": 00000,
+                "name": "Service-Learning Time Tracker",
                 "community partner": 00000,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
                 "start date": "2016-09-01 00:00:00",
                 "end date": "2016-12-31 23:59:59.999999",
-                "locations": [
+                "location":
                     {
                         "latitude": 40.0,
                         "longitude": 40.0,
                     },
-                    {
-                        "latitude": 50.0,
-                        "longitude": 50.0,
-                    },
-                ],
-                "students": [
-                    00000,
-                    11111,
-                    22222,
-                ],
             }
         ]
 
 ### Create a new Project [POST]
 
 You may create a new Project using this action. It takes a JSON
-object containing a Community Partner ID, a description, 
-a start date, an end date, a list of locations (long/lat pairs in JSON format), 
-and a list of Student IDs.
+object containing a name (optional), Community Partner ID, a description (optional), 
+a start date, an end date, and a location (long/lat pair in JSON format).
 
 
 + Request (application/json)
 
         {
+            "name": "Service-Learning Time Tracker",
             "community partner": 00000,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
             "start date": "2016-09-01 00:00:00",
             "end date": "2016-12-31 23:59:59.999999",
-            "locations": [
+            "location":
                 {
                     "latitude": 40.0,
                     "longitude": 40.0,
                 },
-                {
-                    "latitude": 50.0,
-                    "longitude": 50.0,
-                },
-            ],
-            "students": [
-                00000,
-                11111,
-                22222,
-            ],
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /projects/2
+            Location: /project/{project_id}
 
     + Body
-
+    
             {
                 "id": 00000,
+                "name": "Service-Learning Time Tracker",
                 "community partner": 00000,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
                 "start date": "2016-09-01 00:00:00",
                 "end date": "2016-12-31 23:59:59.999999",
-                "locations": [
+                "location":
                     {
                         "latitude": 40.0,
                         "longitude": 40.0,
                     },
-                    {
-                        "latitude": 50.0,
-                        "longitude": 50.0,
-                    },
-                ],
-                "students": [
-                    00000,
-                    11111,
-                    22222,
-                ],
             }
             
 ### Update a Project [PUT]
 
-Updates a Project with the given fields.
+Updates a Project with the given fields, must provide all fields.
 
 + Request (application/json)
 
         {
-            "description": "Created a backend system for the hours worked by Northeastern Students.",
-            "locations": [
+            "id": 00000,
+            "name": "Service-Learning Time Tracker",
+            "community partner": 00000,
+            "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
+            "start date": "2016-09-01 00:00:00",
+            "end date": "2016-12-31 23:59:59.999999",
+            "location":
                 {
                     "latitude": 30.0,
                     "longitude": 30.0,
-                }
-            ]
+                },
         }
 
 + Response 200
 
-## Community Partner [/communityPartners/{communityPartner_id}]
+## Community Partner [/communityPartner/{communityPartner_id}]
 
 ### Get a Community Partner [GET]
 
@@ -408,48 +431,33 @@ Takes a Community Partner ID and returns the associated Community Partner.
         [
             {
                 "id": 00000,
-                "name": "Northeastern University Service Learning Department",
-                "projects": [
-                    00000,
-                    11111,
-                    22222,
-                ]
+                "name": "Northeastern University Service Learning Department"
             }
         ]
 
 ### Create a new Community Partner [POST]
 
 You may create a new Community Partner using this action. It takes a JSON
-object containing a name and a list of Project IDs.
+object containing a name of a Community Partner.
 
 
 + Request (application/json)
 
         {
-            "name": "Northeastern University Service Learning Department",
-            "projects": [
-                00000,
-                11111,
-                22222,
-            ]
+            "name": "Northeastern University Service Learning Department"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /communityPartners/2
+            Location: /communityPartner/{communityPartner_id}
 
     + Body
 
             {
                 "id": 00000,
-                "name": "Northeastern University Service Learning Department",
-                "projects": [
-                    00000,
-                    11111,
-                    22222,
-                ]
+                "name": "Northeastern University Service Learning Department"
             }
             
 ### Update a Community Partner [PUT]
@@ -459,93 +467,13 @@ Updates a Community Partner with the given fields.
 + Request (application/json)
 
         {
-            "projects": [
-                33333,
-                44444,
-            ]
-        }
-
-+ Response 200
-  
-## Instructor [/instructors/{instructor_id}]
-
-### Get an Instructor [GET]
-
-Takes an Instructor email and returns the associated Instructor.
-
-+ Request (application/json)
-
-        {
-            "email": "bone.k@husky.neu.edu"
-        }
-
-+ Response 200 (application/json)
-       
-        [
-            {
-                "id": 00000,
-                "name": "Ken Bone",
-                "email": "bone.k@husky.neu.edu",
-                "role": "professor",
-                "classes": [
-                    00000,
-                    11111,
-                    22222,
-                ]
-            }
-        ]
-
-### Create a new Instructor [POST]
-
-You may create a new Instructor using this action. It takes a JSON
-object containing a name, a role (Professor/TA) and a list of Class IDs.
-
-
-+ Request (application/json)
-
-        {
-            "name": "Ken Bone",
-            "role": "professor,
-            "classes": [
-                00000,
-                11111,
-                22222,
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /instructors/2
-
-    + Body
-
-            {
-                "id": 00000,
-                "name": "Ken Bone",
-                "role": "professor",
-                "classes": [
-                    00000,
-                    11111,
-                    22222,
-                ]
-            }
-            
-### Update an Instructor [PUT]
-
-Updates a Class with the given fields.
-
-+ Request (application/json)
-
-        {
-            "name": "KenBot 2000",
-            "role": "TA",
+            "id": 00000,
+            "name": "Northeastern University Service Learning Department"
         }
 
 + Response 200
 
-## Record [/records/{record_id}]
+## Record [/record/{record_id}]
 
 ### Get a Record [GET]
 
@@ -562,88 +490,108 @@ Takes a Record ID and returns the associated Record.
         [
             {
                 "id": 00000,
-                "student": 00000,
-                "start time": "2016-09-31 14:00:00",
-                "end time": "2016-09-31 16:00:00",
+                "user": 00000,
+                "course": 00000,
                 "project": 00000,
-                "class": 00000,
+                "start time": "2016-09-31 14:00:00",
+                "total hourse": 2,
                 "location": 
                     {
                         "latitude": 40.0,
                         "longitude": 40.0,
                     },
                 "category": "Direct Service",
-                "notes": "Did a good job.",
-                "extra":
+                "comments": "Did a good job.",
+                "extraFields":
                     {
                         "example": "some info"
                     }
             }
         ]
 
+
 ### Create a new Record [POST]
 
 You may create a new Record using this action. It takes a JSON
-object containing a Student ID, a start time, an end time, 
-a Project ID, a Class ID, a location (long/lat in JSON format), 
-a category (Training/Direct Service), and notes.
+object containing a User ID, course, Course ID, Project ID, start time, total hours, 
+a location (long/lat in JSON format)(optional), a category (Training/Direct Service), comments (optional), and any extra fields (optional).
 
 
 + Request (application/json)
 
-        {
-            "student": 00000,
-            "start time": "2016-09-31 14:00:00",
-            "end time": "2016-09-31 16:00:00",
-            "project": 00000,
-            "class": 00000,
-            "location": 
-                {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
-                },
-            "category": "Direct Service",
-            "notes": "Did a good job."
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /records/2
-
-    + Body
-
+        [
             {
-                "id": 00000,
-                "student": 00000,
-                "start time": "2016-09-31 14:00:00",
-                "end time": "2016-09-31 16:00:00",
+                "user": 00000,
+                "course": 00000,
                 "project": 00000,
-                "class": 00000,
+                "start time": "2016-09-31 14:00:00",
+                "total hours": 2,
                 "location": 
                     {
                         "latitude": 40.0,
                         "longitude": 40.0,
                     },
                 "category": "Direct Service",
-                "notes": "Did a good job.",
-                "extra": {},
+                "comments": "Did a good job.",
+                "extraFields":
+                    {
+                        "example": "some info"
+                    }
+            }
+        ]
+
++ Response 201 (application/json)
+
+   + Headers
+
+            Location: /record/{record_id}
+
+   + Body
+
+            {
+                "id": 00000,
+                "user": 00000,
+                "course": 00000,
+                "project": 00000,
+                "start time": "2016-09-31 14:00:00",
+                "total hourse": 2,
+                "location": 
+                    {
+                        "latitude": 40.0,
+                        "longitude": 40.0,
+                    },
+                "category": "Direct Service",
+                "comments": "Did a good job.",
+                "extraFields":
+                    {
+                        "example": "some info"
+                    }
             }
             
 ### Update a Record [PUT]
 
-Updates a Class with the given fields.
+Updates a Record with the given fields, must provide all fields.
 
 + Request (application/json)
 
         {
+            "id": 00000,
+            "user": 11111,
+            "course": 00000,
+            "project": 00000,
+            "start time": "2016-09-31 16:00:00",
+            "total hourse": 4,
             "location": 
                 {
                     "latitude": 30.0,
-                    "longitude": 30.0
+                    "longitude": 30.0,
                 },
-            "notes": "Great once again"
+            "category": "Direct Service",
+            "comments": "Did a great job.",
+            "extraFields":
+                {
+                    "example": "some info"
+                }
         }
 
 + Response 200
@@ -659,50 +607,3 @@ Takes a Record ID and deletes that record.
         }
 
 + Response 202
-
-## Admin [/admins/{admin_id}]
-
-### Create an Admin [POST]
-
-Creates a new Admin with the given attributes.
-
-+ Request (application/json)
-
-        {
-           "email": "min.a@husky.neu.edu",
-            "name": "Ad Min"
-        }
-    
-+ Response 201 (application/json)
-
-    + Headers
-            
-            Location: /admins/2
-
-    + Body
-    
-            {
-                "email": "min.a@husky.neu.edu",
-                "name": "Ad Min"
-            }
-
-
-### Get an Admin [GET]
-
-Takes an Admin email and returns the associated Admin.
-
-+ Request (application/json)
-
-        {
-            "email": "min.a@husky.neu.edu"
-        }
-
-+ Response 200 (application/json)
-       
-        [
-            {
-                "id": 00000,
-                "email": "min.a@husky.neu.edu",
-                "name": "Ad Min"
-            }
-        ]
