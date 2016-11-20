@@ -34,7 +34,8 @@ Takes a User ID and returns the associated User.
                 ],
                 "projects": [
                     99999,
-                ]
+                ],
+                "is active": true,
             }
         ]
 
@@ -67,6 +68,8 @@ If the role of the User is noted as "admin", the courses array and projects arra
             "projects": [
                 99999
             ],
+            "is active": true,
+            
         }
 
 + Response 201 (application/json)
@@ -91,7 +94,8 @@ If the role of the User is noted as "admin", the courses array and projects arra
                 ],
                 "projects": [
                     99999
-                ]
+                ],
+                "is active": true,
             }
             
 ### Update a User [PUT]
@@ -113,6 +117,7 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
                 55555,
             ],
             "projects": [],
+            "is active": true,
         }
 
 + Response 200
@@ -143,7 +148,8 @@ Get an expanded version of the user, including full name of courses and projects
                 ],
                 "projects": [
                     "Service-Learning Time Tracker",
-                ]
+                ],
+                "is active": true,
             }
         ]
 
@@ -615,7 +621,8 @@ a location (long/lat in JSON format)(optional), a category (Training/Direct Serv
                 "extraFields":
                     {
                         "example": "some info"
-                    }
+                    },
+                "is active": true,
             }
         ]
 
@@ -644,7 +651,8 @@ a location (long/lat in JSON format)(optional), a category (Training/Direct Serv
                 "extraFields":
                     {
                         "example": "some info"
-                    }
+                    },
+                "is active": true,
             }
             
 ### Update a Record [PUT]
@@ -671,21 +679,12 @@ Updates a Record with the given fields, must provide all fields.
                 {
                     "example": "some info"
                 }
+            "is active": false,
         }
 
 + Response 200
 
-### Delete a Record [DELETE]
 
-Takes a Record ID and deletes that record.
-
-+ Request (application/json)
-        
-        {
-            "id": 99999,    
-        }
-
-+ Response 202
 
 ## All Records [/record/all]
 
