@@ -153,11 +153,11 @@ Returns ID:Name pairs of all existing courses.
 
         [
             {
-                "ids": [
+                "ids": {
                     "00000":  "Algorithms and Data"
                     "11111":  "Fundamentals of Computer Science 1"
                     "22222":  "Software Development"
-                ]
+                }
             }
         ]
 
@@ -247,11 +247,11 @@ Returns all instructors for a course
         [
             {
                 "id": 00000,
-                "instructors": [
-                    00000: "Michael Weintraub",
-                    11111: "Joyesh Kakkar",
-                    22222: "Smitha Bangalore Naresh",
-                ]
+                "instructors": {
+                    "00000": "Michael Weintraub",
+                    "11111": "Joyesh Kakkar",
+                    "22222": "Smitha Bangalore Naresh",
+                }
             }
         ]
 
@@ -393,11 +393,9 @@ Takes a Project ID and returns the names and IDs of all students associated with
         [
             {
             "results": 
-                [
-                    {
-                        "Fa Kename": "00000"
-                    }
-                ]
+                {
+                   "Fa Kename": "00000"
+                }
             }
         ]
 
