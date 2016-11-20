@@ -186,21 +186,21 @@ Takes a Course ID and returns the associated Course.
                 "id": 99999,
                 "course number": "CS4500",
                 "course name": "Software Development",
-                "semester": "fall2016"
+                "semester id": 99999,
             }
         ]
 
 ### Create a new Course [POST]
 
 You may create a new Course using this action. It takes a JSON 
-object containing a course number, course name, and semester.
+object containing a course number, course name, and semester ID.
 
 + Request (application/json)
 
         {
             "course number": "CS4500",
             "course name": "Software Development",
-            "semester": "fall2016"
+            "semester id": 99999,
         }
         
 + Response 201 (application/json)
@@ -215,7 +215,7 @@ object containing a course number, course name, and semester.
                 "id": 99999,
                 "course number": "CS4500",
                 "course name": "Software Development",
-                "semester": "fall2016"
+                "semester id": 99999,
             }
             
 ### Update a Course [PUT]
@@ -228,7 +228,7 @@ Updates a Course with the given fields, must provide all fields.
             "id": 99999,
             "course number": "CS4500",
             "course name": "Software Development",
-            "semester": "spri2016"
+            "semester id": 88888,
         }
 
 + Response 200
