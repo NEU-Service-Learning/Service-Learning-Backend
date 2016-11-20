@@ -851,3 +851,73 @@ Takes a Course ID and returns the total recorded hours for the given time range.
                 "hours": 200,
             }
         ]
+
+## Semester [/semester/{semester_id}]
+
+### Get a Semester [GET]
+
+Takes a Semester ID and returns that semester.
+
++ Request (application/json)
+
+        {
+            "id": 99999,
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 99999,
+                "name": "Fall 2016",
+                "start date": "2016-09-01 00:00:00",
+                "end date": "2016-12-31 23:59:59.999999",
+                "is active": true,
+            }
+        ]
+
+### Create a new Semester [POST]
+
+You may create a new Semester using this action. It takes a JSON
+object containing a name, start date, end date, and is active boolean.
+
+
++ Request (application/json)
+
+        {
+            "name": "Fall 2018",
+            "start date": "2018-09-01 00:00:00",
+            "end date": "2018-12-31 23:59:59.999999",
+            "is active": false
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /communityPartner/{communityPartner_id}
+
+    + Body
+
+            {
+                "name": "Fall 2018",
+                "start date": "2018-09-01 00:00:00",
+                "end date": "2018-12-31 23:59:59.999999",
+                "is active": false
+            }
+
+### Update a Community Partner [PUT]
+
+Updates a Semester with the given fields.
+
++ Request (application/json)
+
+        {
+            "id": 99999,
+            "name": "Fall 2019",
+            "start date": "2019-09-01 00:00:00",
+            "end date": "2019-12-31 23:59:59.999999",
+            "is active": false
+        }
+
++ Response 200
