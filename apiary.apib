@@ -147,38 +147,21 @@ Get an expanded version of the user, including full name of courses and projects
 
 ### Get all Courses [GET]
 
-Returns all IDs of all existing courses.
+Returns ID:Name pairs of all existing courses.
 
 + Response 200 (application/json)
 
         [
             {
                 "ids": [
-                    00000,
-                    11111,
-                    22222,
-                    33333
+                    "00000":  "Algorithms and Data"
+                    "11111":  "Fundamentals of Computer Science 1"
+                    "22222":  "Software Development"
                 ]
             }
         ]
 
-## Course Name Collection [/courses/names]
 
-### Get Course Names Collection [GET]
-
-Returns names of all courses.
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "names": [
-                    "Algorithms and Data",
-                    "Fundamentals of Computer Science 1",
-                    "Software Development",
-                ]
-            }
-        ]
    
 ## Course [/course/{course_id}]
 
