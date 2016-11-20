@@ -9,12 +9,12 @@ Backend endpoints for the Service Learning Time Tracker project.
 
 ### Get User Information [GET]
 
-Takes a User email and returns the associated User.
+Takes a User ID and returns the associated User.
 
 + Request (application/json)
 
         {
-            "email": "kename.f@husky.neu.edu",
+            "id": 00000,
         }
 
 + Response 200 (application/json)
@@ -22,7 +22,8 @@ Takes a User email and returns the associated User.
         [
             {
                 "id": 00000,
-                "name": "Fa Kename",
+                "first name": "Fa",
+                "last name": "Kename",
                 "username": "kename.f@husky.neu.edu",
                 "role": "student",
                 "courses": [
@@ -50,11 +51,11 @@ when the User's role is "professor", the project array will be left blank.
 
 If the role of the User is noted as "admin", the courses array and projects array will be left blank.
 
-
 + Request (application/json)
 
         {
-            "name": "Fa Kename",
+            "first name": "Fa",
+            "last name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -78,7 +79,8 @@ If the role of the User is noted as "admin", the courses array and projects arra
 
             {
                 "id": 00000,
-                "name": "Fa Kename",
+                "first name": "Fa",
+                "last name": "Kename",
                 "username": "kename.f@husky.neu.edu",
                 "role": "student",
                 "courses": [
@@ -94,13 +96,14 @@ If the role of the User is noted as "admin", the courses array and projects arra
             
 ### Update a User [PUT]
 
-Updates a User with the given fields. Have to provide all the fields, provide exisiting data if there is no change
+Updates a User with the given fields. Have to provide all the fields, provide exisiting data if there is no change.
 
 + Request (application/json)
         
         {
             "id": 00000,
-            "name": "Fa Kename",
+            "first name": "Fa",
+            "last name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -131,7 +134,8 @@ Get an expanded version of the user, including full name of courses and projects
         [
             {
                 "id": 00000,
-                "name": "Fa Kename",
+                "first name": "Fa",
+                "last name": "Kename",
                 "username": "kename.f@husky.neu.edu",
                 "role": "student",
                 "courses": [
@@ -189,7 +193,7 @@ Takes a Course ID and returns the associated Course.
 ### Create a new Course [POST]
 
 You may create a new Course using this action. It takes a JSON 
-object containing a course number, course name, semester, a list of Professors, and meeting times.
+object containing a course number, course name, and semester.
 
 + Request (application/json)
 
@@ -247,11 +251,18 @@ Returns all instructors for a course
         [
             {
                 "id": 00000,
-                "instructors": {
-                    "00000": "Michael Weintraub",
-                    "11111": "Joyesh Kakkar",
-                    "22222": "Smitha Bangalore Naresh",
-                }
+                "instructors": [
+                    {
+                        "id": 00000,
+                        "first name": "Michael",
+                        "last name": "Weintraub"
+                    },
+                    {
+                        "id": 11111,
+                        "first name": "Smitha",
+                        "last name": "Bangalore Naresh"
+                    }
+                ]
             }
         ]
 
@@ -353,6 +364,7 @@ Updates a Project with the given fields, must provide all fields.
 
 ## All Students from a Project [/project/{project_id}/allstudents]
 
+
 ### Get all Students who worked on a given Project ID [GET]
 
 Takes a Project ID and returns the names and IDs of all students ever associated with that project
@@ -368,12 +380,21 @@ Takes a Project ID and returns the names and IDs of all students ever associated
         [
             {
             "results":
-                {
-                "Fa Kename": "00000",
-                "Fals Eid": "11111"
-                }
+                [
+                    { 
+                        "first name" : "Fa" 
+                        "last name" : "Kename"
+                        "id" : "00000"
+                    },
+                    { 
+                        "first name" : "Fals" 
+                        "last name" : "Eid"
+                        "id" : "11111"
+                    }
+                ]
             }
         ]
+
 ## All Students from a Project w/ Range [/project/{project_id}/allstudentsinterval]
 
 ### Get all Students who worked on a given Project ID during a given time range [GET]
@@ -387,15 +408,19 @@ Takes a Project ID and returns the names and IDs of all students associated with
             "start date": "2016-09-01 00:00:00",
             "end date": "2016-12-31 23:59:59.999999",
         }
-
+        
 + Response 200 (application/json)
 
         [
             {
             "results": 
-                {
-                   "Fa Kename": "00000"
-                }
+                [
+                   { 
+                    "first name" : "Fa" 
+                    "last name" : "Kename"
+                    "id" : "00000"
+                    }
+                ]
             }
         ]
 
