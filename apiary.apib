@@ -521,6 +521,58 @@ Updates a Community Partner with the given fields.
 
 + Response 200
 
+## Community Partner All Projects [/communityPartner/{communityPartner_id}/projects]
+
+### Get All Projects for a Community Partner [GET]
+
+Takes a Communtiy Partner ID and returns all Projects associated.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Northeastern University Service Learning Department"
+                "projects": [
+                    00000,
+                    11111,
+                    22222,
+                    33333
+                ]
+            }
+        ]
+
+## Community Partner Active Projects [/communityPartner/{communityPartner_id}/projectsactive]
+
+### Get Active Projects for a Community Partner [GET]
+
+Takes a Communtiy Partner ID and returns active Projects associated.
+
++ Request (application/json)
+
+        {
+            "id": 00000
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "id": 00000,
+                "name": "Northeastern University Service Learning Department"
+                "projects": [
+                    22222,
+                    33333
+                ]
+            }
+        ]
+
 ## Record [/record/{record_id}]
 
 ### Get a Record [GET]
