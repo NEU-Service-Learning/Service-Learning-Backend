@@ -736,3 +736,67 @@ Takes a Project ID and returns all Records for that Project.
                 ]
             }
         ]
+## Hours [/record/hours/user/{user_id}]
+
+### Get all hours for a given User ID [GET]
+
+Takes a User ID and returns their total recorded hours for the given time range. Assumes forever if no range is given.
+
++ Request (application/json)
+
+        {
+            "id": 00000,
+            "start date": "2016-09-01 00:00:00",
+            "end date": "2016-12-31 23:59:59.999999",
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "hours": 55,
+            }
+        ]
+## Hours [/record/hours/project/{project_id}]
+
+### Get all hours for a given Project ID [GET]
+
+Takes a Project ID and returns their total recorded hours for the given time range. Assumes forever if no range is given.
+
++ Request (application/json)
+
+        {
+            "id": 00000,
+            "start date": "2016-09-01 00:00:00",
+            "end date": "2016-12-31 23:59:59.999999",
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "hours": 550,
+            }
+        ]
+
+## Hours [/record/hours/course/{course_id}]
+
+### Get all hours for a given Course ID [GET]
+
+Takes a Course ID and returns the total recorded hours for the given time range. Assumes forever if no range is given.
+
++ Request (application/json)
+
+        {
+            "id": 00000,
+            "start date": "2016-09-01 00:00:00",
+            "end date": "2016-12-31 23:59:59.999999",
+        }
+
++ Response 200 (application/json)
+       
+        [
+            {
+                "hours": 200,
+            }
+        ]
