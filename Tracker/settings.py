@@ -25,6 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
 ALLOWED_HOSTS = [
     'ec2-54-147-212-27.compute-1.amazonaws.com',
     '54.147.212.27',
@@ -48,6 +51,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 SITE_ID = 1
