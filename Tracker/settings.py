@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from secrets import SECRET_DATABASE, SECRET_KEY
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '2#6jt@*$ywekl#=q#87_e=dvrzi4xo93f=#dz7%z!_r847z%l*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -103,6 +103,7 @@ if os.getenv('BUILD_ON_TRAVIS', None):
         }
     }
 else:
+    from secrets import SECRET_DATABASE
     DATABASES = {
         'default': SECRET_DATABASE
     }
