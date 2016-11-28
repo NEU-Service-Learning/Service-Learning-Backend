@@ -28,15 +28,13 @@ class CommunityPartner(models.Model):
 
 
 class Course(models.Model):
-    course_number = models.CharField(max_length=8)
+    course_number = models.CharField(primary_key=True, max_length=8)
     name = models.CharField(max_length=45)
-    semester_id = models.CharField(max_length=8)
     department = models.ForeignKey('Department', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'Course'
-        unique_together = (('course_number', 'semester_id'),)
 
 
 class Department(models.Model):
@@ -52,16 +50,21 @@ class Department(models.Model):
 class Enrollment(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING)
     course_number = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_number')
-    current_class = models.IntegerField(blank=True, null=True)
+    semester_name = models.ForeignKey('Semester', models.DO_NOTHING, db_column='semester_name')
+    meeting_days = models.CharField(max_length=5)
+    meeting_start_time = models.TimeField()
+    meeting_end_time = models.TimeField()
+    is_active = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'Enrollment'
-        unique_together = (('user', 'course_number'),)
+        unique_together = (('id', 'meeting_days'),)
 
 
 class Project(models.Model):
     name = models.CharField(max_length=45, blank=True, null=True)
+    course_number = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_number', blank=True, null=True)
     community_partner = models.ForeignKey(CommunityPartner, models.DO_NOTHING)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -74,14 +77,14 @@ class Project(models.Model):
 
 
 class Record(models.Model):
-    user = models.ForeignKey(User, models.DO_NOTHING)
-    course_number = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_number')
+    enrollment = models.ForeignKey(Enrollment, models.DO_NOTHING)
     project = models.ForeignKey(Project, models.DO_NOTHING)
-    date = models.DateField(blank=True, null=True)
-    start_time = models.DateTimeField(blank=True, null=True)
+    date = models.DateField()
+    start_time = models.TimeField(blank=True, null=True)
     total_hours = models.DecimalField(max_digits=4, decimal_places=2)
     location = models.TextField(blank=True, null=True)  # This field type is a guess.
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
+    is_active = models.IntegerField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     extra_field = models.CharField(max_length=45, blank=True, null=True)
 
@@ -96,3 +99,14 @@ class RecordCategory(models.Model):
     class Meta:
         managed = False
         db_table = 'Record_Category'
+
+
+class Semester(models.Model):
+    name = models.CharField(unique=True, max_length=8)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'Semester'
