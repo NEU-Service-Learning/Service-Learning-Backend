@@ -59,21 +59,29 @@ insert into Department (name, college_id)
     
 
 -- Course --
-insert into Course (course_number, name, semester_id, department_id)
-	values ('CS4500', 'Software Development', 'FALL2016', 1001);
+insert into Course (course_number, name, department_id)
+	values ('CS4500', 'Software Development', 1001);
 
-insert into Course (course_number, name, semester_id, department_id)
-	values ('CS1200', 'Overview 1','SPRG2015', 1001);
-	
+insert into Course (course_number, name, department_id)
+	values ('CS1200', 'Overview 1', 1001);
+    
+-- Semester --
+insert into Semester (name, start_date, end_date, is_active)
+	values ('FALL2016', '2016-08-31', '2016-12-25', true);
+    
+insert into Semester (name, start_date, end_date, is_active)
+	values ('SPRG2017', '2017-01-08', '2017-06-01', false);
+
+
 -- Enrollment --
-insert into Enrollment (user_id, course_number, current_class)
-	values (101, 'CS4500', true);
+insert into Enrollment (user_id, course_number, semester_name, meeting_days, meeting_start_time, meeting_end_time, is_active)
+	values (102, 'CS4500', 'FALL2016', 'MWR', '08:00', '09:15', true);
 	
-insert into Enrollment (user_id, course_number, current_class)
-	values (102, 'CS1200', false);
+insert into Enrollment (user_id, course_number, semester_name, meeting_days, meeting_start_time, meeting_end_time, is_active)
+	values (103, 'CS1200', 'FALL2014', 'T', '02:50', '04:30', false);
 	
-insert into Enrollment (user_id, course_number, current_class)
-	values (105, 'CS1200', true);
+insert into Enrollment (user_id, course_number, semester_name, meeting_days, meeting_start_time, meeting_end_time, is_active)
+	values (108, 'CS4500', 'FALL2016', 'TF', '09:50' ,'11:30', true);
 	
 -- Community Partner --
 insert into Community_Partner (name)
@@ -83,11 +91,11 @@ insert into Community_Partner (name)
 	values ('America Scores');
 	
 -- Project --
-insert into Project (name, community_partner_id, start_date, end_date, description, location)
-	values ('TimeTracker', 1001, '2016-09-01', '2016-12-20', 'Time Tracker device for Service Learning', Point(42.3398, 71.0892));
+insert into Project (name, course_number, community_partner_id, start_date, end_date, description, location)
+	values ('TimeTracker', 'CS4500', 1001, '2016-09-01', '2016-12-20', 'Time Tracker device for Service Learning', Point(42.3398, 71.0892));
 	
-insert into Project (name, community_partner_id, start_date, end_date, description, location)
-	values ('America Scores', 1002, '2016-01-01', '2017-01-01', null, null);
+insert into Project (name, course_number, community_partner_id, start_date, end_date, description, location)
+	values ('America Scores', 'CS4500', 1002, '2016-01-01', '2017-01-01', null, null);
 	
 -- Record_Category --
 insert into Record_Category (name)
@@ -103,34 +111,30 @@ insert into Record_Category (name)
 	values ('Team Planning/Group Work');
 	
 -- Record --
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (101, 'CS4500', 1001, '2016-08-25', 3, null, 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1 , 1001, '2016-08-25', null, 3, null, 2, true, 'Worked at Project A', null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (102, 'CS4500', 1001, '2016-08-25', 3, null, 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (2, 1001, '2016-08-25', '08:00', 8.3, null, 2, true, 'Worked at Project A', null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (103, 'CS4500', 1001, '2016-08-25', 3, Point(42.3399, 71.0891), 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1, 1001, '2016-08-25', '08:00', 10, Point(42.3399, 71.0891), 2, false, 'Worked at Project A', null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (104, 'CS4500', 1001, '2016-08-25', 3, Point(42.3398, 71.0892), 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1, 1001, '2016-08-28', '08:00', 1.20, Point(42.3399, 71.0891), 2, true, 'Worked at Project A', null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (105, 'CS4500', 1001, '2016-08-25', 3, null, 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (2, 1002, '2016-08-25', '08:00', 5.4, null, 2, false, 'Worked at Project B', null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (106, 'CS4500', 1001, '2016-08-25', 3, null, 2, 'Worked at Project A', null);
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1, 1002, '2016-10-25', '11:00', 5, null, 2, true, null, null);
 	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (102, 'CS1200', 1002, '2016-12-25', 12, Point(42.3378, 71.0892), 4, 'Worked at Project B', null);
-	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (103, 'CS1200', 1002, '2016-12-25', 0.25, Point(42.3398, 71.0822), 4, 'Worked at Project B', null);
-	
-insert into Record (user_id, course_number, project_id, date, total_hours, location, category_id, comments, extra_field)
-	values (101, 'CS4500', 1001, '2016-12-15', 12.25, Point(42.3398, 71.0899), 4, 'Worked at Project C', null);
-	
-	
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1, 1002, '2016-09-28', '08:00', 4, Point(42.3399, 71.0881), 2, false, 'Worked at Project B', null);
+
+insert into Record (enrollment_id, project_id, date, start_time, total_hours, location, category_id, is_active, comments, extra_field)
+	values (1, 1002, '2016-09-28', '08:00', 10, Point(42.3299, 71.0884), 2, true, 'Worked at Project B', null);
+
 	
 	
 	
