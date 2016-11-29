@@ -78,7 +78,7 @@ insert into Enrollment (user_id, course_number, semester_name, meeting_days, mee
 	values (102, 'CS4500', 'FALL2016', 'MWR', '08:00', '09:15', true);
 	
 insert into Enrollment (user_id, course_number, semester_name, meeting_days, meeting_start_time, meeting_end_time, is_active)
-	values (103, 'CS1200', 'FALL2014', 'T', '02:50', '04:30', false);
+	values (103, 'CS1200', 'SPRG2017', 'T', '02:50', '04:30', false);
 	
 insert into Enrollment (user_id, course_number, semester_name, meeting_days, meeting_start_time, meeting_end_time, is_active)
 	values (108, 'CS4500', 'FALL2016', 'TF', '09:50' ,'11:30', true);
