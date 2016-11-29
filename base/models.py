@@ -110,3 +110,9 @@ class Semester(models.Model):
     class Meta:
         managed = False
         db_table = 'Semester'
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    role = models.CharField(max_length=100)
+
