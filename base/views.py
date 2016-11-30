@@ -92,16 +92,10 @@ class StartSemester(generics.CreateAPIView):
     activates all course and enrollments for the following semester.
 	"""
     def post(self, request, pk, format=none):
-	    if request.user.is_authenticated:
-		    if request.user.groups.contains('admin'):
-			    stuff
-                    else:
-                         response = Response(status=status.HTTP_403_FORBIDDEN)
-			 
+	    permission_classes = (permissions.IsAuthenticated, )
+            if request.user.groups.contains('admin'):
+			    
             else:
-		    response = Response(status=status.HTTP
-		    response['next'] = '/semester/startnext/'
-	            return response
-            else:
-
+                return Response(status=status.HTTP_403_FORBIDDEN)
+			
 

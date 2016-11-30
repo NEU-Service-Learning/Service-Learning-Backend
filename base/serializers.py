@@ -31,3 +31,11 @@ class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instructor
         fields = ('id', 'created', 'owner', 'instructor', 'is_positive')
+
+class SemesterSerializer(serializers.ModelSerializer)
+    id = serializers.ReadOnlyField
+	
+    class Meta:
+	    model = Semester
+	    fields = ('id', 'name', 'start_date', 'end_date', 'is_active')
+
