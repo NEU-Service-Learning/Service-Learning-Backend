@@ -931,3 +931,36 @@ Deactivates all current courses and enrollments, activates all course and enroll
 Must be an admin to call this endpoint.
 
 + Response 200 (application/json)
+
+## Enroll a User in a Section [/enroll/]
+
+### Enroll Student [POST]
+
+Enrolls a User in a section of a Course
+
++ Request (application/json)
+
+        {
+            "user id": 99999,
+            "course id": "CS4500",
+            "semester name": "FALL2016",
+            "meeting days": "MWR",
+            "meeting start time": 9:50:00:00,
+            "meeting end time": 11:30:00:00,
+            "is active": true
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /communityPartner/{communityPartner_id}
+
+    + Body
+
+            {
+                "name": "Fall 2018",
+                "start date": "2018-09-01 00:00:00",
+                "end date": "2018-12-31 23:59:59.999999",
+                "is active": false
+            }
