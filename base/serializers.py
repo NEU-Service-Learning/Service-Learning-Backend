@@ -33,7 +33,8 @@ class InstructorSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'owner', 'instructor', 'is_positive')
 
 class SemesterSerializer(serializers.ModelSerializer)
-    id = serializers.ReadOnlyField
+    name = serializers.ReadOnlyField(source='name')
+
 	
     class Meta:
 	    model = Semester
