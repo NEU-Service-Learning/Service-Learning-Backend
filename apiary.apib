@@ -858,6 +858,7 @@ Takes a Course ID and returns the total recorded hours for the given time range.
 You may create a new Semester using this action. It takes a JSON
 object containing a name, start date, end date, and is active boolean.
 
+Must be an admin to call this endpoint.
 
 + Request (application/json)
 
@@ -926,5 +927,7 @@ Updates a Semester with the given fields.
 ### Start the next semester [POST]
 
 Deactivates all current courses and enrollments, activates all course and enrollments for the following semester.
+
+Must be an admin to call this endpoint.
 
 + Response 200 (application/json)
