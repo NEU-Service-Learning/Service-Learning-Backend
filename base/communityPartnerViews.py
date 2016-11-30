@@ -33,10 +33,10 @@ class CommunityPartnerDetail(APIView):
 
     def put(self, request, pk, format=None):
         communityPartner = self.get_object(pk)
-        serializer = CommunityPartnerSerializer(communityPartner, data=request.DATA)
+        serializer = CommunityPartnerSerializer(communityPartner, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
