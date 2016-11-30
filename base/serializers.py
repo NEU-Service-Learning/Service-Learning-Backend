@@ -1,8 +1,7 @@
-from base.models import Course, Instructor
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-""" 
+"""
     THESE ARE JUST EXAMPLES, PLEASE REPLACE
 """
 class UserSerializer(serializers.ModelSerializer):
