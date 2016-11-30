@@ -163,9 +163,9 @@ Returns ID:Name pairs of all existing courses.
 
         {
             "ids": {
-                "99999":  "Algorithms and Data"
-                "11111":  "Fundamentals of Computer Science 1"
-                "22222":  "Software Development"
+                "CS4800":  "Algorithms and Data"
+                "CS2500":  "Fundamentals of Computer Science 1"
+                "CS4500":  "Software Development"
             }
         }
 
@@ -186,10 +186,8 @@ Takes a Course ID and returns the associated Course.
 + Response 200 (application/json)
        
         {
-            "id": 99999,
-            "course number": "CS4500",
-            "course name": "Software Development",
-            "semester id": 99999,
+            "id": "CS4500",
+            "course name": "Software Development"
         }
 
 
@@ -201,9 +199,8 @@ object containing a course number, course name, and semester ID.
 + Request (application/json)
 
         {
-            "course number": "CS4500",
+            "id": "CS4500",
             "course name": "Software Development",
-            "semester id": 99999,
         }
         
 + Response 201 (application/json)
@@ -215,10 +212,8 @@ object containing a course number, course name, and semester ID.
     + Body
 
             {
-                "id": 99999,
-                "course number": "CS4500",
+                "id": "CS4500",
                 "course name": "Software Development",
-                "semester id": 99999,
             }
             
 ### Update a Course [PUT]
@@ -228,10 +223,8 @@ Updates a Course with the given fields, must provide all fields.
 + Request (application/json)
 
         {
-            "id": 99999,
-            "course number": "CS4500",
+            "id": "CS4500",
             "course name": "Software Development",
-            "semester id": 88888,
         }
 
 + Response 200
@@ -246,13 +239,13 @@ Returns all instructors for a course
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
        
         {
-            "id": 99999,
+            "id": "CS4500",
             "instructors": [
                 {
                     "id": 99999,
@@ -277,13 +270,13 @@ Returns all Projects in a course. Takes a Course ID.
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
        
         {
-            "id": 99999,
+            "id": "CS4500",
             "projects": [
                 "99999": "Service-Learning Time Tracker",
             ]
@@ -750,7 +743,7 @@ Takes a Course ID and returns all Records for that Course.
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
@@ -840,7 +833,7 @@ Takes a Course ID and returns the total recorded hours for the given time range.
 + Request (application/json)
 
         {
-            "id": 99999,
+            "id": "CS4500",
             "start date": "2016-09-01 00:00:00",
             "end date": "2016-12-31 23:59:59.999999",
         }
