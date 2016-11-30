@@ -105,3 +105,5 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     role = models.CharField(max_length=100)
 
+    class Meta:
+        db_table = 'UserProfile'
