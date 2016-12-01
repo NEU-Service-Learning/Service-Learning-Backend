@@ -295,8 +295,8 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             "name": "Service-Learning Time Tracker",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
             "longitude": 40.0,
             "latitude": 40.0,
         }
@@ -314,8 +314,8 @@ a start date, an end date, and a location (long/lat pair in JSON format).
                 "name": "Service-Learning Time Tracker",
                 "community_partner": 99999,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-                "start_date": "2016-09-01 00:00:00",
-                "end_date": "2016-12-31 23:59:59.999999",
+                "start_date": "2016-09-01",
+                "end_date": "2016-12-31",
                 "longitude": 40.0,
                 "latitude": 40.0,
             }
@@ -340,8 +340,8 @@ Takes a Project ID and returns the associated Project.
             "name": "Service-Learning Time Tracker",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
             "longitude": 40.0,
             "latitude": 40.0,
         }
@@ -357,8 +357,8 @@ Updates a Project with the given fields, must provide all fields.
             "name": "Service-Learning Time Tracker",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
             "longitude": 40.0,
             "latitude": 40.0,
         }
@@ -406,8 +406,8 @@ Takes a Project ID and returns the names and IDs of all students associated with
 
         {
             "id": 99999
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
         }
         
 + Response 200 (application/json)
@@ -675,8 +675,8 @@ Returns all record IDs. Assumes forever if no range is given.
 + Request (application/json)
 
         {
-           "start_date": "2016-09-01 00:00:00",
-           "end_date": "2016-12-31 23:59:59.999999",
+           "start_date": "2016-09-01",
+           "end_date": "2016-12-31",
         }
 
 + Response 200 (application/json)
@@ -775,8 +775,8 @@ Takes a User ID and returns their total recorded hours for the given time range.
 
         {
             "id": 99999,
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
         }
 
 + Response 200 (application/json)
@@ -795,8 +795,8 @@ Takes a Project ID and returns their total recorded hours for the given time ran
 
         {
             "id": 99999,
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
         }
 
 + Response 200 (application/json)
@@ -816,8 +816,8 @@ Takes a Course ID and returns the total recorded hours for the given time range.
 
         {
             "id": "CS4500",
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
         }
 
 + Response 200 (application/json)
@@ -840,8 +840,8 @@ Must be an admin to call this endpoint.
 
         {
             "name": "Fall 2018",
-            "start_date": "2018-09-01 00:00:00",
-            "end_date": "2018-12-31 23:59:59.999999",
+            "start_date": "2018-09-01",
+            "end_date": "2018-12-31",
             "is_active": false
         }
 
@@ -855,8 +855,8 @@ Must be an admin to call this endpoint.
 
             {
                 "name": "Fall 2018",
-                "start_date": "2018-09-01 00:00:00",
-                "end_date": "2018-12-31 23:59:59.999999",
+                "start_date": "2018-09-01",
+                "end_date": "2018-12-31",
                 "is_active": false
             }
 
@@ -877,8 +877,8 @@ Takes a Semester ID and returns that semester.
         {
             "id": 99999,
             "name": "Fall 2016",
-            "start_date": "2016-09-01 00:00:00",
-            "end_date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01",
+            "end_date": "2016-12-31",
             "is_active": true,
         }
 
@@ -891,8 +891,8 @@ Updates a Semester with the given fields.
         {
             "id": 99999,
             "name": "Fall 2019",
-            "start_date": "2019-09-01 00:00:00",
-            "end_date": "2019-12-31 23:59:59.999999",
+            "start_date": "2019-09-01",
+            "end_date": "2019-12-31",
             "is_active": false
         }
 
