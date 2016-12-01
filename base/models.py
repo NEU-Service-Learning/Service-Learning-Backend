@@ -92,7 +92,7 @@ class RecordCategory(models.Model):
     TEAM_RESEARCH = 'TR'
     CATEGORIES = (
         (TRAININGS_AND_ORIENTATIONS, 'Trainings & Orientations'),
-        (DIRECT_SERVICE, 'Direct Service'), 
+        (DIRECT_SERVICE, 'Direct Service'),
         (INDIVIDUAL_RESEARCH, 'Individual Research & Planning'),
         (TEAM_RESEARCH, 'Team Research & Planning'),
     )
