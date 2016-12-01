@@ -35,6 +35,15 @@ ALLOWED_HOSTS = [
 ]
 
 
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'base.user_serializer.UserSerializer',
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'base.user_serializer.UserRegisterSerializer',
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [

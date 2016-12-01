@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 
@@ -46,7 +47,7 @@ class Enrollment(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING)
     course = models.ForeignKey(Course, models.DO_NOTHING)
     semester = models.ForeignKey('Semester', models.DO_NOTHING)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     crn = models.CharField(max_length=5)
 
     class Meta:
@@ -76,7 +77,7 @@ class Record(models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
-    is_active = models.BooleanField(blank=True)
+    is_active = models.BooleanField(default=True)
     comments = models.TextField(blank=True, null=True)
     extra_field = models.CharField(max_length=45, blank=True, null=True)
 
@@ -85,7 +86,18 @@ class Record(models.Model):
 
 
 class RecordCategory(models.Model):
+    TRAININGS_AND_ORIENTATIONS = 'TO'
+    DIRECT_SERVICE = 'DS'
+    INDIVIDUAL_RESEARCH = 'IR'
+    TEAM_RESEARCH = 'TR'
+    CATEGORIES = (
+        (TRAININGS_AND_ORIENTATIONS, 'Trainings & Orientations'),
+        (DIRECT_SERVICE, 'Direct Service'), 
+        (INDIVIDUAL_RESEARCH, 'Individual Research & Planning'),
+        (TEAM_RESEARCH, 'Team Research & Planning'),
+    )
     name = models.CharField(primary_key=True, max_length=45)
+    description = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'Record_Category'
@@ -102,8 +114,31 @@ class Semester(models.Model):
 
 
 class UserProfile(models.Model):
+    STUDENT = 'S'
+    INSTRUCTOR = 'I'
+    ADMIN = 'A'
+    ROLE_CHOICES = (
+        (STUDENT, 'Student'),
+        (INSTRUCTOR, 'Instructor'),
+        (ADMIN, 'Admin'),
+    )
     user = models.OneToOneField(User)
-    role = models.CharField(max_length=100)
+    role = models.CharField(max_length=1, choices=ROLE_CHOICES, default=STUDENT)
 
     class Meta:
         db_table = 'UserProfile'
+
+def create_user_profile(sender, instance, created, **kwargs):
+    """
+    Create a user profile with a role of `instructor` if the email address is
+    neu.edu or northeastern.edu. Otherwise set the role to `student`.
+    """
+    role = UserProfile.STUDENT
+    domain = instance.username.split('@')[-1]
+    if domain in ("northeastern.edu", "neu.edu"):
+        role = UserProfile.INSTRUCTOR
+    if created:
+        UserProfile.objects.create(user=instance, role=role)
+
+# Every time a user is created, the above method runs.
+post_save.connect(create_user_profile, sender=User)
