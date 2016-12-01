@@ -286,13 +286,14 @@ Returns all Projects in a course. Takes a Course ID.
 ### Create a new Project [POST]
 
 You may create a new Project using this action. It takes a JSON
-object containing a name (optional), Community Partner ID, a description (optional), 
-a start date, an end date, and a location (long/lat pair in JSON format).
+object containing a name, course, Community Partner ID, a description (optional), 
+a start date, an end date, and longitude and latitude (both optional).
 
 + Request (application/json)
 
         {
             "name": "Service-Learning Time Tracker",
+            "course": "CS4500",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
             "start_date": "2016-09-01",
@@ -312,6 +313,7 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             {
                 "id": 99999,
                 "name": "Service-Learning Time Tracker",
+                "course": "CS4500",
                 "community_partner": 99999,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
                 "start_date": "2016-09-01",
@@ -338,6 +340,7 @@ Takes a Project ID and returns the associated Project.
         {
             "id": 99999,
             "name": "Service-Learning Time Tracker",
+            "course": "CS4500",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
             "start_date": "2016-09-01",
@@ -355,6 +358,7 @@ Updates a Project with the given fields, must provide all fields.
         {
             "id": 99999,
             "name": "Service-Learning Time Tracker",
+            "course": "CS4500",
             "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
             "start_date": "2016-09-01",
