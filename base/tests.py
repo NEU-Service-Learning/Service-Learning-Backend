@@ -24,8 +24,6 @@ class DepartmentTests(TestCase):
             "college": "College of Garbology"
         })
         d0_json_string = json.loads(department0.content.decode('utf-8'))
-        
-        # status code 201 created
         self.assertEqual(department0.status_code, 201)
         self.assertEqual(d0_json_string['name'], "Trash Department")
         self.assertEqual(d0_json_string['college'], "College of Garbology")
@@ -76,3 +74,89 @@ class DepartmentTests(TestCase):
             "college": 1234
         })
         self.assertEqual(department0.status_code, 400)
+        
+    def test_get_good:
+        department0 = self.client.post('/department/',
+        {
+            "name": "Department of Defence",
+            "college": "College of the Cabinet"
+        })
+        self.assertEqual(department0.status_code, 201)
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        department1 = self.client.get('/department/' + str(d0_json_string['id']) + '/')
+        d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(d1_json_string['id'], d0_json_string['id'])
+        self.assertEqual(d1_json_string['name'], d0_json_string['name'])
+        self.assertEqual(d1_json_string['college'], d0_json_string['college'])
+
+    def test_bad_get:
+            department0 = self.client.post('/department/',
+            {
+                "name": "MissingNo  Department",
+                "college": "School of Glitches"
+            })
+            self.assertEqual(department0.status_code, 201)
+            d0_json_string = json.loads(department0.content.decode('utf-8'))
+            department1 = self.client.get('/department/' + str(d0_json_string['id'] + 1) + '/')
+
+    def test_good_put(self):
+        department0 = self.client.post('/department/',
+        {
+            "name": "Department of Red Shirts",
+            "college": "College of Enterprise"
+        })
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 201)
+        
+        department1 = self.client.put('/department/' + str(d0_json_string['id']) + '/',
+        {
+            "name": "Department of Yellow Shirts",
+            "college": "College of Australia"
+        })
+        d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(d1_json_string['id'], d0_json_string['id'])
+        self.assertEqual(d1_json_string['name'], "Department of Yellow Shirts")
+        self.assertEqual(d1_json_string['college'], "College of Australia")
+        
+    def test_bad_put(self):
+        department0 = self.client.post('/department/',
+        {
+            "name": "Deep Department",
+            "college": "College of Oceanography"
+        })
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 201)
+        
+        department1 = self.client.put('/department/' + str(d0_json_string['id']) + '/', {})
+        d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 400)
+        
+
+    def test_good_delete(self):
+        department0 = self.client.post('/department/',
+        {
+            "name": "Expendible Department",
+            "college": "College of Ephemerality"
+        })
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 201)
+        
+        department1 = self.client.delete('/department/' + str(d0_json_string['id']) + '/')
+        d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 204)
+        
+
+    def test_bad_delete(self):
+        department0 = self.client.post('/department/',
+        {
+            "name": "Indestructible Department",
+            "college": "College of Oceanography"
+        })
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 201)
+        
+        department1 = self.client.delete('/department/' + str(d0_json_string['id'] + 1) + '/')
+        d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(department0.status_code, 400)
+        
+        
