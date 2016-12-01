@@ -297,11 +297,8 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
             "start_date": "2016-09-01 00:00:00",
             "end_date": "2016-12-31 23:59:59.999999",
-            "location":
-                {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
-                },
+            "longitude": 40.0,
+            "latitude": 40.0,
         }
 
 + Response 201 (application/json)
@@ -319,11 +316,8 @@ a start date, an end date, and a location (long/lat pair in JSON format).
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
                 "start_date": "2016-09-01 00:00:00",
                 "end_date": "2016-12-31 23:59:59.999999",
-                "location":
-                    {
-                        "latitude": 40.0,
-                        "longitude": 40.0,
-                    },
+                "longitude": 40.0,
+                "latitude": 40.0,
             }
 
 ## Existing Project [/project/{project_id}]
@@ -348,11 +342,8 @@ Takes a Project ID and returns the associated Project.
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
             "start_date": "2016-09-01 00:00:00",
             "end_date": "2016-12-31 23:59:59.999999",
-            "location":
-                {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
-                },
+            "longitude": 40.0,
+            "latitude": 40.0,
         }
 
 ### Update a Project [PUT]
@@ -368,11 +359,8 @@ Updates a Project with the given fields, must provide all fields.
             "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
             "start_date": "2016-09-01 00:00:00",
             "end_date": "2016-12-31 23:59:59.999999",
-            "location":
-                {
-                    "latitude": 30.0,
-                    "longitude": 30.0,
-                },
+            "longitude": 40.0,
+            "latitude": 40.0,
         }
 
 + Response 200
@@ -578,11 +566,8 @@ comments (optional), and any extra fields (optional).
             "date": "2016-09-31",
             "start_time": "14:00",
             "total_hours": 2,
-            "location": 
-                {
-                   "latitude": 40.0,
-                   "longitude": 40.0,
-                },
+            "longitude": 40.0,
+            "latitude": 40.0,
             "category": "Direct Service",
             "is_active": True,
             "comments": "Did a good job.",
@@ -608,11 +593,8 @@ comments (optional), and any extra fields (optional).
                 "date": "2016-09-31",
                 "start_time": "14:00",
                 "total_hours": 2,
-                "location": 
-                    {
-                       "latitude": 40.0,
-                       "longitude": 40.0,
-                    },
+                "longitude": 40.0,
+                "latitude": 40.0,
                 "category": "Direct Service",
                 "is_active": True,
                 "comments": "Did a good job.",
@@ -643,11 +625,8 @@ Takes a Record ID and returns the associated Record.
             "date": "2016-09-31",
             "start_time": "14:00",
             "total_hours": 2,
-            "location": 
-                {
-                   "latitude": 40.0,
-                   "longitude": 40.0,
-                },
+            "longitude": 40.0,
+            "latitude": 40.0,
             "category": "Direct Service",
             "is_active": True,
             "comments": "Did a good job.",
@@ -671,11 +650,8 @@ Update a Record with the given fields, must enter all the fields:
                 "date": "2016-09-31",
                 "start_time": "14:00",
                 "total_hours": 2,
-                "location": 
-                    {
-                       "latitude": 40.0,
-                       "longitude": 40.0,
-                    },
+                "longitude": 40.0,
+                "latitude": 40.0,
                 "category": "Direct Service",
                 "is_active": True,
                 "comments": "Did a good job.",
