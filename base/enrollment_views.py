@@ -43,7 +43,7 @@ class EnrollmentDetail(APIView):
         try:
             return Enrollment.objects.get(pk=pk)
         except Enrollment.DoesNotExist:
-            raise Http404
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request, pk, format=None):
         enrollment = self.get_object(pk)

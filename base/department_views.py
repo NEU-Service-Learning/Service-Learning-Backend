@@ -12,7 +12,7 @@ class DepartmentDetail(APIView):
         try:
             return Department.objects.get(pk=pk)
         except Department.DoesNotExist:
-            raise Http404
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request, pk, format=None):
         department = self.get_object(pk)

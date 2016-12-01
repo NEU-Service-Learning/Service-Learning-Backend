@@ -12,7 +12,7 @@ class CourseDetail(APIView):
         try:
             return Course.objects.get(pk=pk)
         except Course.DoesNotExist:
-            raise Http404
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request, pk, format=None):
         course = self.get_object(pk)
