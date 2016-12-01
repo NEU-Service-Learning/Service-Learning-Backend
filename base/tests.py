@@ -178,7 +178,7 @@ class ProjectTests(TestCase):
 
         project0Updated = self.client.update('/project/', project0.context['id'],
         {
-            "id": project0.context['id']
+            "id": project0.context['id'],
             "name": "Updated SL Time Tracker",
             "community_partner": communityPartner1.context['id'],
             "description": "Updated Time Tracking",
