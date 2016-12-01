@@ -27,8 +27,8 @@ If the role of the User is noted as "admin", the courses array and projects arra
 + Request (application/json)
 
         {
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -53,8 +53,8 @@ If the role of the User is noted as "admin", the courses array and projects arra
 
             {
                 "id": 99999,
-                "first name": "Fa",
-                "last name": "Kename",
+                "first_name": "Fa",
+                "last_name": "Kename",
                 "username": "kename.f@husky.neu.edu",
                 "role": "student",
                 "courses": [
@@ -84,8 +84,8 @@ Takes a User ID and returns the associated User.
        
         {
             "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -96,7 +96,7 @@ Takes a User ID and returns the associated User.
             "projects": [
                 99999,
             ],
-            "is active": true,
+            "is_active": true,
         }
 
 ### Update a User [PUT]
@@ -107,8 +107,8 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
         
         {
             "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -116,7 +116,7 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
                 "CS2500",
             ],
             "projects": [],
-            "is active": true,
+            "is_active": true,
         }
 
 + Response 200
@@ -137,8 +137,8 @@ Get an expanded version of the user, including full name of courses and projects
        
         {
             "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -147,7 +147,7 @@ Get an expanded version of the user, including full name of courses and projects
             "projects": [
                 "Service-Learning Time Tracker",
             ],
-            "is active": true,
+            "is_active": true,
         }
 
 ## Course Collection [/courses]
@@ -179,7 +179,7 @@ object containing a course number, course name, and semester ID.
 
         {
             "id": "CS4500",
-            "course name": "Software Development",
+            "course_name": "Software Development",
         }
         
 + Response 201 (application/json)
@@ -192,7 +192,7 @@ object containing a course number, course name, and semester ID.
 
             {
                 "id": "CS4500",
-                "course name": "Software Development",
+                "course_name": "Software Development",
             }
             
    
@@ -212,7 +212,7 @@ Takes a Course ID and returns the associated Course.
        
         {
             "id": "CS4500",
-            "course name": "Software Development"
+            "course_name": "Software Development"
         }
 
 ### Update a Course [PUT]
@@ -223,7 +223,7 @@ Updates a Course with the given fields, must provide all fields.
 
         {
             "id": "CS4500",
-            "course name": "Software Development",
+            "course_name": "Software Development",
         }
 
 + Response 200
@@ -248,13 +248,13 @@ Returns all instructors for a course
             "instructors": [
                 {
                     "id": 99999,
-                    "first name": "Michael",
-                    "last name": "Weintraub"
+                    "first_name": "Michael",
+                    "last_name": "Weintraub"
                 },
                 {
                     "id": 11111,
-                    "first name": "Smitha",
-                    "last name": "Bangalore Naresh"
+                    "first_name": "Smitha",
+                    "last_name": "Bangalore Naresh"
                 }
             ]
         }
@@ -295,8 +295,8 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             "name": "Service-Learning Time Tracker",
             "community partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
             "location":
                 {
                     "latitude": 40.0,
@@ -315,10 +315,10 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             {
                 "id": 99999,
                 "name": "Service-Learning Time Tracker",
-                "community partner": 99999,
+                "community_partner": 99999,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-                "start date": "2016-09-01 00:00:00",
-                "end date": "2016-12-31 23:59:59.999999",
+                "start_date": "2016-09-01 00:00:00",
+                "end_date": "2016-12-31 23:59:59.999999",
                 "location":
                     {
                         "latitude": 40.0,
@@ -344,10 +344,10 @@ Takes a Project ID and returns the associated Project.
         {
             "id": 99999,
             "name": "Service-Learning Time Tracker",
-            "community partner": 99999,
+            "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
             "location":
                 {
                     "latitude": 40.0,
@@ -364,10 +364,10 @@ Updates a Project with the given fields, must provide all fields.
         {
             "id": 99999,
             "name": "Service-Learning Time Tracker",
-            "community partner": 99999,
+            "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
             "location":
                 {
                     "latitude": 30.0,
@@ -396,13 +396,13 @@ Takes a Project ID and returns the names and IDs of all students ever associated
         "results":
             [
                 { 
-                    "first name" : "Fa" 
-                    "last name" : "Kename"
+                    "first_name" : "Fa" 
+                    "last_name" : "Kename"
                     "id" : 99999
                 },
                 { 
-                    "first name" : "Fals" 
-                    "last name" : "Eid"
+                    "first_name" : "Fals" 
+                    "last_name" : "Eid"
                     "id" : 11111
                 }
             ]
@@ -418,8 +418,8 @@ Takes a Project ID and returns the names and IDs of all students associated with
 
         {
             "id": 99999
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
         
 + Response 200 (application/json)
@@ -428,8 +428,8 @@ Takes a Project ID and returns the names and IDs of all students associated with
         "results": 
             [
                { 
-                "first name" : "Fa" 
-                "last name" : "Kename"
+                "first_name" : "Fa" 
+                "last_name" : "Kename"
                 "id" : 99999
                 }
             ]
@@ -576,8 +576,8 @@ comments (optional), and any extra fields (optional).
             "enrollment": 99999,
             "project": 99999,
             "date": "2016-09-31",
-            "start time": "14:00",
-            "total hours": 2,
+            "start_time": "14:00",
+            "total_hours": 2,
             "location": 
                 {
                    "latitude": 40.0,
@@ -606,8 +606,8 @@ comments (optional), and any extra fields (optional).
                 "enrollment": 99999,
                 "project": 99999,
                 "date": "2016-09-31",
-                "start time": "14:00",
-                "total hours": 2,
+                "start_time": "14:00",
+                "total_hours": 2,
                 "location": 
                     {
                        "latitude": 40.0,
@@ -641,8 +641,8 @@ Takes a Record ID and returns the associated Record.
             "enrollment": 99999,
             "project": 99999,
             "date": "2016-09-31",
-            "start time": "14:00",
-            "total hours": 2,
+            "start_time": "14:00",
+            "total_hours": 2,
             "location": 
                 {
                    "latitude": 40.0,
@@ -669,8 +669,8 @@ Update a Record with the given fields, must enter all the fields:
                 "enrollment": 99999,
                 "project": 99999,
                 "date": "2016-09-31",
-                "start time": "14:00",
-                "total hours": 2,
+                "start_time": "14:00",
+                "total_hours": 2,
                 "location": 
                     {
                        "latitude": 40.0,
@@ -699,14 +699,14 @@ Returns all record IDs. Assumes forever if no range is given.
 + Request (application/json)
 
         {
-           "start date": "2016-09-01 00:00:00",
-           "end date": "2016-12-31 23:59:59.999999",
+           "start_date": "2016-09-01 00:00:00",
+           "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
       
         {
-           "record IDs": [
+           "record_IDs": [
                11111,
                22222,
                33333,
@@ -731,7 +731,7 @@ Takes a User ID and returns all Records for that User.
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -756,7 +756,7 @@ Takes a Course ID and returns all Records for that Course.
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -781,7 +781,7 @@ Takes a Project ID and returns all Records for that Project.
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -799,8 +799,8 @@ Takes a User ID and returns their total recorded hours for the given time range.
 
         {
             "id": 99999,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -819,8 +819,8 @@ Takes a Project ID and returns their total recorded hours for the given time ran
 
         {
             "id": 99999,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -840,8 +840,8 @@ Takes a Course ID and returns the total recorded hours for the given time range.
 
         {
             "id": "CS4500",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -864,9 +864,9 @@ Must be an admin to call this endpoint.
 
         {
             "name": "Fall 2018",
-            "start date": "2018-09-01 00:00:00",
-            "end date": "2018-12-31 23:59:59.999999",
-            "is active": false
+            "start_date": "2018-09-01 00:00:00",
+            "end_date": "2018-12-31 23:59:59.999999",
+            "is_active": false
         }
 
 + Response 201 (application/json)
@@ -879,9 +879,9 @@ Must be an admin to call this endpoint.
 
             {
                 "name": "Fall 2018",
-                "start date": "2018-09-01 00:00:00",
-                "end date": "2018-12-31 23:59:59.999999",
-                "is active": false
+                "start_date": "2018-09-01 00:00:00",
+                "end_date": "2018-12-31 23:59:59.999999",
+                "is_active": false
             }
 
 ## Existing Semester [/semester/{semester_id}]
@@ -901,9 +901,9 @@ Takes a Semester ID and returns that semester.
         {
             "id": 99999,
             "name": "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
-            "is active": true,
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
+            "is_active": true,
         }
 
 ### Update a Semester [PUT]
@@ -915,8 +915,8 @@ Updates a Semester with the given fields.
         {
             "id": 99999,
             "name": "Fall 2019",
-            "start date": "2019-09-01 00:00:00",
-            "end date": "2019-12-31 23:59:59.999999",
+            "start_date": "2019-09-01 00:00:00",
+            "end_date": "2019-12-31 23:59:59.999999",
             "is active": false
         }
 
@@ -941,11 +941,11 @@ Enrolls a User in a section of a Course
 + Request (application/json)
 
         {
-            "user id": 99999,
-            "course id": "CS4500",
-            "semester name": "FALL2016",
+            "user_id": 99999,
+            "course_id": "CS4500",
+            "semester_name": "FALL2016",
             "CRN": "99999",
-            "is active": true
+            "is_active": true
         }
 
 + Response 201 (application/json)
@@ -958,11 +958,11 @@ Enrolls a User in a section of a Course
 
             {
                 "id": 99999,
-                "user id": 99999,
-                "course id": "CS4500",
-                "semester name": "FALL2016",
-                "meeting days": "MWR",
-                "meeting start time": "9:50:00",
-                "meeting end time": "11:30:00",
-                "is active": true
+                "user_id": 99999,
+                "course_id": "CS4500",
+                "semester_name": "FALL2016",
+                "meeting_days": "MWR",
+                "meeting_start time": "9:50:00",
+                "meeting_end time": "11:30:00",
+                "is_active": true
             }
