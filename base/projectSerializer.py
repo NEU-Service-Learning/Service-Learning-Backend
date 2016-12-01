@@ -6,4 +6,4 @@ from base.communityPartnerSerializer import CommunityPartnerSerializer
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('id', 'name', 'community_partner', 'description', 'start_date', 'end_date', 'longitude', 'latitude')
+        fields = ('id', 'name', 'course', 'community_partner', 'description', 'start_date', 'end_date', 'longitude', 'latitude')
