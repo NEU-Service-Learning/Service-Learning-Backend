@@ -5,37 +5,11 @@ HOST: http://sl-timetracker.apiblueprint.org/
 
 Backend endpoints for the Service Learning Time Tracker project.
 
-## User [/user/{user_id}]
+## Login
 
-### Get User Information [GET]
+Can be found here: https://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
 
-Takes a User ID and returns the associated User.
-
-+ Request (application/json)
-
-        {
-            "id": 99999,
-        }
-
-+ Response 200 (application/json)
-       
-        {
-            "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
-            "username": "kename.f@husky.neu.edu",
-            "role": "student",
-            "courses": [
-                99999,
-                11111,
-                22222,
-                33333,
-            ],
-            "projects": [
-                99999,
-            ],
-            "is active": true,
-        }
+## New User [/user/]
 
 ### Create a new User [POST]
 
@@ -53,20 +27,19 @@ If the role of the User is noted as "admin", the courses array and projects arra
 + Request (application/json)
 
         {
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
-                99999,
-                11111,
-                22222,
-                33333,
+                "CS4500",
+                "CS2500",
+                "CS2510",
             ],
             "projects": [
                 99999
             ],
-            "is active": true,
+            "is_active": true,
             
         }
 
@@ -80,22 +53,52 @@ If the role of the User is noted as "admin", the courses array and projects arra
 
             {
                 "id": 99999,
-                "first name": "Fa",
-                "last name": "Kename",
+                "first_name": "Fa",
+                "last_name": "Kename",
                 "username": "kename.f@husky.neu.edu",
                 "role": "student",
                 "courses": [
-                    99999,
-                    11111,
-                    22222,
-                    33333,
+                    "CS4500",
+                    "CS2500",
+                    "CS2510",
                 ],
                 "projects": [
                     99999
                 ],
-                "is active": true,
+                "is_active": true,
             }
-            
+
+## Exisiting User [/user/{user_id}]
+
+### Get User Information [GET]
+
+Takes a User ID and returns the associated User.
+
++ Request (application/json)
+
+        {
+            "id": 99999,
+        }
+
++ Response 200 (application/json)
+       
+        {
+            "id": 99999,
+            "first_name": "Fa",
+            "last_name": "Kename",
+            "username": "kename.f@husky.neu.edu",
+            "role": "student",
+            "courses": [
+                "CS4500",
+                "CS2500",
+                "CS2510",
+            ],
+            "projects": [
+                99999,
+            ],
+            "is_active": true,
+        }
+
 ### Update a User [PUT]
 
 Updates a User with the given fields. Have to provide all the fields, provide exisiting data if there is no change.
@@ -104,18 +107,16 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
         
         {
             "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
-                99999,
-                11111,
-                44444,
-                55555,
+                "CS4500",
+                "CS2500",
             ],
             "projects": [],
-            "is active": true,
+            "is_active": true,
         }
 
 + Response 200
@@ -136,8 +137,8 @@ Get an expanded version of the user, including full name of courses and projects
        
         {
             "id": 99999,
-            "first name": "Fa",
-            "last name": "Kename",
+            "first_name": "Fa",
+            "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
             "role": "student",
             "courses": [
@@ -146,7 +147,7 @@ Get an expanded version of the user, including full name of courses and projects
             "projects": [
                 "Service-Learning Time Tracker",
             ],
-            "is active": true,
+            "is_active": true,
         }
 
 ## Course Collection [/courses]
@@ -159,35 +160,15 @@ Returns ID:Name pairs of all existing courses.
 
         {
             "ids": {
-                "99999":  "Algorithms and Data"
-                "11111":  "Fundamentals of Computer Science 1"
-                "22222":  "Software Development"
+                "CS4800":  "Algorithms and Data"
+                "CS2500":  "Fundamentals of Computer Science 1"
+                "CS4500":  "Software Development"
             }
         }
 
 
    
-## Course [/course/{course_id}]
-
-### Get Course Information [GET]
-
-Takes a Course ID and returns the associated Course.
-
-+ Request (application/json)
-
-        {
-            "id": 99999
-        }
-
-+ Response 200 (application/json)
-       
-        {
-            "id": 99999,
-            "course number": "CS4500",
-            "course name": "Software Development",
-            "semester id": 99999,
-        }
-
+## New Course [/course/]
 
 ### Create a new Course [POST]
 
@@ -197,9 +178,8 @@ object containing a course number, course name, and semester ID.
 + Request (application/json)
 
         {
-            "course number": "CS4500",
-            "course name": "Software Development",
-            "semester id": 99999,
+            "id": "CS4500",
+            "course_name": "Software Development",
         }
         
 + Response 201 (application/json)
@@ -211,12 +191,30 @@ object containing a course number, course name, and semester ID.
     + Body
 
             {
-                "id": 99999,
-                "course number": "CS4500",
-                "course name": "Software Development",
-                "semester id": 99999,
+                "id": "CS4500",
+                "course_name": "Software Development",
             }
             
+   
+## Existing Course [/course/{course_id}]
+
+### Get Course Information [GET]
+
+Takes a Course ID and returns the associated Course.
+
++ Request (application/json)
+
+        {
+            "id": "CS4500"
+        }
+
++ Response 200 (application/json)
+       
+        {
+            "id": "CS4500",
+            "course_name": "Software Development"
+        }
+
 ### Update a Course [PUT]
 
 Updates a Course with the given fields, must provide all fields.
@@ -224,10 +222,8 @@ Updates a Course with the given fields, must provide all fields.
 + Request (application/json)
 
         {
-            "id": 99999,
-            "course number": "CS4500",
-            "course name": "Software Development",
-            "semester id": 88888,
+            "id": "CS4500",
+            "course_name": "Software Development",
         }
 
 + Response 200
@@ -242,23 +238,23 @@ Returns all instructors for a course
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
        
         {
-            "id": 99999,
+            "id": "CS4500",
             "instructors": [
                 {
                     "id": 99999,
-                    "first name": "Michael",
-                    "last name": "Weintraub"
+                    "first_name": "Michael",
+                    "last_name": "Weintraub"
                 },
                 {
                     "id": 11111,
-                    "first name": "Smitha",
-                    "last name": "Bangalore Naresh"
+                    "first_name": "Smitha",
+                    "last_name": "Bangalore Naresh"
                 }
             ]
         }
@@ -273,46 +269,19 @@ Returns all Projects in a course. Takes a Course ID.
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
        
         {
-            "id": 99999,
+            "id": "CS4500",
             "projects": [
                 "99999": "Service-Learning Time Tracker",
             ]
         }
 
-## Project [/project/{project_id}]
-
-### Get a Project [GET]
-
-Takes a Project ID and returns the associated Project.
-
-+ Request (application/json)
-
-        {
-            "id": 99999
-        }
-
-+ Response 200 (application/json)
-       
-
-        {
-            "id": 99999,
-            "name": "Service-Learning Time Tracker",
-            "community partner": 99999,
-            "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
-            "location":
-                {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
-                },
-        }
+## New Project [/project/]
 
 ### Create a new Project [POST]
 
@@ -320,15 +289,14 @@ You may create a new Project using this action. It takes a JSON
 object containing a name (optional), Community Partner ID, a description (optional), 
 a start date, an end date, and a location (long/lat pair in JSON format).
 
-
 + Request (application/json)
 
         {
             "name": "Service-Learning Time Tracker",
             "community partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
             "location":
                 {
                     "latitude": 40.0,
@@ -347,17 +315,46 @@ a start date, an end date, and a location (long/lat pair in JSON format).
             {
                 "id": 99999,
                 "name": "Service-Learning Time Tracker",
-                "community partner": 99999,
+                "community_partner": 99999,
                 "description": "Creating a new system for tracking the hours worked by students doing service learning.",
-                "start date": "2016-09-01 00:00:00",
-                "end date": "2016-12-31 23:59:59.999999",
+                "start_date": "2016-09-01 00:00:00",
+                "end_date": "2016-12-31 23:59:59.999999",
                 "location":
                     {
                         "latitude": 40.0,
                         "longitude": 40.0,
                     },
             }
-            
+
+## Existing Project [/project/{project_id}]
+
+### Get a Project [GET]
+
+Takes a Project ID and returns the associated Project.
+
++ Request (application/json)
+
+        {
+            "id": 99999
+        }
+
++ Response 200 (application/json)
+       
+
+        {
+            "id": 99999,
+            "name": "Service-Learning Time Tracker",
+            "community_partner": 99999,
+            "description": "Creating a new system for tracking the hours worked by students doing service learning.",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
+            "location":
+                {
+                    "latitude": 40.0,
+                    "longitude": 40.0,
+                },
+        }
+
 ### Update a Project [PUT]
 
 Updates a Project with the given fields, must provide all fields.
@@ -367,10 +364,10 @@ Updates a Project with the given fields, must provide all fields.
         {
             "id": 99999,
             "name": "Service-Learning Time Tracker",
-            "community partner": 99999,
+            "community_partner": 99999,
             "description": "Creating a new system for tracking the hours worked by students doing service learning. Some extra text here",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
             "location":
                 {
                     "latitude": 30.0,
@@ -399,13 +396,13 @@ Takes a Project ID and returns the names and IDs of all students ever associated
         "results":
             [
                 { 
-                    "first name" : "Fa" 
-                    "last name" : "Kename"
+                    "first_name" : "Fa" 
+                    "last_name" : "Kename"
                     "id" : 99999
                 },
                 { 
-                    "first name" : "Fals" 
-                    "last name" : "Eid"
+                    "first_name" : "Fals" 
+                    "last_name" : "Eid"
                     "id" : 11111
                 }
             ]
@@ -421,8 +418,8 @@ Takes a Project ID and returns the names and IDs of all students associated with
 
         {
             "id": 99999
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
         
 + Response 200 (application/json)
@@ -431,8 +428,8 @@ Takes a Project ID and returns the names and IDs of all students associated with
         "results": 
             [
                { 
-                "first name" : "Fa" 
-                "last name" : "Kename"
+                "first_name" : "Fa" 
+                "last_name" : "Kename"
                 "id" : 99999
                 }
             ]
@@ -453,26 +450,8 @@ Returns ID:Name pairs for all existing projects
                 "11111": "Wediko"
             }
         }
-        
-## Community Partner [/communityPartner/{communityPartner_id}]
 
-### Get a Community Partner [GET]
-
-Takes a Community Partner ID and returns the associated Community Partner.
-
-+ Request (application/json)
-
-        {
-            "id": 99999
-        }
-
-+ Response 200 (application/json)
-       
-
-        {
-            "id": 99999,
-            "name": "Northeastern University Service Learning Department"
-        }
+## New Community Partner [/communityPartner/]
 
 ### Create a new Community Partner [POST]
 
@@ -498,7 +477,27 @@ object containing a name of a Community Partner.
                 "id": 99999,
                 "name": "Northeastern University Service Learning Department"
             }
-            
+
+## Existing Community Partner [/communityPartner/{communityPartner_id}]
+
+### Get a Community Partner [GET]
+
+Takes a Community Partner ID and returns the associated Community Partner.
+
++ Request (application/json)
+
+        {
+            "id": 99999
+        }
+
++ Response 200 (application/json)
+       
+
+        {
+            "id": 99999,
+            "name": "Northeastern University Service Learning Department"
+        }
+
 ### Update a Community Partner [PUT]
 
 Updates a Community Partner with the given fields.
@@ -561,7 +560,69 @@ Takes a Communtiy Partner ID and returns active Projects associated.
             ]
         }
 
-## Record [/record/{record_id}]
+## New Record [/record/]
+
+### Create a new Record [POST]
+
+You may create a new Record using this action. It takes a JSON
+object containing a Enrollment ID, Project ID, date, start time (optional), total hours, 
+a location (long/lat in JSON format)(optional), a category (Training/Direct Service), is_active (default True),
+comments (optional), and any extra fields (optional).
+
+
++ Request (application/json)
+
+        {
+            "enrollment": 99999,
+            "project": 99999,
+            "date": "2016-09-31",
+            "start_time": "14:00",
+            "total_hours": 2,
+            "location": 
+                {
+                   "latitude": 40.0,
+                   "longitude": 40.0,
+                },
+            "category": "Direct Service",
+            "is_active": True,
+            "comments": "Did a good job.",
+            "extraFields":
+                {
+                   "example": "some info"
+                }
+        }
+
+
++ Response 201 (application/json)
+
+  + Headers
+
+            Location: /record/{record_id}
+
+  + Body
+
+            {
+                "id": 99999,
+                "enrollment": 99999,
+                "project": 99999,
+                "date": "2016-09-31",
+                "start_time": "14:00",
+                "total_hours": 2,
+                "location": 
+                    {
+                       "latitude": 40.0,
+                       "longitude": 40.0,
+                    },
+                "category": "Direct Service",
+                "is_active": True,
+                "comments": "Did a good job.",
+                "extraFields":
+                    {
+                       "example": "some info"
+                    }
+            }
+
+## Existing Record [/record/{record_id}]
 
 ### Get a Record [GET]
 
@@ -570,117 +631,59 @@ Takes a Record ID and returns the associated Record.
 + Request (application/json)
 
         {
-            "id": 99999
+           "id": 99999
         }
 
 + Response 200 (application/json)
-       
-        {
+      
+           {
             "id": 99999,
-            "user": 99999,
-            "course": 99999,
+            "enrollment": 99999,
             "project": 99999,
-            "start time": "2016-09-31 14:00:00",
-            "total hourse": 2,
+            "date": "2016-09-31",
+            "start_time": "14:00",
+            "total_hours": 2,
             "location": 
                 {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
+                   "latitude": 40.0,
+                   "longitude": 40.0,
                 },
             "category": "Direct Service",
+            "is_active": True,
             "comments": "Did a good job.",
             "extraFields":
                 {
-                    "example": "some info"
+                   "example": "some info"
                 }
         }
 
+### Update a Record [PUT]
 
-### Create a new Record [POST]
-
-You may create a new Record using this action. It takes a JSON
-object containing a User ID, course, Course ID, Project ID, start time, total hours, 
-a location (long/lat in JSON format)(optional), a category (Training/Direct Service), comments (optional), and any extra fields (optional).
-
-
+Update a Record with the given fields, must enter all the fields:
+-- Sets the current record being referenced by id (is_active) to False
+-- Creates the new record with given parameters
 + Request (application/json)
-
-        {
-            "user": 99999,
-            "course": 99999,
-            "project": 99999,
-            "start time": "2016-09-31 14:00:00",
-            "total hours": 2,
-            "location": 
-                {
-                    "latitude": 40.0,
-                    "longitude": 40.0,
-                },
-            "category": "Direct Service",
-            "comments": "Did a good job.",
-            "extraFields":
-                {
-                    "example": "some info"
-                },
-            "is active": true,
-        }
-
-
-+ Response 201 (application/json)
-
-   + Headers
-
-            Location: /record/{record_id}
-
-   + Body
 
             {
                 "id": 99999,
-                "user": 99999,
-                "course": 99999,
+                "enrollment": 99999,
                 "project": 99999,
-                "start time": "2016-09-31 14:00:00",
-                "total hourse": 2,
+                "date": "2016-09-31",
+                "start_time": "14:00",
+                "total_hours": 2,
                 "location": 
                     {
-                        "latitude": 40.0,
-                        "longitude": 40.0,
+                       "latitude": 40.0,
+                       "longitude": 40.0,
                     },
                 "category": "Direct Service",
+                "is_active": True,
                 "comments": "Did a good job.",
                 "extraFields":
                     {
-                        "example": "some info"
-                    },
-                "is active": true,
-            }
-            
-### Update a Record [PUT]
-
-Updates a Record with the given fields, must provide all fields.
-
-+ Request (application/json)
-
-        {
-            "id": 99999,
-            "user": 11111,
-            "course": 99999,
-            "project": 99999,
-            "start time": "2016-09-31 16:00:00",
-            "total hourse": 4,
-            "location": 
-                {
-                    "latitude": 30.0,
-                    "longitude": 30.0,
-                },
-            "category": "Direct Service",
-            "comments": "Did a great job.",
-            "extraFields":
-                {
-                    "example": "some info"
-                }
-            "is active": false,
-        }
+                       "example": "some info"
+                    }
+           }
 
 + Response 200
 
@@ -696,19 +699,19 @@ Returns all record IDs. Assumes forever if no range is given.
 + Request (application/json)
 
         {
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+           "start_date": "2016-09-01 00:00:00",
+           "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
-       
+      
         {
-            "record IDs": [
-                11111,
-                22222,
-                33333,
-                44444
-            ]
+           "record_IDs": [
+               11111,
+               22222,
+               33333,
+               44444
+           ]
         }
 
 
@@ -728,7 +731,7 @@ Takes a User ID and returns all Records for that User.
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -746,14 +749,14 @@ Takes a Course ID and returns all Records for that Course.
 + Request (application/json)
 
         {
-            "id": 99999
+            "id": "CS4500"
         }
 
 + Response 200 (application/json)
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -778,7 +781,7 @@ Takes a Project ID and returns all Records for that Project.
        
 
         {
-            "record IDs": [
+            "record_IDs": [
                 11111,
                 22222,
                 33333,
@@ -796,8 +799,8 @@ Takes a User ID and returns their total recorded hours for the given time range.
 
         {
             "id": 99999,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -816,8 +819,8 @@ Takes a Project ID and returns their total recorded hours for the given time ran
 
         {
             "id": 99999,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -836,9 +839,9 @@ Takes a Course ID and returns the total recorded hours for the given time range.
 + Request (application/json)
 
         {
-            "id": 99999,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "id": "CS4500",
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
         }
 
 + Response 200 (application/json)
@@ -848,7 +851,40 @@ Takes a Course ID and returns the total recorded hours for the given time range.
         }
 
 
-## Semester [/semester/{semester_id}]
+## New Semester [/semester/]
+
+### Create a new Semester [POST]
+
+You may create a new Semester using this action. It takes a JSON
+object containing a name, start date, end date, and is active boolean.
+
+Must be an admin to call this endpoint.
+
++ Request (application/json)
+
+        {
+            "name": "Fall 2018",
+            "start_date": "2018-09-01 00:00:00",
+            "end_date": "2018-12-31 23:59:59.999999",
+            "is_active": false
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /communityPartner/{communityPartner_id}
+
+    + Body
+
+            {
+                "name": "Fall 2018",
+                "start_date": "2018-09-01 00:00:00",
+                "end_date": "2018-12-31 23:59:59.999999",
+                "is_active": false
+            }
+
+## Existing Semester [/semester/{semester_id}]
 
 ### Get a Semester [GET]
 
@@ -865,41 +901,10 @@ Takes a Semester ID and returns that semester.
         {
             "id": 99999,
             "name": "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
-            "is active": true,
+            "start_date": "2016-09-01 00:00:00",
+            "end_date": "2016-12-31 23:59:59.999999",
+            "is_active": true,
         }
-
-
-### Create a new Semester [POST]
-
-You may create a new Semester using this action. It takes a JSON
-object containing a name, start date, end date, and is active boolean.
-
-
-+ Request (application/json)
-
-        {
-            "name": "Fall 2018",
-            "start date": "2018-09-01 00:00:00",
-            "end date": "2018-12-31 23:59:59.999999",
-            "is active": false
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /communityPartner/{communityPartner_id}
-
-    + Body
-
-            {
-                "name": "Fall 2018",
-                "start date": "2018-09-01 00:00:00",
-                "end date": "2018-12-31 23:59:59.999999",
-                "is active": false
-            }
 
 ### Update a Semester [PUT]
 
@@ -910,9 +915,9 @@ Updates a Semester with the given fields.
         {
             "id": 99999,
             "name": "Fall 2019",
-            "start date": "2019-09-01 00:00:00",
-            "end date": "2019-12-31 23:59:59.999999",
-            "is active": false
+            "start_date": "2019-09-01 00:00:00",
+            "end_date": "2019-12-31 23:59:59.999999",
+            "is_active": false
         }
 
 + Response 200
@@ -923,4 +928,41 @@ Updates a Semester with the given fields.
 
 Deactivates all current courses and enrollments, activates all course and enrollments for the following semester.
 
+Must be an admin to call this endpoint.
+
 + Response 200 (application/json)
+
+## Enroll a User in a Section [/enroll/]
+
+### Enroll Student [POST]
+
+Enrolls a User in a section of a Course
+
++ Request (application/json)
+
+        {
+            "user_id": 99999,
+            "course_id": "CS4500",
+            "semester_name": "FALL2016",
+            "CRN": "99999",
+            "is_active": true
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /enroll/{enrollment_id}
+
+    + Body
+
+            {
+                "id": 99999,
+                "user_id": 99999,
+                "course_id": "CS4500",
+                "semester_name": "FALL2016",
+                "meeting_days": "MWR",
+                "meeting_start time": "9:50:00",
+                "meeting_end time": "11:30:00",
+                "is_active": true
+            }
