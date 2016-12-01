@@ -55,8 +55,8 @@ class Enrollment(models.Model):
 
 
 class Project(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+    name = models.CharField(max_length=45)
+    course = models.ForeignKey(Course, models.DO_NOTHING)
     community_partner = models.ForeignKey(CommunityPartner, models.DO_NOTHING)
     start_date = models.DateField()
     end_date = models.DateField()
