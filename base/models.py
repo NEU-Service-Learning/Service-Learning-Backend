@@ -96,7 +96,7 @@ class RecordCategory(models.Model):
         (INDIVIDUAL_RESEARCH, 'Individual Research & Planning'),
         (TEAM_RESEARCH, 'Team Research & Planning'),
     )
-    name = models.CharField(primary_key=True, max_length=45)
+    name = models.CharField(primary_key=True, max_length=2, choices=CATEGORIES)
     description = models.TextField(blank=True, null=True)
 
     class Meta:
