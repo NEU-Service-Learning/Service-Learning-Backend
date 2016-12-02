@@ -102,7 +102,7 @@ class DepartmentTests(TestCase):
         }
 
         department1 = self.client.put('/department/' + str(d0_json_string['name']) + '/', json.dumps(temp_dict), content_type="application/json")
-        self.assertEqual(department1.status_code, 201)
+        self.assertEqual(department1.status_code, 200)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(d1_json_string['name'], "Department")
         self.assertEqual(d1_json_string['college'], "Australia")
