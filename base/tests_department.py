@@ -136,3 +136,29 @@ class DepartmentTests(TestCase):
 
         department1 = self.client.delete('/department/' + str(d0_json_string['name']) + '/')
         self.assertEqual(department1.status_code, 204)
+        
+    def test_get_all(self):
+        college0 = College(name='First')
+        college0.save()
+        department0 = self.client.post('/department/',
+        {
+            "name": "Depar",
+            "college": college0.name
+        })
+        self.assertEqual(department0.status_code, 201)
+        
+        college1 = College(name='Second')
+        college1.save()
+        department1 = self.client.post('/department/',
+        {
+            "name": "tment",
+            "college": college1.name
+        })
+        self.assertEqual(department1.status_code, 201)
+        departments = self.client.get('/cdepartments/')
+        self.assertEqual(departments.status_code, 200)
+        departments_json_string = json.loads(departments.content.decode('utf-8'))
+        self.assertEqual(departments_json_string[0]['name'], "Depar")
+        self.assertEqual(departments_json_string[0]['college'], "First")
+        self.assertEqual(departments_json_string[1]['name'], "tment")
+        self.assertEqual(departments_json_string[1]['college'], "Second")
