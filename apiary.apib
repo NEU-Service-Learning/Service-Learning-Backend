@@ -417,34 +417,6 @@ Takes a Project ID and returns the names and IDs of all students ever associated
             ]
         }
 
-## All Students from a Project w/ Range [/project/{project_id}/students/interval]
-
-### Get all Students who worked on a given Project ID during a given time range [GET]
-
-Takes a Project ID and returns the names and IDs of all students associated with that project during the given timeframe
-
-+ Request (application/json)
-
-        {
-            "id": 99999
-            "start_date": "2016-09-01",
-            "end_date": "2016-12-31",
-        }
-        
-+ Response 200 (application/json)
-
-        {
-        "results": 
-            [
-               { 
-                "first_name" : "Fa" 
-                "last_name" : "Kename"
-                "id" : 99999
-                }
-            ]
-        }
-
-
 ## All Projects [/projects]
 
 ### Get All Projects [GET]
