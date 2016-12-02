@@ -75,7 +75,7 @@ class DepartmentTests(TestCase):
         })
         self.assertEqual(department0.status_code, 400)
         
-    def test_get_good:
+    def test_get_good(self):
         department0 = self.client.post('/department/',
         {
             "name": "Department of Defence",
@@ -89,7 +89,7 @@ class DepartmentTests(TestCase):
         self.assertEqual(d1_json_string['name'], d0_json_string['name'])
         self.assertEqual(d1_json_string['college'], d0_json_string['college'])
 
-    def test_bad_get:
+    def test_bad_get(self):
             department0 = self.client.post('/department/',
             {
                 "name": "MissingNo  Department",
