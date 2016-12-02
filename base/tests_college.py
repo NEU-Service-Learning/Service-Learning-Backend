@@ -77,3 +77,19 @@ class ProjectTests(TestCase):
         c0_json_string = json.loads(college0.content.decode('utf-8'))
         college1 = self.client.delete('/college/' + str(c0_json_string['name']) + '/')
         self.assertEqual(college1.status_code, 204)
+def test_get_all(self):
+    college0 = self.client.post('/college/',
+    {
+        "name": "First College"
+    })
+    self.assertEqual(college0.status_code, 201)
+    college1 = self.client.post('/college/',
+    {
+        "name": "Second College"
+    })
+    self.assertEqual(college1.status_code, 201)
+    colleges = self.client.get('/colleges/')
+    self.assertEqual(colleges.status_code, 200)
+    colleges_json_string = json.loads(colleges.content.decode('utf-8'))
+    self.assertEqual(colleges_json_string[0]['name'], "Second College")
+    self.assertEqual(colleges_json_string[1]['name'], "First Colege")
