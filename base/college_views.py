@@ -28,11 +28,10 @@ class CollegeDetail(APIView):
 
     def put(self, request, pk, format=None):
         college = self.get_object(pk)
-        serializer = CollegeSerializer(data=request.data)
+        serializer = CollegeSerializer(college, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            college.delete()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
