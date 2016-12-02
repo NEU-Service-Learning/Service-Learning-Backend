@@ -276,6 +276,37 @@ Returns all instructors for a course
             ]
         }
 
+## Course Students [/course/{course_id}/students]
+
+### Get Instructors for a Course [GET]
+
+Returns all students for a course
+
+
++ Request (application/json)
+
+        {
+            "id": "CS4500"
+        }
+
++ Response 200 (application/json)
+       
+        {
+            "id": "CS4500",
+            "students": [
+                {
+                    "id": 99999,
+                    "first_name": "Fa",
+                    "last_name": "Kename"
+                },
+                {
+                    "id": 11111,
+                    "first_name": "Fal",
+                    "last_name": "Seid"
+                }
+            ]
+        }
+
 ## Course Projects [/course/{course_id}/projects]
 
 ### Get Projects for a Course [GET]
