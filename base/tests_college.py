@@ -35,7 +35,7 @@ class ProjectTests(TestCase):
         
     def test_bad_get(self):
         college0 = self.client.get('/college/01822/')
-        self.assertEqual(college1.status_code, 404)
+        self.assertEqual(college0.status_code, 404)
         
     def test_good_put(self):
         college0 = self.client.post('/college/', 
