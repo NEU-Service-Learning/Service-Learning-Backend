@@ -35,7 +35,7 @@ class RecordPostTest(TestCase):
                 comments: "Comments",
                 extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
             })
-        self.assertEquals(record.status_code, 201)
+        self.assertEquals(record.status_code, 200)
         self.assertEquals(record.context['enrollment'], 1)
         self.assertEquals(record.context['project'], 1002)
         self.assertEquals(record.context['date'], "2016-11-27")
@@ -132,7 +132,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         #invalid enrollment (max int + 1)
         record = self.client.add('/record/',
@@ -236,7 +236,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # invalid project (max int + 1)
         record = self.client.add('/record/',
@@ -342,7 +342,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # invalid start_time (int)
         record = self.client.add('/record/',
@@ -463,7 +463,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # invalid total_hours (24.01 hours)
         record = self.client.add('/record/',
@@ -499,7 +499,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # null longitude (latitude correct) --> INVALID
         record = self.client.add('/record/',
@@ -570,7 +570,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # null latitude (longitude correct) --> INVALID
         record = self.client.add('/record/',
@@ -816,7 +816,7 @@ class RecordPostTest(TestCase):
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # invalid comments (empty string)
         record = self.client.add('/record/',
@@ -869,7 +869,7 @@ class RecordPostTest(TestCase):
                                      comments: None,
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
 
         # invalid extra_field (non-json)
         record = self.client.add('/record/',
@@ -967,7 +967,7 @@ class RecordPutTests(TestCase):
                                          comments: "Comments",
                                          extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
                                      })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
         self.assertTrue(record.context['is_active'])
         self.client.put('/record', {
                                          enrollment: 1,
@@ -982,7 +982,7 @@ class RecordPutTests(TestCase):
                                          comments: "Comments",
                                          extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
                                      })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
         self.assertFalse(record.context['is_active'])
 
     #invalid put request --> update non-is_update field
@@ -1000,7 +1000,7 @@ class RecordPutTests(TestCase):
                                      comments: "Comments",
                                      extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 200)
         self.assertTrue(record.context['is_active'])
         self.client.put('/record', {
             enrollment: 1,
