@@ -85,19 +85,21 @@ class SemesterTests(TestCase):
 			"end_date": "2016-12-31",
 			"is_active": 'false'
 		})
+		s0_json = json.loads(semester.content.decode('utf-8'))
 		self.assertEqual(semester.status_code, 201)
-		self.assertEqual(semester.context['is_active'], False)
+		self.assertEqual(s0_json['is_active'], False)
 		
 		# Modify the semester
-		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
+		semester = self.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
 		{
 			"name":	"FALL2016",
 			"start_date": "2016-09-01",
 			"end_date": "2016-12-31",
 			"is_active": 'true'
 		})
+		s1_json = json.loads(semester.content.decode('utf-8'))
 		self.assertEqual(semester.status_code, 200)
-		self.assertEqual(semester.context['is_active'], True)
+		self.assertEqual(s1_json['is_active'], True)
 		
 	def test_bad_put_semester(self):
 		
@@ -109,8 +111,9 @@ class SemesterTests(TestCase):
 			"end_date": "2016-12-31",
 			"is_active": 'false'
 		})
+		s0_json = json.loads(semester.content.decode('utf-8'))
 		self.assertEqual(semester.status_code, 201)
-		self.assertEqual(semester.context['is_active'], False)
+		self.assertEqual(s0_json['is_active'], False)
 		
 		# Modify the semester with bad is_active
 		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
