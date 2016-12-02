@@ -155,7 +155,7 @@ class DepartmentTests(TestCase):
             "college": college1.name
         })
         self.assertEqual(department1.status_code, 201)
-        departments = self.client.get('/cdepartments/')
+        departments = self.client.get('/departments/')
         self.assertEqual(departments.status_code, 200)
         departments_json_string = json.loads(departments.content.decode('utf-8'))
         self.assertEqual(departments_json_string[0]['name'], "Depar")
