@@ -75,8 +75,13 @@ class StartSemester(generics.CreateAPIView):
 		permission_classes = (permissions.IsAuthenticated, )
 		if request.user.groups.contains('admin'):
 			current = Semesters.objects.get(is_active=True)
-			Enrollments.objects.filter(semester=current).update(is_Active=False)
-			
-			
+			Enrollments.objects.filter(semester=current).update(is_active=False)
+			coming_up = Semesters.objects.filter(is_active=False, start_date > date.today()).order_by('start_date')
+			try:
+				next_selection = coming_up[0]
+			except IndexError:
+				raise Http404("No next semester available")
+			Enrollments.objects.filter(semester=next_selection).update(is_active=True)
+			Users.filter(Enrollment__
 		else:
 			return Response(status=status.HTTP_403_FORBIDDEN)
