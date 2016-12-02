@@ -8,6 +8,7 @@ class UserSerializer(UserDetailsSerializer):
     role = serializers.CharField(source="userprofile.role")
 
     class Meta:
+        model = User
         fields = UserDetailsSerializer.Meta.fields + ('role',)
 
     def update(self, instance, validated_data):
