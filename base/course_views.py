@@ -56,5 +56,5 @@ class CourseStudentList(APIView):
 class CourseProjectList(APIView):
     def get(self, request, course, format=None):
         projects = Project.objects.filter(course=course)
-        serializer = ProjectSerializer(projectsc, many=True)
+        serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
