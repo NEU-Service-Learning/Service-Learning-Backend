@@ -64,6 +64,7 @@ class DepartmentTests(TestCase):
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         department1 = self.client.get('/department/' + str(d0_json_string['name']) + '/')
+        self.assertEqual(department1.status_code, 201)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(d1_json_string['name'], d0_json_string['name'])
         self.assertEqual(d1_json_string['college'], d0_json_string['college'])
@@ -100,6 +101,7 @@ class DepartmentTests(TestCase):
             "college": college1.name
         })
         d1_json_string = json.loads(department1.content.decode('utf-8'))
+        self.assertEqual(department1.status_code, 201)
         self.assertEqual(d1_json_string['name'], "Department of Yellow Shirts")
         self.assertEqual(d1_json_string['college'], "College of Australia")
         
@@ -115,6 +117,7 @@ class DepartmentTests(TestCase):
         self.assertEqual(department0.status_code, 201)
         
         department1 = self.client.put('/department/' + str(d0_json_string['name']) + '/', {})
+        self.assertEqual(department1.status_code, 201)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(department0.status_code, 400)
         
@@ -131,5 +134,6 @@ class DepartmentTests(TestCase):
         self.assertEqual(department0.status_code, 201)
         
         department1 = self.client.delete('/department/' + str(d0_json_string['name']) + '/')
+        self.assertEqual(department1.status_code, 201)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(department0.status_code, 204)
