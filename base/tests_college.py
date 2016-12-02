@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from base.models import *
+from base.models import College
 import json
 
 class ProjectTests(TestCase):
