@@ -47,6 +47,12 @@ class CourseInstructorList(APIView):
         serializer = UserSerializer(instructors, many=True)
         return Response(serializer.data)
 
+class CourseStudentList(APIView):
+    def get(self, request, course, format=None):
+        students = User.objects.filter(id__in=Enrollment.objects.filter(course=course, user__userprofile__role=UserProfile.STUDENT).values_list('user', flat=True))
+        serializer = UserSerializer(students, many=True)
+        return Response(serializer.data)
+
 # class CourseProjectList(APIView):
 #     """
 #     List all users, or create a new user.
