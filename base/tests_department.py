@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from base.models import *
+from django.http import Http404
 import json
 
 class DepartmentTests(TestCase):
