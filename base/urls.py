@@ -3,6 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 from . import communityPartnerViews
 from . import projectViews
+from . import recordViews
 
 urlpatterns = [
     #url(r'/$', views.Instructors.as_view(), name='instructors'),
