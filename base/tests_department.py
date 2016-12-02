@@ -78,7 +78,7 @@ class DepartmentTests(TestCase):
         })
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
-        department1 = self.client.get('/department/badGet/')
+        department1 = self.client.get('/department/')
         self.assertEqual(department0.status_code, 404)
 
     def test_good_put(self):
