@@ -29,9 +29,10 @@ class SemesterTests(TestCase):
 			"end_date": "2020-12-31",
 			"is_active": 'false'
 		})
+		s1_json = json.loads(semester.content.decode('utf-8'))
 		self.assertEqual(semester.status_code, 201)
-		self.assertEqual(semester.context['name'], "FALL2020")
-		self.assertEqual(semester.context['is_active'], False)
+		self.assertEqual(s1_json['name'], "FALL2020")
+		self.assertEqual(s1_json['is_active'], False)
 		
 	def test_bad_post_semester(self):
 	
@@ -48,32 +49,14 @@ class SemesterTests(TestCase):
 		# Semester with non-string name
 		semester = self.client.post('/semester/',
 		{
-			"name": 'true',
+			"name": 45,
 			"start_date": "2016-09-01",
 			"end_date": "2016-12-31",
 			"is_active": 'true'
 		})
 		self.assertEqual(semester.status_code, 400)
 		
-		# Semester with non-date start
-		semester = self.client.post('/semester/',
-		{
-			"name":	 "FALL2016",
-			"start_date": "Yesterday",
-			"end_date": "2016-12-31",
-			"is_active": 'true'
-		})
-		self.assertEqual(semester.status_code, 400)
-		
-		# Semester with non-date end
-		semester = self.client.post('/semester/',
-		{
-			"name":	 "FALL2016",
-			"start_date": "2016-09-01",
-			"end_date": 45,
-			"is_active": 'true'
-		})
-		self.assertEqual(semester.status_code, 400)
+	
 	
 	def test_basic_put_semester(self):
 	
@@ -90,14 +73,15 @@ class SemesterTests(TestCase):
 		self.assertEqual(s0_json['is_active'], False)
 		
 		# Modify the semester
-		semester = self.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
+		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),json.dumps(
 		{
 			"name":	"FALL2016",
 			"start_date": "2016-09-01",
 			"end_date": "2016-12-31",
 			"is_active": 'true'
-		})
+		}), content_type="application/json")
 		s1_json = json.loads(semester.content.decode('utf-8'))
+		print(s1_json)
 		self.assertEqual(semester.status_code, 200)
 		self.assertEqual(s1_json['is_active'], True)
 		
@@ -116,7 +100,7 @@ class SemesterTests(TestCase):
 		self.assertEqual(s0_json['is_active'], False)
 		
 		# Modify the semester with bad is_active
-		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
+		semester.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
 		{
 			"name":	 "FALL2016",
 			"start_date": "2016-09-01",
@@ -126,7 +110,7 @@ class SemesterTests(TestCase):
 		self.assertEqual(semester.status_code, 422)
 		
 		# Modify the semester with bad start_date
-		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
+		semester.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
 		{
 			"name":	 "FALL2016",
 			"start_date": "2017-09-01",
@@ -136,7 +120,7 @@ class SemesterTests(TestCase):
 		self.assertEqual(semester.status_code, 422)
 		
 		# Modify the semester with bad end_date
-		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
+		semester.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
 		{
 			"name":	 "FALL2016",
 			"start_date": "2016-09-01",
@@ -176,9 +160,9 @@ class SemesterTests(TestCase):
 		self.assertEqual(next_semester.status_code, 200)
 		
 		# Verify that first is inactivated and second is activated
-		next_semester = self.client.get('/semester/', second_semester.context['id'])
+		next_semester = self.client.get('/semester/', second_semester.context['name'])
 		assertEqual(next_semester.context['is_active'], True)
 		
-		first_semester = self.client.get('/semester/', first_semester.context['id'])
+		first_semester = self.client.get('/semester/', first_semester.context['name'])
 		assertEqual(first_semester.context['is_active'], False)
 		

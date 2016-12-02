@@ -37,14 +37,13 @@ class SemesterDetail(generics.ListCreateAPIView):
 
 	def post(self, request, format=None):
 		serializer = SemesterSerializer(data=request.data)
-		print (serializer)
 		if serializer.is_valid():
 			if (request.data['start_date'] < request.data['end_date']):
 				serializer.save()
 				return Response(serializer.data, status=status.HTTP_201_CREATED)
 			else:
 				return Response('Malformed date(s)', status=status.HTTP_400_BAD_REQUEST)
-		return Response(serializer.data, status=status.HTTP_403_FORBIDDEN)
+		return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 	
 	def put(
 		self,
@@ -54,11 +53,14 @@ class SemesterDetail(generics.ListCreateAPIView):
 		):
 		semester = self.get_object(pk)
 		serializer = SemesterSerializer(semester, data=request.data)
+		print (serializer)
 		if serializer.is_valid():
 			if (request.data['start_date'] < request.data['end_date']):
 				print ("MAde it")
 				serializer.save()
 				return Response(serializer.data)
+			else:
+				return Response('Malformed date(s)', status.HTTP_400_BAD_REQUEST)
 		return Response(serializer.errors,
 						status=status.HTTP_400_BAD_REQUEST)
 
