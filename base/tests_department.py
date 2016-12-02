@@ -97,12 +97,12 @@ class DepartmentTests(TestCase):
         college1.save()
         department1 = self.client.put('/department/Department%20of%20Red%20Shirts/',
         {
-            "name": "Department of Yellow Shirts",
+            "name": "Department of Red Shirts",
             "college": college1.name
         })
         self.assertEqual(department1.status_code, 201)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
-        self.assertEqual(d1_json_string['name'], "Department of Yellow Shirts")
+        self.assertEqual(d1_json_string['name'], "Department of Red Shirts")
         self.assertEqual(d1_json_string['college'], "College of Australia")
         
     def test_bad_put(self):
