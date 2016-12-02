@@ -100,7 +100,7 @@ class SemesterTests(TestCase):
 		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
 		{
 			"id": semester.context['id']
-			"name":	 "FALL2016",
+			"name":	"FALL2016",
 			"start date": "2016-09-01",
 			"end date": "2016-12-31",
 			"is active": true
