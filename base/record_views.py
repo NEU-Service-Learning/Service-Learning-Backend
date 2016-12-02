@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from django.http import Http404
 
-from base.recordSerializer import RecordSerializer
+from base.record_serializer import RecordSerializer
 
 class RecordDetail(APIView):
     """
@@ -23,7 +23,7 @@ class RecordDetail(APIView):
         serializer = RecordSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk, format=None):

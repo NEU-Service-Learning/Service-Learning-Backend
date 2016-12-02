@@ -7,6 +7,7 @@ from . import course_views
 from . import department_views
 from . import college_views
 from . import user_views
+from . import record_views
 
 
 urlpatterns = [
@@ -40,8 +41,8 @@ urlpatterns = [
     url(r'project/$', project_views.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/$', project_views.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/students/$', project_views.ProjectStudents.as_view())
-    url(r'record/$', recordViews.RecordDetail.as_view()),
-    url(r'record/(?P<pk>[0-9]+)/$', recordViews.RecordDetail.as_view())
+    url(r'record/$', record_views.RecordDetail.as_view()),
+    url(r'record/(?P<pk>[0-9]+)/$', record_views.RecordDetail.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
