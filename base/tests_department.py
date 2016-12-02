@@ -95,7 +95,7 @@ class DepartmentTests(TestCase):
         
         college1 = College(name='College of Australia')
         college1.save()
-        department1 = self.client.put('/department/Department%20of%20Red Shirts/',
+        department1 = self.client.put('/department/Department%20of%20Red%20Shirts/',
         {
             "name": "Department of Yellow Shirts",
             "college": college1.name
@@ -117,10 +117,7 @@ class DepartmentTests(TestCase):
         self.assertEqual(department0.status_code, 201)
         
         department1 = self.client.put('/department/Deep%20Department/', {})
-        self.assertEqual(department1.status_code, 201)
-        d1_json_string = json.loads(department1.content.decode('utf-8'))
-        self.assertEqual(department0.status_code, 400)
-        
+        self.assertEqual(department1.status_code, 404)        
 
     def test_good_delete(self):
         college = College(name='College of Ephemerality')
