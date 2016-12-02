@@ -28,11 +28,7 @@ class DepartmentTests(TestCase):
         {
             "college": college.name
         })
-        self.assertEqual(department0.status_code, 201)
-        d0_json_string = json.loads(department0.content.decode('utf-8'))
-        self.assertEqual(d0_json_string['name'], "Nothing")
-        
-        
+        self.assertEqual(department0.status_code, 400)        
         
     def test_bad_post_null_name(self):
         college = College(name='College of the Void')
@@ -54,7 +50,9 @@ class DepartmentTests(TestCase):
             "name": 42,
             "college": college.name
         })
-        self.assertEqual(department0.status_code, 400)
+        self.assertEqual(department0.status_code, 201)
+        d0_json_string = json.loads(department0.content.decode('utf-8'))
+        self.assertEqual(d0_json_string['name'], "Nothing")
         
     
     def test_bad_post_no_college(self):
