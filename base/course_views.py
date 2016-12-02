@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_auth.serializers import UserDetailsSerializer
 from django.http import Http404
 from base.course_serializer import CourseSerializer
-from base.projectSerializer import ProjectSerializer
+from base.project_serializer import ProjectSerializer
 from base.user_serializer import UserSerializer
 
 class CourseDetail(APIView):
@@ -47,11 +47,14 @@ class CourseInstructorList(APIView):
         serializer = UserSerializer(instructors, many=True)
         return Response(serializer.data)
 
-# class CourseProjectList(APIView):
-#     """
-#     List all users, or create a new user.
-#     """
-#     def get(self, request, format=None):
-#         projects = Project.objects.filter(course=course)
-#         serializer = ProjectSerializer(courses, many=True)
-#         return Response(serializer.data)
+class CourseStudentList(APIView):
+    def get(self, request, course, format=None):
+        students = User.objects.filter(id__in=Enrollment.objects.filter(course=course, user__userprofile__role=UserProfile.STUDENT).values_list('user', flat=True))
+        serializer = UserSerializer(students, many=True)
+        return Response(serializer.data)
+
+class CourseProjectList(APIView):
+    def get(self, request, course, format=None):
+        projects = Project.objects.filter(course=course)
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
