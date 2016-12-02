@@ -1,4 +1,4 @@
-![alt tag](https://rawgit.com/ttsapakos/sl-timetracker/master/coverage.svg)
+![alt tag](https://rawgit.com/ttsapakos/sl-timetracker/master/coverage.svg) ![alt tag](https://travis-ci.org/ttsapakos/sl-timetracker.svg?branch=master)
 
 # Set Up
 
