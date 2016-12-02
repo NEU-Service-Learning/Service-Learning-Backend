@@ -51,7 +51,7 @@ class SemesterTests(TestCase):
 			"end date": "2016-09-01",
 			"is active": False
 		})
-		self.assertEqual(semester.status_code, 422)
+		self.assertEqual(semester.status_code, 400)
 		
 		# Semester with non-string name
 		semester = self.client.post('/semester/',
@@ -61,7 +61,7 @@ class SemesterTests(TestCase):
 			"end date": "2016-12-31",
 			"is active": True
 		})
-		self.assertEqual(semester.status_code, 422)
+		self.assertEqual(semester.status_code, 400)
 		
 		# Semester with non-date start
 		semester = self.client.post('/semester/',
@@ -71,7 +71,7 @@ class SemesterTests(TestCase):
 			"end date": "2016-12-31",
 			"is active": True
 		})
-		self.assertEqual(semester.status_code, 422)
+		self.assertEqual(semester.status_code, 400)
 		
 		# Semester with non-date end
 		semester = self.client.post('/semester/',
@@ -81,7 +81,7 @@ class SemesterTests(TestCase):
 			"end date": 45,
 			"is active": True
 		})
-		self.assertEqual(semester.status_code, 422)
+		self.assertEqual(semester.status_code, 400)
 	
 	def test_basic_put_semester(self):
 	
@@ -148,7 +148,7 @@ class SemesterTests(TestCase):
 			"end date": "2016-08-31",
 			"is active": False
 		})
-		self.assertEqual(semester.status_code, 422)
+		self.assertEqual(semester.status_code, 400)
 #		
 	def start_semester(self):
 		
