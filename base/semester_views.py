@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import permissions
@@ -37,11 +38,10 @@ class SemesterDetail(generics.ListCreateAPIView):
     def post(self, request, format=None):
         serializer = SemesterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,
-                            status=status.HTTP_201_CREATED)
-        return Response(serializer.errors,
-                        status=status.HTTP_400_BAD_REQUEST)
+			if (request.data[start_date] < request.data[end_date]):
+				serializer.save()
+				return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(
         self,
@@ -52,8 +52,9 @@ class SemesterDetail(generics.ListCreateAPIView):
         semester = self.get_object(pk)
         serializer = SemesterSerializer(semester, data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+			if (request.data[start_date] < request.data[end_date]):
+				serializer.save()
+				return Response(serializer.data)
         return Response(serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
 
