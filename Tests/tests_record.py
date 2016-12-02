@@ -1,6 +1,6 @@
 import unittest
 from django.test import TestCase
-from record.model import Record
+from base.models import Record
 
 #Unit Tests for Record Model
 

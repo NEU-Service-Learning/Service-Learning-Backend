@@ -9,6 +9,7 @@ from django.http import Http404
 
 from base.record_serializer import RecordSerializer
 
+
 class RecordDetail(APIView):
     """
     Post, Get, Put a Record instance
@@ -32,7 +33,8 @@ class RecordDetail(APIView):
         return Response(record.data)
 
     def put(self, request, pk, format=None):
-        record = self.get_object(pk).update(is_active=False)
+        record = self.get_object(pk)
+        record.update(is_active=False)
         return self.post(self, request, format=None)
 
 class RecordList(APIView):
