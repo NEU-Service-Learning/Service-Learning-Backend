@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import generics
@@ -5,10 +6,11 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 
-from base.serializers import semesterSerializer
+from base.semester_serializer import SemesterSerializer
 
+from base.models import Semester
 
-class Semester(generics.ListCreateAPIView):
+class SemesterDetail(generics.ListCreateAPIView):
 
     """ API Endpoint for Semesters
     POST - Create a semester
@@ -21,7 +23,7 @@ class Semester(generics.ListCreateAPIView):
         try:
             return Semester.objects.get(pk=pk)
         except Semester.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            raise Http404("Object doesn't exist")
 
     def get(
         self,
@@ -30,12 +32,13 @@ class Semester(generics.ListCreateAPIView):
         format=None,
         ):
         semester = self.get_object(pk)
-        semester = SemesterSerializer(semester)
-        return Response(Semester.data)
+        serializer = SemesterSerializer(semester)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
         serializer = SemesterSerializer(data=request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
         return Response(serializer.errors,
@@ -48,7 +51,7 @@ class Semester(generics.ListCreateAPIView):
         format=None,
         ):
         semester = self.get_object(pk)
-        serializer = SemesterSerializer(semester, data=request.DATA)
+        serializer = SemesterSerializer(semester, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -62,7 +65,7 @@ class StartSemester(generics.CreateAPIView):
         self,
         request,
         pk,
-        format=none,
+        format=None,
         ):
         permission_classes = (permissions.IsAuthenticated, )
         if request.user.groups.contains('admin'):
