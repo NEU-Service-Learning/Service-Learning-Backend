@@ -96,8 +96,7 @@ class DepartmentTests(TestCase):
         college1 = College(name='College of Australia')
         college1.save()
         
-        temp_dict =         
-        {
+        temp_dict = {
             "name": "Department of Red Shirts",
             "college": college1.name
         }
