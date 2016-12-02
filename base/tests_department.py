@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.test import Client
 from base.models import *
-from django.http import Http404
 import json
 
 class DepartmentTests(TestCase):
@@ -80,6 +79,7 @@ class DepartmentTests(TestCase):
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         department1 = self.client.get('/department/badGet/')
+        self.assertEqual(department0.status_code, 404)
 
     def test_good_put(self):
         college = College(name='College of Enterprise')
@@ -133,21 +133,3 @@ class DepartmentTests(TestCase):
         department1 = self.client.delete('/department/' + str(d0_json_string['name']) + '/')
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(department0.status_code, 204)
-        
-
-    def test_bad_delete(self):
-        college = College(name='College of Eternity')
-        college.save()
-        department0 = self.client.post('/department/',
-        {
-            "name": "Indestructible Department",
-            "college": college.name
-        })
-        d0_json_string = json.loads(department0.content.decode('utf-8'))
-        self.assertEqual(department0.status_code, 201)
-        
-        department1 = self.client.get('/department/badGet/')
-        d1_json_string = json.loads(department1.content.decode('utf-8'))
-        self.assertEqual(department0.status_code, 400)
-        
-        
