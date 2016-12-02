@@ -41,7 +41,7 @@ class SemesterDetail(generics.ListCreateAPIView):
 			if (request.data['start_date'] < request.data['end_date']):
 				serializer.save()
 				return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 	
 	def put(
 		self,
@@ -64,11 +64,13 @@ class StartSemester(generics.CreateAPIView):
 	def post(
 		self,
 		request,
-		pk,
 		format=None,
 		):
 		permission_classes = (permissions.IsAuthenticated, )
 		if request.user.groups.contains('admin'):
-			return Response(status=status.HTTP_404_NOT_FOUND)
+			current = Semesters.objects.get(is_active=True)
+			Enrollments.objects.filter(semester=current).update(is_Active=False)
+			
+			
 		else:
 			return Response(status=status.HTTP_403_FORBIDDEN)
