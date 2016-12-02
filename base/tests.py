@@ -18,7 +18,7 @@ class SemesterTests(TestCase):
 	def setUp(self):
 		self.client = Client()
 	
-	def basic_post_semester(self):
+	def test_basic_post_semester(self):
 	
 		semester = self.client.add('/semester/',
 		{
@@ -41,7 +41,7 @@ class SemesterTests(TestCase):
 		self.assertEqual(semester.context['name'], "FALL2017")
 		self.assertEqual(semester.context['is active'], false)
 		
-	def bad_post_semester(self):
+	def test_bad_post_semester(self):
 	
 		# Semester with inconsistent dates
 		semester = self.client.add('/semester/',
@@ -83,7 +83,7 @@ class SemesterTests(TestCase):
 		})
 		self.assertEqual(semester.status_code, 422)
 	
-	def basic_put_semester(self):
+	def test_basic_put_semester(self):
 	
 		# Set up semester
 		semester = self.client.add('/semester/',
@@ -99,7 +99,6 @@ class SemesterTests(TestCase):
 		# Modify the semester
 		semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
 		{
-			"id": semester.context['id']
 			"name":	"FALL2016",
 			"start date": "2016-09-01",
 			"end date": "2016-12-31",
@@ -108,7 +107,7 @@ class SemesterTests(TestCase):
 		self.assertEqual(semester.status_code, 200)
 		self.assertEqual(semester.context['is active'], true)
 		
-	def bad_put_semester(self):
+	def test_bad_put_semester(self):
 		
 		# Set up semester
 		semester = self.client.add('/semester/',
@@ -150,7 +149,7 @@ class SemesterTests(TestCase):
 			"is active": false
 		})
 		self.assertEqual(semester.status_code, 422)
-		
+#		
 	def start_semester(self):
 		
 		# Set up current semester
