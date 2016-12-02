@@ -53,11 +53,8 @@ class CourseStudentList(APIView):
         serializer = UserSerializer(students, many=True)
         return Response(serializer.data)
 
-# class CourseProjectList(APIView):
-#     """
-#     List all users, or create a new user.
-#     """
-#     def get(self, request, format=None):
-#         projects = Project.objects.filter(course=course)
-#         serializer = ProjectSerializer(courses, many=True)
-#         return Response(serializer.data)
+class CourseProjectList(APIView):
+    def get(self, request, course, format=None):
+        projects = Project.objects.filter(course=course)
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
