@@ -4,10 +4,10 @@ from base.models import *
 import json
 
 class DepartmentTests(TestCase):
-    
+
     def setUP(self):
         self.client = Client()
-        
+
     def test_good_post(self):
         college = College(name='College of Garbology')
         college.save()
@@ -20,7 +20,7 @@ class DepartmentTests(TestCase):
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         self.assertEqual(d0_json_string['name'], "Trash Department")
         self.assertEqual(d0_json_string['college'], "College of Garbology")
-        
+
     def test_bad_post_no_name(self):
         college = College(name='College of Art')
         college.save()
@@ -28,15 +28,15 @@ class DepartmentTests(TestCase):
         {
             "college": college.name
         })
-        self.assertEqual(department0.status_code, 400)        
-    
+        self.assertEqual(department0.status_code, 400)
+
     def test_bad_post_no_college(self):
         department0 = self.client.post('/department/',
         {
             "Name": "Department of Nothingness"
         })
         self.assertEqual(department0.status_code, 400)
-        
+
     def test_bad_post_null_college(self):
         department0 = self.client.post('/department/',
         {
@@ -44,7 +44,7 @@ class DepartmentTests(TestCase):
             "college": None
         })
         self.assertEqual(department0.status_code, 400)
-        
+
     def test_bad_post_noStr_college(self):
         department0 = self.client.post('/department/',
         {
@@ -52,19 +52,19 @@ class DepartmentTests(TestCase):
             "college": 1234
         })
         self.assertEqual(department0.status_code, 400)
-        
+
     def test_get_good(self):
         college = College(name='College of the Cabinet')
         college.save()
         department0 = self.client.post('/department/',
         {
-            "name": "Department of Defence",
+            "name": "Defence",
             "college": college.name
         })
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         department1 = self.client.get('/department/' + str(d0_json_string['name']) + '/')
-        self.assertEqual(department1.status_code, 201)
+        self.assertEqual(department1.status_code, 200)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
         self.assertEqual(d1_json_string['name'], d0_json_string['name'])
         self.assertEqual(d1_json_string['college'], d0_json_string['college'])
@@ -79,34 +79,34 @@ class DepartmentTests(TestCase):
         })
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
-        department1 = self.client.get('/department/123')
-        self.assertEqual(department0.status_code, 404)
+        department1 = self.client.get('/department/123/')
+        self.assertEqual(department1.status_code, 404)
 
     def test_good_put(self):
-        college = College(name='College of Enterprise')
+        college = College(name='Enterprise')
         college.save()
         department0 = self.client.post('/department/',
         {
-            "name": "Department of Red Shirts",
+            "name": "Department",
             "college": college.name
         })
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         self.assertEqual(department0.status_code, 201)
-        
-        college1 = College(name='College of Australia')
+
+        college1 = College(name='Australia')
         college1.save()
-        
+
         temp_dict = {
-            "name": "Department of Red Shirts",
+            "name": "Department",
             "college": college1.name
         }
-        
+
         department1 = self.client.put('/department/' + str(d0_json_string['name']) + '/', json.dumps(temp_dict), content_type="application/json")
         self.assertEqual(department1.status_code, 201)
         d1_json_string = json.loads(department1.content.decode('utf-8'))
-        self.assertEqual(d1_json_string['name'], "Department of Red Shirts")
-        self.assertEqual(d1_json_string['college'], "College of Australia")
-        
+        self.assertEqual(d1_json_string['name'], "Department")
+        self.assertEqual(d1_json_string['college'], "Australia")
+
     def test_bad_put(self):
         college = College(name='College of Oceanography')
         college.save()
@@ -117,22 +117,22 @@ class DepartmentTests(TestCase):
         })
         d0_json_string = json.loads(department0.content.decode('utf-8'))
         self.assertEqual(department0.status_code, 201)
-        
+
         department1 = self.client.put('/department/Deep%20Department/', json.dumps({}))
-        self.assertEqual(department1.status_code, 404)        
+        self.assertEqual(department1.status_code, 404)
 
     def test_good_delete(self):
-        college = College(name='College of Ephemerality')
+        college = College(name='Ephemerality')
         college.save()
         department0 = self.client.post('/department/',
         {
-            "name": "Expendible Department",
+            "name": "Department",
             "college": college.name
         })
         self.assertEqual(department0.status_code, 201)
         d0_json_string = json.loads(department0.content.decode('utf-8'))
-        self.assertEqual(d0_json_string['name'], "Expendible Department")
-        self.assertEqual(d0_json_string['college'], "College of Ephemerality")
-        
+        self.assertEqual(d0_json_string['name'], "Department")
+        self.assertEqual(d0_json_string['college'], "Ephemerality")
+
         department1 = self.client.delete('/department/' + str(d0_json_string['name']) + '/')
         self.assertEqual(department1.status_code, 204)
