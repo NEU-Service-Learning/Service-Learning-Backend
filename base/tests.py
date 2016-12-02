@@ -23,23 +23,23 @@ class SemesterTests(TestCase):
     
         semester = self.client.add(/semester/,
         {
-            "name": "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name": "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": true
         })
         self.assertEqual(semester.status_code, 201)
-        self.assertEqual(semester.context['name'], "Fall 2016")
+        self.assertEqual(semester.context['name'], "FALL2016")
         self.assertEqual(semester.context['is active'], true)
         semester = self.client.add(/semester/,
         {
-            "name": "Fall 2017",
-            "start date": "2017-09-01 00:00:00",
-            "end date": "2017-12-31 23:59:59.999999",
+            "name": "FALL2017",
+            "start date": "2017-09-01",
+            "end date": "2017-12-31",
             "is active": false
         })
         self.assertEqual(semester.status_code, 201)
-        self.assertEqual(semester.context['name'], "Fall 2017")
+        self.assertEqual(semester.context['name'], "FALL2017")
         self.assertEqual(semester.context['is active'], false)
         
     def bad_post_semester(self):
@@ -47,9 +47,9 @@ class SemesterTests(TestCase):
         # Semester with inconsistent dates
         semester = self.client.add(/semester/,
         {
-            "name": "Fall 2016",
-            "start date": "2016-12-31 23:59:59.999999",
-            "end date": "2016-09-01 00:00:00",
+            "name": "FALL2016",
+            "start date": "2016-12-31",
+            "end date": "2016-09-01",
             "is active": false
         })
         self.assertEqual(semester.status_code, 422)
@@ -58,8 +58,8 @@ class SemesterTests(TestCase):
         semester = self.client.add(/semester/,
         {
             "name": True,
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": true
         })
         self.assertEqual(semester.status_code, 422)
@@ -67,9 +67,9 @@ class SemesterTests(TestCase):
         # Semester with non-date start
         semester = self.client.add(/semester/,
         {
-            "name":  "Fall 2016",
+            "name":  "FALL2016",
             "start date": "Yesterday",
-            "end date": "2016-12-31 23:59:59.999999",
+            "end date": "2016-12-31",
             "is active": true
         })
         self.assertEqual(semester.status_code, 422)
@@ -77,8 +77,8 @@ class SemesterTests(TestCase):
         # Semester with non-date end
         semester = self.client.add(/semester/,
         {
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
             "end date": 45,
             "is active": true
         })
@@ -89,9 +89,9 @@ class SemesterTests(TestCase):
         # Set up semester
         semester = self.client.add(/semester/,
         {
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": false
         })
         self.assertEqual(semester.status_code, 201)
@@ -101,9 +101,9 @@ class SemesterTests(TestCase):
         semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
         {
             "id": semester.context['id']
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": true
         })
         self.assertEqual(semester.status_code, 200)
@@ -114,9 +114,9 @@ class SemesterTests(TestCase):
         # Set up semester
         semester = self.client.add(/semester/,
         {
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": false
         })
         self.assertEqual(semester.status_code, 201)
@@ -125,10 +125,9 @@ class SemesterTests(TestCase):
         # Modify the semester with bad is_active
         semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
         {
-            "id": semester.context['id']
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": "sometimes"
         })
         self.assertEqual(semester.status_code, 422)
@@ -136,10 +135,9 @@ class SemesterTests(TestCase):
         # Modify the semester with bad start_date
         semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
         {
-            "id": semester.context['id']
-            "name":  "Fall 2016",
-            "start date": "2017-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2017-09-01",
+            "end date": "2016-12-31",
             "is active": false
         })
         self.assertEqual(semester.status_code, 422)
@@ -147,10 +145,9 @@ class SemesterTests(TestCase):
         # Modify the semester with bad end_date
         semester.client.put('/semester/{semester_id}'.format(semester_id = semester.context['id']),
         {
-            "id": semester.context['id']
-            "name":  "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-08-31 23:59:59.999999",
+            "name":  "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-08-31",
             "is active": false
         })
         self.assertEqual(semester.status_code, 422)
@@ -160,25 +157,25 @@ class SemesterTests(TestCase):
         # Set up current semester
         first_semester = self.client.add(/semester/,
         {
-            "name": "Fall 2016",
-            "start date": "2016-09-01 00:00:00",
-            "end date": "2016-12-31 23:59:59.999999",
+            "name": "FALL2016",
+            "start date": "2016-09-01",
+            "end date": "2016-12-31",
             "is active": true
         })
         self.assertEqual(first_semester.status_code, 201)
-        self.assertEqual(first_semester.context['name'], "Fall 2016")
+        self.assertEqual(first_semester.context['name'], "FALL2016")
         self.assertEqual(first_semester.context['is active'], true)
         
         # Set up the semester to transition to
         second_semester = self.client.add(/semester/,
         {
-            "name": "Fall 2017",
-            "start date": "2017-09-01 00:00:00",
-            "end date": "2017-12-31 23:59:59.999999",
+            "name": "FALL2017",
+            "start date": "2017-09-01",
+            "end date": "2017-12-31",
             "is active": false
         })
         self.assertEqual(second_semester.status_code, 201)
-        self.assertEqual(second_semester.context['name'], "Fall 2017")
+        self.assertEqual(second_semester.context['name'], "FALL2017")
         self.assertEqual(second_semester.context['is active'], false)
         
         # Change semester
