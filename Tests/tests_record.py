@@ -7,11 +7,11 @@ from record.model import Record
 
 class ExampleTest(TestCase):
 
-    def equalTest(self):
+    def test_equal(self):
         self.assertEquals(True, True)
         self.assertEquals("test", "test")
 
-    def additionTest(self):
+    def test_addition(self):
         self.assertEquals(1+1,2)
 
 
@@ -20,7 +20,7 @@ class RecordPostTest(TestCase):
     #Simple creation of Record
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
-    def basicPostTest(self):
+    def test_basic_post(self):
         record = self.client.add('/record/',
             {
                 enrollment: 1,
@@ -30,7 +30,7 @@ class RecordPostTest(TestCase):
                 total_hours: 4.5,
                 longitude: 42.3399,
                 latitude: 71.0891,
-                category: 2,
+                category: "TO",
                 is_active: True,
                 comments: "Comments",
                 extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
@@ -48,7 +48,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record.context['extra_field'], None)
 
     #invalid or missing enrollment
-    def badEnrollmentTest(self):
+    def test_enrollment(self):
         #null enrollment
         record = self.client.add('/record/',
                                  {
@@ -59,7 +59,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -76,7 +76,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -93,7 +93,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -109,7 +109,8 @@ class RecordPostTest(TestCase):
                                      start_time: "08:00",
                                      total_hours: 4,
                                      longitude: 42.3399,
-                                     latitude: 71.0891,                                     category: 2,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -126,7 +127,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -143,7 +144,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -151,7 +152,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid or missing project
-    def badProjectTest(self):
+    def test_project(self):
         # null project
         record = self.client.add('/record/',
                                  {
@@ -162,7 +163,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -179,7 +180,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -196,7 +197,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -213,7 +214,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -230,7 +231,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -247,7 +248,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -255,7 +256,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid or missing date
-    def badDateTest(self):
+    def test_date(self):
         # null date
         record = self.client.add('/record/',
                                  {
@@ -266,7 +267,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -283,7 +284,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -300,7 +301,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -317,7 +318,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -325,7 +326,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid start_time
-    def badStartTest(self):
+    def test_start_time(self):
         # null start_time (int) --> VALID
         record = self.client.add('/record/',
                                  {
@@ -336,7 +337,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -353,7 +354,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -370,7 +371,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -387,7 +388,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -395,7 +396,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid or missing total_hours
-    def badTotalHoursTest(self):
+    def test_total_hours(self):
         # null total_hours
         record = self.client.add('/record/',
                                  {
@@ -404,8 +405,9 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: None,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -420,8 +422,9 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: -4,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -436,8 +439,9 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 0,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -452,8 +456,9 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 24,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -468,8 +473,9 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 25,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -477,7 +483,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid longitude
-    def badLongitudeTest(self):
+    def test_longitude(self):
         # null longitude (and latitude) --> VALID
         record = self.client.add('/record/',
                                  {
@@ -488,7 +494,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: None,
                                      latitude: None,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -505,7 +511,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: None,
                                      latitude: 34.8954,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -522,7 +528,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: "56.8908",
                                      latitude: 34.8954,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -540,7 +546,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: sys.maxsize,
                                      latitude: 34.8954,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -548,7 +554,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid latitude
-    def badLatitudeTest(self):
+    def test_latitude(self):
         # null latitude (and longitude) --> VALID
         record = self.client.add('/record/',
                                  {
@@ -559,7 +565,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: None,
                                      latitude: None,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -576,7 +582,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 65.9880,
                                      latitude: None,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -593,7 +599,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 56.8908,
                                      latitude: "34.8954",
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -611,7 +617,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 56.8908,
                                      latitude: sys.maxsize,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -619,7 +625,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid or missing category
-    def badCategoryTest(self):
+    def test_category(self):
         # null category
         record = self.client.add('/record/',
                                  {
@@ -628,7 +634,8 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 2,
-                                     longitude: 42.3399,                 latitude: 71.0891,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
                                      category: None,
                                      is_active: True,
                                      comments: "Comments",
@@ -644,7 +651,8 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 4,
-                                     longitude: 42.3399,                 latitude: 71.0891,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
                                      category: -2,
                                      is_active: True,
                                      comments: "Comments",
@@ -660,7 +668,8 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 4,
-                                     longitude: 42.3399,                 latitude: 71.0891,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
                                      category: 0,
                                      is_active: True,
                                      comments: "Comments",
@@ -668,23 +677,24 @@ class RecordPostTest(TestCase):
                                  })
         self.assertEqual(record.status_code, 422)
 
-        # invalid category (decimal)
+        # invalid category (max int)
         record = self.client.add('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
                                      date: "2016-11-27",
                                      start_time: "08:00",
-                                     total_hours: 4,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2.4,
+                                     total_hours: 3,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: sys.maxsize,
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
                                  })
         self.assertEqual(record.status_code, 422)
 
-        # valid category (max int)
+        # invalid category (max int + 1)
         record = self.client.add('/record/',
                                  {
                                      enrollment: 1,
@@ -692,32 +702,34 @@ class RecordPostTest(TestCase):
                                      date: "2016-11-27",
                                      start_time: "08:00",
                                      total_hours: 3,
-                                     longitude: 42.3399,                 latitude: 71.0891,
-                                     category: sys.maxsize,
-                                     is_active: True,
-                                     comments: "Comments",
-                                     extra_field: None
-                                 })
-        self.assertEqual(record.status_code, 201)
-
-        # valid category (max int + 1)
-        record = self.client.add('/record/',
-                                 {
-                                     enrollment: 1,
-                                     project: 1002,
-                                     date: "2016-11-27",
-                                     start_time: "08:00",
-                                     total_hours: 3,
-                                     longitude: 42.3399,                 latitude: 71.0891,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
                                      category: sys.maxsize + 1,
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 201)
+        self.assertEqual(record.status_code, 422)
+
+        # invalid category (non-enum String)
+        record = self.client.add('/record/',
+                                 {
+                                     enrollment: 1,
+                                     project: 1002,
+                                     date: "2016-11-27",
+                                     start_time: "08:00",
+                                     total_hours: 3,
+                                     longitude: 42.3399,
+                                     latitude: 71.0891,
+                                     category: "TS",
+                                     is_active: True,
+                                     comments: "Comments",
+                                     extra_field: None
+                                 })
+        self.assertEqual(record.status_code, 422)
 
     #invalid or missing active indicator
-    def badIsActiveTest(self):
+    def test_is_active(self):
         #on creation of new model, should default to True
         # null is_active
         record = self.client.add('/record/',
@@ -729,7 +741,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: None,
                                      comments: "Comments",
                                      extra_field: None
@@ -746,14 +758,14 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: "Hello",
                                      comments: "Comments",
                                      extra_field: None
                                  })
         self.assertEqual(record.status_code, 422)
 
-        # invalid is_active (non-boolean)
+        # valid is_active (1)
         record = self.client.add('/record/',
                                  {
                                      enrollment: 1,
@@ -763,12 +775,12 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
-                                     is_active: 0, #zero is not False for the Record Model
+                                     category: "TO",
+                                     is_active: 1,
                                      comments: "Comments",
                                      extra_field: None
                                  })
-        self.assertEqual(record.status_code, 422)
+        self.assertEqual(record.status_code, 200)
 
         # invalid is_active (False)
         record = self.client.add('/record/',
@@ -780,7 +792,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: False, #should default to True on creation
                                      comments: "Comments",
                                      extra_field: None
@@ -788,7 +800,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid comments
-    def badCommentTest(self):
+    def test_comments(self):
         # null comments --> VALID
         record = self.client.add('/record/',
                                  {
@@ -799,7 +811,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: None
@@ -816,7 +828,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 4,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "",
                                      extra_field: None
@@ -833,7 +845,7 @@ class RecordPostTest(TestCase):
                                      total_hours: "4",
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: 12.1,
                                      extra_field: None
@@ -841,7 +853,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
     #invalid extra_field
-    def badExtraField(self):
+    def test_extra_field(self):
         # null extra_field --> VALID
         record = self.client.add('/record/',
                                  {
@@ -852,7 +864,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: None,
                                      extra_field: None
@@ -869,7 +881,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: 12
@@ -886,7 +898,7 @@ class RecordPostTest(TestCase):
                                      total_hours: 3,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter'}]}"
@@ -898,7 +910,7 @@ class RecordPostTest(TestCase):
 class RecordGetTests(TestCase):
 
     #simple get request for Record
-    def basicGetTest(self):
+    def test_basic_get(self):
         #create a basic record
         tempRecord = self.client.add('/record/',
                                  {
@@ -909,7 +921,7 @@ class RecordGetTests(TestCase):
                                      total_hours: 4.5,
                                      longitude: 42.3399,
                                      latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
@@ -925,12 +937,12 @@ class RecordGetTests(TestCase):
         self.assertEqual(record.context['extra_field'], tempRecord.context['extra_field'])
 
     #invalid get request --> id does not exist
-    def badGetNoIDTest(self):
+    def test_no_id(self):
         record = self.client.get('/record/', sys.maxsize)
         self.assertEqual(record.status_code, 422)
 
     #invalid get request --> null or non-int id
-    def badGetInvalidTest(self):
+    def test_invalid_id(self):
         record = self.client.get('/record/', None)
         self.assertEqual(record.status_code, 422)
         record = self.client.get('/record/', "12")
@@ -941,7 +953,7 @@ class RecordGetTests(TestCase):
 class RecordPutTests(TestCase):
 
     #simple put request for Record
-    def basicPutTest(self):
+    def test_basic_put(self):
         record = self.client.add('/record/',
                                      {
                                          enrollment: 1,
@@ -950,7 +962,7 @@ class RecordPutTests(TestCase):
                                          start_time: "08:00",
                                          total_hours: 4.5,
                                          longitude: 42.3399,                 latitude: 71.0891,
-                                         category: 2,
+                                         category: "TO",
                                          is_active: True,
                                          comments: "Comments",
                                          extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
@@ -965,7 +977,7 @@ class RecordPutTests(TestCase):
                                          total_hours: 4.5,
                                          longitude: 42.3399,
                                          latitude: 71.0891,
-                                         category: 2,
+                                         category: "TO",
                                          is_active: False,
                                          comments: "Comments",
                                          extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
@@ -974,7 +986,7 @@ class RecordPutTests(TestCase):
         self.assertFalse(record.context['is_active'])
 
     #invalid put request --> update non-is_update field
-    def badPutTest(self):
+    def test_invalid_put(self):
         record = self.client.add('/record/',
                                  {
                                      enrollment: 1,
@@ -983,7 +995,7 @@ class RecordPutTests(TestCase):
                                      start_time: "08:00",
                                      total_hours: 4.5,
                                      longitude: 42.3399,                 latitude: 71.0891,
-                                     category: 2,
+                                     category: "TO",
                                      is_active: True,
                                      comments: "Comments",
                                      extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
@@ -998,7 +1010,7 @@ class RecordPutTests(TestCase):
             total_hours: 4.5,
             longitude: 42.3399,
             latitude: 71.0891,
-            category: 2,
+            category: "TO",
             is_active: True,
             comments: "Comments",
             extra_field: "{'employees':[{'firstName':'John', 'lastName':'Doe'}, {'firstName':'Peter', 'lastName':'Jones'}]}"
