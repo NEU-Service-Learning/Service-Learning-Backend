@@ -93,4 +93,4 @@ class ProjectTests(TestCase):
         self.assertEqual(colleges.status_code, 200)
         colleges_json_string = json.loads(colleges.content.decode('utf-8'))
         self.assertEqual(colleges_json_string[0]['name'], "First College")
-        self.assertEqual(colleges_json_string[1]['name'], "Second Colege")
+        self.assertEqual(colleges_json_string[1]['name'], "Second College")
