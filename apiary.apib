@@ -5,24 +5,63 @@ HOST: http://sl-timetracker.apiblueprint.org/
 
 Backend endpoints for the Service Learning Time Tracker project.
 
-## Login
+## Login [/user/login/]
 
-Can be found here: https://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
+### Login to an account [POST]
 
-## New User [/user/]
++ Request (application/json)
+
+        {
+            "username": "kename.f@husky.neu.edu",
+            "password": "123456abc",
+        }
+        
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /user/login/
+
+    + Body
+
+            {
+                "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
+            }
+        
+## Logout [/user/logout/]
+
+### Logout an account [POST]
+
++ Request (application/json)
+
+        {
+            "token": "123123214214124123123",
+        }
+        
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /user/logout/
+
+    + Body
+
+            {
+                "success": "Successfully logged out.",
+            }
+
+
+## New User [/user/registration/]
 
 ### Create a new User [POST]
 
 You may create a new User using this action. It takes a JSON
-object containing a name, a username (email address), a role for the user (student/professor/admin),
-a list of course IDs, and a list of project IDs.
+object containing a first name, last name, a username (email address),
+and two passwords (will reject if these are different).
 
-If the role of the User is noted as "student", the courses array will refer to the list of courses that User is currently enrolled in.
-
-If the role of the User is noted as "professor", the courses array will refer to the list of courses that User is currently teaching. In addition,
-when the User's role is "professor", the project array will be left blank.
-
-If the role of the User is noted as "admin", the courses array and projects array will be left blank.
+Only accepts @husky.neu.edu, @neu.edu, and @northeastern.edu
+domain email addresses. Users with @husky.neu.edu will be set
+as `student` and all others will be set to the `instructor` role.
 
 + Request (application/json)
 
@@ -30,42 +69,20 @@ If the role of the User is noted as "admin", the courses array and projects arra
             "first_name": "Fa",
             "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
-            "role": "student",
-            "courses": [
-                "CS4500",
-                "CS2500",
-                "CS2510",
-            ],
-            "projects": [
-                99999
-            ],
-            "is_active": true,
-            
+            "password1": "123456abc",
+            "password2": "123456abc",
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /user/{user_id}
+            Location: /user/registration/
 
     + Body
 
             {
-                "id": 99999,
-                "first_name": "Fa",
-                "last_name": "Kename",
-                "username": "kename.f@husky.neu.edu",
-                "role": "student",
-                "courses": [
-                    "CS4500",
-                    "CS2500",
-                    "CS2510",
-                ],
-                "projects": [
-                    99999
-                ],
-                "is_active": true,
+                "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
             }
 
 ## Exisiting User [/user/{user_id}]
