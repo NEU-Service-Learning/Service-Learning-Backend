@@ -55,11 +55,11 @@ class Enrollment(models.Model):
 
 
 class Project(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-    course = models.ForeignKey(Course, models.DO_NOTHING, blank=True, null=True)
+    name = models.CharField(max_length=45)
+    course = models.ForeignKey(Course, models.DO_NOTHING)
     community_partner = models.ForeignKey(CommunityPartner, models.DO_NOTHING)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
     description = models.TextField(blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
@@ -92,7 +92,7 @@ class RecordCategory(models.Model):
     TEAM_RESEARCH = 'TR'
     CATEGORIES = (
         (TRAININGS_AND_ORIENTATIONS, 'Trainings & Orientations'),
-        (DIRECT_SERVICE, 'Direct Service'), 
+        (DIRECT_SERVICE, 'Direct Service'),
         (INDIVIDUAL_RESEARCH, 'Individual Research & Planning'),
         (TEAM_RESEARCH, 'Team Research & Planning'),
     )
@@ -111,6 +111,7 @@ class Semester(models.Model):
 
     class Meta:
         db_table = 'Semester'
+
 
 
 class UserProfile(models.Model):

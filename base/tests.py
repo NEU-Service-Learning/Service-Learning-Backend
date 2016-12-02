@@ -1,4 +1,7 @@
 from django.test import TestCase
+from django.test import Client
+from base.models import *
+import json
 
 # Create your tests here.
 
