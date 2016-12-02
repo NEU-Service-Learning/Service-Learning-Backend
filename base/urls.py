@@ -9,10 +9,9 @@ from . import college_views
 from . import user_views
 from . import record_views
 
-
 urlpatterns = [
-    #url(r'/$', views.Instructors.as_view(), name='instructors'),
-    #url(r'instructors/(?P<pk>[0-9]+)/$', views.InstructorsDetail.as_view()),
+    # url(r'/$', views.Instructors.as_view(), name='instructors'),
+    # url(r'instructors/(?P<pk>[0-9]+)/$', views.InstructorsDetail.as_view()),
     url(r'^users/$', user_views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', user_views.UserDetail.as_view()),
     url(r'^courses/$', course_views.CourseList.as_view()),
@@ -33,14 +32,15 @@ urlpatterns = [
     url(r'^enrollments/(?P<crn>[0-9]+)/$', enrollment_views.EnrollmentCRNList.as_view()),
     url(r'^enroll/(?P<pk>[0-9]+)/$', enrollment_views.EnrollmentDetail.as_view()),
     url(r'^enroll/$', enrollment_views.EnrollmentDetail.as_view()),
-    #url(r'users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+    # url(r'users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
     url(r'communityPartner/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/projects/$', community_partner_views.CommunityPartnerProjects.as_view()),
-    url(r'communityPartner/(?P<pk>[0-9]+)/projects/active/$', community_partner_views.CommunityPartnerProjectsActive.as_view()),
+    url(r'communityPartner/(?P<pk>[0-9]+)/projects/active/$',
+        community_partner_views.CommunityPartnerProjectsActive.as_view()),
     url(r'project/$', project_views.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/$', project_views.ProjectDetail.as_view()),
-    url(r'project/(?P<pk>[0-9]+)/students/$', project_views.ProjectStudents.as_view())
+    url(r'project/(?P<pk>[0-9]+)/students/$', project_views.ProjectStudents.as_view()),
     url(r'record/$', record_views.RecordDetail.as_view()),
     url(r'record/(?P<pk>[0-9]+)/$', record_views.RecordDetail.as_view())
 ]
