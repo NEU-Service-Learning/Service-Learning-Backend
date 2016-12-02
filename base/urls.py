@@ -7,6 +7,7 @@ from . import course_views
 from . import department_views
 from . import college_views
 from . import user_views
+from . import semester_views
 
 
 urlpatterns = [
@@ -35,6 +36,8 @@ urlpatterns = [
     #url(r'communityPartner/(?P<pk>[0-9]+)/projects/$', communityPartnerViews.CommunityPartnerProjects.as_view()),
     url(r'project/$', projectViews.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/$', projectViews.ProjectDetail.as_view())
+    url(r'semester/$', semester_views.SemesterDetail.as_view()),
+    url(r'semester/(?P<pk>[\w{}.-]{1,40})/$', semester_views.SemesterDetail.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
