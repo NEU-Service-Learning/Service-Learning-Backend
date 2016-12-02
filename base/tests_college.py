@@ -29,7 +29,7 @@ class ProjectTests(TestCase):
         self.assertEqual(college0.status_code, 201)
         c0_json_string = json.loads(college0.content.decode('utf-8'))
         college1 = self.client.get('/college/' + str(c0_json_string['name']) + '/')
-        self.assertEqual(college1.status_code, 201)
+        self.assertEqual(college1.status_code, 200)
         c1_json_string = json.loads(college1.content.decode('utf-8'))
         self.assertEqual(c1_json_string['name'], "School of Law")
         
@@ -54,7 +54,7 @@ class ProjectTests(TestCase):
         c1_json_string = json.loads(college1.content.decode('utf-8'))
         self.assertEqual(c1_json_string['name'], "School of Engineering")
         college2 = self.client.get('/college/' + str(c1_json_string['name']) + '/')
-        self.assertEqual(college2.status_code, 201)
+        self.assertEqual(college2.status_code, 200)
         c2_json_string = json.loads(college2.content.decode('utf-8'))
         self.assertEqual(c1_json_string['name'], "School of Engineering")
         
