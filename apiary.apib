@@ -5,24 +5,63 @@ HOST: http://sl-timetracker.apiblueprint.org/
 
 Backend endpoints for the Service Learning Time Tracker project.
 
-## Login
+## Login [/user/login/]
 
-Can be found here: https://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html
+### Login to an account [POST]
 
-## New User [/user/]
++ Request (application/json)
+
+        {
+            "username": "kename.f@husky.neu.edu",
+            "password": "123456abc",
+        }
+        
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /user/login/
+
+    + Body
+
+            {
+                "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
+            }
+        
+## Logout [/user/logout/]
+
+### Logout an account [POST]
+
++ Request (application/json)
+
+        {
+            "token": "123123214214124123123",
+        }
+        
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /user/logout/
+
+    + Body
+
+            {
+                "success": "Successfully logged out.",
+            }
+
+
+## New User [/user/registration/]
 
 ### Create a new User [POST]
 
 You may create a new User using this action. It takes a JSON
-object containing a name, a username (email address), a role for the user (student/professor/admin),
-a list of course IDs, and a list of project IDs.
+object containing a first name, last name, a username (email address),
+and two passwords (will reject if these are different).
 
-If the role of the User is noted as "student", the courses array will refer to the list of courses that User is currently enrolled in.
-
-If the role of the User is noted as "professor", the courses array will refer to the list of courses that User is currently teaching. In addition,
-when the User's role is "professor", the project array will be left blank.
-
-If the role of the User is noted as "admin", the courses array and projects array will be left blank.
+Only accepts @husky.neu.edu, @neu.edu, and @northeastern.edu
+domain email addresses. Users with @husky.neu.edu will be set
+as `student` and all others will be set to the `instructor` role.
 
 + Request (application/json)
 
@@ -30,42 +69,20 @@ If the role of the User is noted as "admin", the courses array and projects arra
             "first_name": "Fa",
             "last_name": "Kename",
             "username": "kename.f@husky.neu.edu",
-            "role": "student",
-            "courses": [
-                "CS4500",
-                "CS2500",
-                "CS2510",
-            ],
-            "projects": [
-                99999
-            ],
-            "is_active": true,
-            
+            "password1": "123456abc",
+            "password2": "123456abc",
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /user/{user_id}
+            Location: /user/registration/
 
     + Body
 
             {
-                "id": 99999,
-                "first_name": "Fa",
-                "last_name": "Kename",
-                "username": "kename.f@husky.neu.edu",
-                "role": "student",
-                "courses": [
-                    "CS4500",
-                    "CS2500",
-                    "CS2510",
-                ],
-                "projects": [
-                    99999
-                ],
-                "is_active": true,
+                "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
             }
 
 ## Exisiting User [/user/{user_id}]
@@ -259,6 +276,37 @@ Returns all instructors for a course
             ]
         }
 
+## Course Students [/course/{course_id}/students]
+
+### Get Instructors for a Course [GET]
+
+Returns all students for a course
+
+
++ Request (application/json)
+
+        {
+            "id": "CS4500"
+        }
+
++ Response 200 (application/json)
+       
+        {
+            "id": "CS4500",
+            "students": [
+                {
+                    "id": 99999,
+                    "first_name": "Fa",
+                    "last_name": "Kename"
+                },
+                {
+                    "id": 11111,
+                    "first_name": "Fal",
+                    "last_name": "Seid"
+                }
+            ]
+        }
+
 ## Course Projects [/course/{course_id}/projects]
 
 ### Get Projects for a Course [GET]
@@ -369,7 +417,7 @@ Updates a Project with the given fields, must provide all fields.
 
 + Response 200
 
-## All Students from a Project [/project/{project_id}/allstudents]
+## All Students from a Project [/project/{project_id}/students]
 
 
 ### Get all Students who worked on a given Project ID [GET]
@@ -399,34 +447,6 @@ Takes a Project ID and returns the names and IDs of all students ever associated
                 }
             ]
         }
-
-## All Students from a Project w/ Range [/project/{project_id}/allstudentsinterval]
-
-### Get all Students who worked on a given Project ID during a given time range [GET]
-
-Takes a Project ID and returns the names and IDs of all students associated with that project during the given timeframe
-
-+ Request (application/json)
-
-        {
-            "id": 99999
-            "start_date": "2016-09-01",
-            "end_date": "2016-12-31",
-        }
-        
-+ Response 200 (application/json)
-
-        {
-        "results": 
-            [
-               { 
-                "first_name" : "Fa" 
-                "last_name" : "Kename"
-                "id" : 99999
-                }
-            ]
-        }
-
 
 ## All Projects [/projects]
 
@@ -529,7 +549,7 @@ Takes a Communtiy Partner ID and returns all Projects associated.
         }
 
 
-## Community Partner Active Projects [/communityPartner/{communityPartner_id}/projectsactive]
+## Community Partner Active Projects [/communityPartner/{communityPartner_id}/projects/active]
 
 ### Get Active Projects for a Community Partner [GET]
 
@@ -924,6 +944,8 @@ Enrolls a User in a section of a Course
             "user_id": 99999,
             "course_id": "CS4500",
             "semester_name": "FALL2016",
+            "meeting_days": "MWF",
+            "start_time": "9:50:00",
             "CRN": "99999",
             "is_active": true
         }
@@ -941,8 +963,8 @@ Enrolls a User in a section of a Course
                 "user_id": 99999,
                 "course_id": "CS4500",
                 "semester_name": "FALL2016",
-                "meeting_days": "MWR",
-                "meeting_start time": "9:50:00",
-                "meeting_end time": "11:30:00",
+                "meeting_days": "MWF",
+                "start_time": "9:50:00",
+                "CRN": "99999",
                 "is_active": true
             }

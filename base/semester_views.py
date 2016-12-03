@@ -19,8 +19,6 @@ class SemesterDetail(generics.ListCreateAPIView):
 	PUT - Update info on a semester, given its name
 	"""
 
-	# permission_classes = (permissions.IsAuthenticated, )
-
 	def get_object(self, pk):
 		try:
 			return Semester.objects.get(pk=pk)
@@ -72,8 +70,8 @@ class StartSemester(generics.CreateAPIView):
 		request,
 		format=None,
 		):
-		#permission_classes = (permissions.IsAuthenticated, )
-		if True: #request.user.groups.contains('admin'):
+		###permission_classes = (permissions.IsAuthenticated, )
+		if True: #request.user.is_superuser:
 			current = Semester.objects.get(is_active=True)
 			Enrollment.objects.filter(semester=current).update(is_active=False)
 			coming_up = Semester.objects.filter(is_active=False).filter(start_date__gt=datetime.date.today()).exclude(name=current).order_by('start_date')
