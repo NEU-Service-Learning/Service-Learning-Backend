@@ -34,7 +34,6 @@ class RecordPostTest(TestCase):
         department.save()
         course = Course(id='CS4500', name='Software Development', department=department)
         course.save()
-
         communityPartner0 = self.client.post('/communityPartner/',
                                              {
                                                  "name": "Example Community Partner 0"
@@ -48,11 +47,10 @@ class RecordPostTest(TestCase):
                                         "description": "Time Tracking",
                                         "start_date": "2016-12-12",
                                         "end_date": "2016-12-13",
-                                        "longitude": "40.0",
-                                        "latitude": "30.0"
+                                        "longitude": None,
+                                        "latitude": None
                                     })
         p0_json_string = json.loads(project0.content.decode('utf-8'))
-        self.assertEqual(project0.status_code, 201)
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                              end_date='2017-01-01', is_active=True)
         semester0.save()
@@ -63,7 +61,7 @@ class RecordPostTest(TestCase):
         user0.save()
         enrollment0 = self.client.post('/enrollment/',
                                        {
-                                           'user': user0.id,
+                                           'user': 1,
                                            'course': course.id,
                                            'semester': semester0.name,
                                            'meeting_days': 'MWR',
@@ -101,7 +99,8 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['latitude'], 71.0891)
         self.assertEquals(record_json_string['category'], "DS")
         self.assertEquals(record_json_string['comments'], "Comments")
-        self.assertEquals(record_json_string['extra_field'], None)
+        self.assertEquals(record_json_string['extra_field'], "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                             "{'firstName':'Peter', 'lastName':'Jones'}]}")
 
     # invalid or missing enrollment
     def test_enrollment(self):
