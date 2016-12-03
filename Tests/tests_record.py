@@ -34,47 +34,29 @@ class RecordPostTest(TestCase):
         department.save()
         course = Course(id='CS4500', name='Software Development', department=department)
         course.save()
-        communityPartner0 = self.client.post('/communityPartner/',
-                                             {
-                                                 "name": "Example Community Partner 0"
-                                             })
-        cp0_json_string = json.loads(communityPartner0.content.decode('utf-8'))
-        project0 = self.client.post('/project/',
-                                    {
-                                        "name": "Service Learning Time Tracker",
-                                        "course": course.id,
-                                        "community_partner": cp0_json_string['id'],
-                                        "description": "Time Tracking",
-                                        "start_date": "2016-12-12",
-                                        "end_date": "2016-12-13",
-                                        "longitude": "40.0",
-                                        "latitude": "30.0"
-                                    })
-        p0_json_string = json.loads(project0.content.decode('utf-8'))
+        communityPartner0 = CommunityPartner(name='Example CP0')
+        communityPartner0.save()
+        project0 = Project(name="STT", course=course.id, community_partner=communityPartner0.id,
+                           description="Time Tracking",start_date="2016-12-12",end_date="2016-12-23",
+                           longitude=None,latitude=None)
+        project0.save()
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                              end_date='2017-01-01', is_active=True)
         semester0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
 
-        #user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
-        #user0.save()
-        user0 = self.client.post('/user/',
-                                 {
-                                     "username": "ek@ek.ek",
-                                     "email": "ek@ek.ek",
-                                     "password": "1234"
-                                 })
-        u0_json_string = json.loads(user0.content.decode('utf-8'))
+        user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
+        user0.save()
         enrollment0 = self.client.post('/enrollment/',
                                        {
-                                           "user": u0_json_string['id'],
+                                           "user": user0.id,
                                            "course": course.id,
                                            "semester": semester0.name,
                                            "meeting_days": "MWR",
                                            "meeting_start_time": "09:00",
                                            "meeting_end_time": "10:00",
-                                           "project": p0_json_string['id'],
+                                           "project": project0.id,
                                            "is_active": 1,
                                            "crn": "12345"
                                        })
