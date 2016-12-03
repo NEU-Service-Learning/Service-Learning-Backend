@@ -79,6 +79,8 @@ class StartSemester(generics.CreateAPIView):
 			coming_up = Semester.objects.filter(is_active=False).filter(start_date__gt=datetime.date.today()).exclude(name=current).order_by('start_date')
 			try:
 				next_selection = coming_up[0]
+				next_selection.is_active = True
+				next_selection.save()
 			except IndexError:
 				raise Http404("No next semester available")
 			Enrollment.objects.filter(semester=next_selection).update(is_active=True)
@@ -89,6 +91,8 @@ class StartSemester(generics.CreateAPIView):
 				else:
 					person.is_active=True
 				person.save()
+			current.is_active = False
+			current.save()
 			return Response(status=status.HTTP_200_OK)
 		else:
 			return Response(status=status.HTTP_403_FORBIDDEN)
