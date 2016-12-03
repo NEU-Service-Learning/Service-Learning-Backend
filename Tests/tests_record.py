@@ -33,6 +33,8 @@ class RecordPostTest(TestCase):
         department0.save()
         course0 = Course(id='CS4500', name='Software Development', department=department0)
         course0.save()
+        college_json_string = json.loads(college0.content.decode('utf-8'))
+        assertEqual(college0.status_code, 200)
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                             end_date='2017-01-01', is_active=True)
         semester0.save()
