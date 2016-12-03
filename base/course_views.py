@@ -9,6 +9,7 @@ from django.http import Http404
 from base.course_serializer import CourseSerializer
 from base.project_serializer import ProjectSerializer
 from base.user_serializer import UserSerializer
+from base.enrollment_serializer import SectionSerializer
 
 class CourseDetail(APIView):
     def get_object(self, pk):
@@ -57,4 +58,10 @@ class CourseProjectList(APIView):
     def get(self, request, course, format=None):
         projects = Project.objects.filter(course=course)
         serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
+
+class CourseSectionsList(APIView):
+    def get(self, request, course, format=None):
+        enrollments = Enrollment.objects.filter(id__in=Enrollment.objects.filter(course=course, user__userprofile__role=UserProfile.INSTRUCTOR).values('crn').distinct().values('id'))
+        serializer = SectionSerializer(enrollments, many=True)
         return Response(serializer.data)
