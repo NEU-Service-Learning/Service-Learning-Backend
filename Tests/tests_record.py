@@ -88,7 +88,7 @@ class RecordPostTest(TestCase):
 
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project
+        project0_id = enrollment0.project.id
         category0 = self.exampleCategory()
         category0.save()
         record = self.client.post('/record/',
