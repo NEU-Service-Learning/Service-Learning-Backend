@@ -61,15 +61,15 @@ class RecordPostTest(TestCase):
         user0.save()
         enrollment0 = self.client.post('/enrollment/',
                                        {
-                                           'user': 1,
-                                           'course': course.id,
-                                           'semester': semester0.name,
-                                           'meeting_days': 'MWR',
-                                           'meeting_start_time': '09:00',
-                                           'meeting_end_time': '10:00',
-                                           'project': p0_json_string['id'],
-                                           'is_active': 1,
-                                           'crn': '12345'
+                                           "user": user0.id,
+                                           "course": course.id,
+                                           "semester": semester0.name,
+                                           "meeting_days": "MWR",
+                                           "meeting_start_time": "09:00",
+                                           "meeting_end_time": "10:00",
+                                           "project": p0_json_string['id'],
+                                           "is_active": 1,
+                                           "crn": "12345"
                                        })
         en0_json_string = json.loads(enrollment0.content.decode('utf-8'))
         self.assertEqual(enrollment0.status_code, 201)
