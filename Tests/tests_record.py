@@ -33,27 +33,28 @@ class RecordPostTest(TestCase):
         department0.save()
         course0 = Course(id='CS4500', name='Software Development', department=department0)
         course0.save()
-        semester = Semester(name='FALL2016', start_date='2016-09-01',
+        semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                             end_date='2017-01-01', is_active=True)
-        semester.save()
+        semester0.save()
         community_partner0 = CommunityPartner(name='CP1')
         community_partner0.save()
-        project0 = Project(name='Service Learning', course=1, community_partner=1,
+        project0 = Project(name='Service Learning', course=course0, community_partner=community_partner0,
                           start_date='2016-09-01',end_date='2017-01-02',description=None,
                           longitute=None,latitude=None)
         project0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
+
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 1,
-                                      'project': 1,
+                                      'project': project0,
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
                                       'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "DS",
+                                      'category': category0,
                                       'is_active': True,
                                       'comments': "Comments",
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
@@ -935,7 +936,7 @@ class RecordGetTests(TestCase):
     # simple get request for Record
     def test_basic_get(self):
         # create a basic record
-        tempRecord = self.client.post('/record/',
+        record = self.client.post('/record/',
                                       {
                                           'enrollment': 1,
                                           'project': 1002,
@@ -950,15 +951,17 @@ class RecordGetTests(TestCase):
                                           'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                          "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                       })
-        record = self.client.get('/record/', tempRecord.context['id'])
-        self.assertEqual(record_json_string['enrollment'], tempRecord.context['enrollment'])
-        self.assertEqual(record_json_string['date'], tempRecord.context['date'])
-        self.assertEqual(record_json_string['start_time'], tempRecord.context['start_time'])
-        self.assertEqual(record_json_string['total_hours'], tempRecord.context['total_hours'])
-        self.assertEqual(record_json_string['category'], tempRecord.context['category'])
-        self.assertEqual(record_json_string['is_active'], tempRecord.context['is_active'])
-        self.assertEqual(record_json_string['comments'], tempRecord.context['comments'])
-        self.assertEqual(record_json_string['extra_field'], tempRecord.context['extra_field'])
+        record_json_string = json.loads(record.content.decode('utf-8'))
+        record2 = self.client.get('/record/' + str(record_json_string['id']) + '/')
+        record2_json_string = json.loads(record2.content.decode('utf-8'))
+        self.assertEqual(record_json_string['enrollment'], record2_json_string['enrollment'])
+        self.assertEqual(record_json_string['date'], record2_json_string['date'])
+        self.assertEqual(record_json_string['start_time'], record2_json_string['start_time'])
+        self.assertEqual(record_json_string['total_hours'], record2_json_string['total_hours'])
+        self.assertEqual(record_json_string['category'], record2_json_string['category'])
+        self.assertEqual(record_json_string['is_active'], record2_json_string['is_active'])
+        self.assertEqual(record_json_string['comments'], record2_json_string['comments'])
+        self.assertEqual(record_json_string['extra_field'], record2_json_string['extra_field'])
 
     # invalid get request --> id does not exist
     def test_no_id(self):
