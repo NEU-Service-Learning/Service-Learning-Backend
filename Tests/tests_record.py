@@ -59,7 +59,7 @@ class RecordPostTest(TestCase):
 
         #user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
         #user0.save()
-        user0 = self.client.post('/user',
+        user0 = self.client.post('/user/',
                                  {
                                      "username": "ek@ek.ek",
                                      "email": "ek@ek.ek",
