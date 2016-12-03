@@ -1,5 +1,7 @@
 import unittest
+import sys
 from django.test import TestCase
+from django.test import Client
 from base.models import Record
 
 #Unit Tests for Record Model
