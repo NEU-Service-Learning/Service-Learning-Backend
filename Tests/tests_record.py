@@ -52,38 +52,58 @@ class RecordPostTest(TestCase):
                                     })
         p0_json_string = json.loads(project0.content.decode('utf-8'))
         self.assertEqual(project0.status_code, 201)
-        """
-
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                             end_date='2017-01-01', is_active=True)
         semester0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
-        user0 = User(password='1234', last_login=None, is_superuser=0,username='test@husky.neu.edu',
-                     first_name='Billy', last_name='Test', email='test@husky.neu.edu',
-                     is_staff=0, is_active=1, date_joined='2016-08-20')
-        user0.save()
-        enrollment0 = Enrollment(user=user0,course=course0,semester=semester0,meeting_days='MWR',
-                                 meeting_start_time='08:00', meeting_end_time='10:00',project=project0,
-                                 is_active=1,crn='12345')
-        enrollment0.save()
+        user0 = self.client.post('/user/',
+                                 {
+                                    'password': '1234',
+                                    'last_login': None,
+                                    'is_superuser': 0,
+                                    'username': 'test@husky.neu.edu',
+                                    'first_name': 'Billy',
+                                    'last_name':'Test',
+                                    'email': 'test@husky.neu.edu',
+                                    'is_staff': 0,
+                                    'is_active': 1,
+                                    'date_joined': '2016-08-20'
+                                 })
+
+        user0_json_string = json.loads(user0.content.decode('utf-8'))
+        self.assertEqual(user0.status_code, 201)
+        enrollment0 = self.client.post('/enrollment/',
+                                       {
+                                           'user': user0_json_string['id'],
+                                           'course': course.id,
+                                           'semester': semester0.name,
+                                           'meeting_days': 'MWR',
+                                           'meeting_start_time': '09:00',
+                                           'meeting_end_time': '10:00',
+                                           'project': p0_json_string['id'],
+                                           'is_active': 1,
+                                           'crn': '12345'
+                                       })
+        en0_json_string = json.loads(enrollment0.content.decode('utf-8'))
+        self.assertEqual(enrollment0.status_code, 201)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': enrollment0,
-                                      'project': project0,
+                                      'enrollment': en0_json_string['id'],
+                                      'project': p0_json_string['id'],
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
                                       'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': category0,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         record_json_string = json.loads(record.content.decode('utf-8'))
-        self.assertEquals(record.status_code, 200)
+        self.assertEquals(record.status_code, 201)
         self.assertEquals(record_json_string['enrollment'], 1)
         self.assertEquals(record_json_string['project'], 1)
         self.assertEquals(record_json_string['date'], "2016-11-27")
@@ -94,7 +114,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['category'], "DS")
         self.assertEquals(record_json_string['comments'], "Comments")
         self.assertEquals(record_json_string['extra_field'], None)
-        """
+
     # invalid or missing enrollment
     def test_enrollment(self):
         # null enrollment
