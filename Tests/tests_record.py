@@ -19,11 +19,15 @@ class ExampleTest(TestCase):
 
 ##POST TESTS##
 class RecordPostTest(TestCase):
+
+    def setUp(self):
+        self.Client = Client()
+
     #Simple creation of Record
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
             {
                 enrollment: 1,
                 project: 1002,
@@ -52,7 +56,7 @@ class RecordPostTest(TestCase):
     #invalid or missing enrollment
     def test_enrollment(self):
         #null enrollment
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: None,
                                      project: 1002,
@@ -69,7 +73,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid enrollment (negative int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: -1,
                                      project: 1002,
@@ -86,7 +90,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         #invalid enrollment (zero)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 0,
                                      project: 1002,
@@ -103,7 +107,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         #invalid enrollment (decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 10.1,
                                      project: 1002,
@@ -120,7 +124,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         #valid enrollment (max int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: sys.maxsize,
                                      project: 1002,
@@ -137,7 +141,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         #invalid enrollment (max int + 1)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: sys.maxsize + 1,
                                      project: 1002,
@@ -156,7 +160,7 @@ class RecordPostTest(TestCase):
     #invalid or missing project
     def test_project(self):
         # null project
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: None,
@@ -173,7 +177,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid project (negative int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: -1001,
@@ -190,7 +194,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid project (zero)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 0,
@@ -207,7 +211,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid project (decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1001.2,
@@ -224,7 +228,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # valid project (max int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: sys.maxsize,
@@ -241,7 +245,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid project (max int + 1)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: sys.maxsize + 1,
@@ -260,7 +264,7 @@ class RecordPostTest(TestCase):
     #invalid or missing date
     def test_date(self):
         # null date
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 2,
                                      project: 1002,
@@ -277,7 +281,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid date (incomplete entry)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -294,7 +298,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid date (non-date string)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -311,7 +315,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid date (decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -330,7 +334,7 @@ class RecordPostTest(TestCase):
     #invalid start_time
     def test_start_time(self):
         # null start_time (int) --> VALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -347,7 +351,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid start_time (int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -364,7 +368,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         #invalid start_time (time doesn't exist)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -381,7 +385,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid start_time (non-time string)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: "1",
                                      project: 1002,
@@ -400,7 +404,7 @@ class RecordPostTest(TestCase):
     #invalid or missing total_hours
     def test_total_hours(self):
         # null total_hours
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -417,7 +421,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid total_hours (negative number)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -434,7 +438,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid total_hours (must be greater than zero)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -451,7 +455,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # valid total_hours (24 hours)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -468,7 +472,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid total_hours (24.01 hours)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -487,7 +491,7 @@ class RecordPostTest(TestCase):
     #invalid longitude
     def test_longitude(self):
         # null longitude (and latitude) --> VALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -504,7 +508,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # null longitude (latitude correct) --> INVALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -521,7 +525,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid longitude (non-Decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -539,7 +543,7 @@ class RecordPostTest(TestCase):
 
 
         # invalid longitude (max-int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -558,7 +562,7 @@ class RecordPostTest(TestCase):
     #invalid latitude
     def test_latitude(self):
         # null latitude (and longitude) --> VALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -575,7 +579,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # null latitude (longitude correct) --> INVALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -592,7 +596,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid latitude (non-Decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -610,7 +614,7 @@ class RecordPostTest(TestCase):
 
 
         # invalid latitude (max-int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -629,7 +633,7 @@ class RecordPostTest(TestCase):
     #invalid or missing category
     def test_category(self):
         # null category
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -646,7 +650,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid category (negative int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -663,7 +667,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid category (zero)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -680,7 +684,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid category (max int)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -697,7 +701,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid category (max int + 1)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -714,7 +718,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid category (non-enum String)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -734,7 +738,7 @@ class RecordPostTest(TestCase):
     def test_is_active(self):
         #on creation of new model, should default to True
         # null is_active
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -751,7 +755,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid is_active (non-boolean)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -768,7 +772,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # valid is_active (1)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -785,7 +789,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid is_active (False)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -804,7 +808,7 @@ class RecordPostTest(TestCase):
     #invalid comments
     def test_comments(self):
         # null comments --> VALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -821,7 +825,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid comments (empty string)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -838,7 +842,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid comments (decimal)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -857,7 +861,7 @@ class RecordPostTest(TestCase):
     #invalid extra_field
     def test_extra_field(self):
         # null extra_field --> VALID
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -874,7 +878,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 200)
 
         # invalid extra_field (non-json)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -891,7 +895,7 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 422)
 
         # invalid extra_field (json of invalid format)
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -914,7 +918,7 @@ class RecordGetTests(TestCase):
     #simple get request for Record
     def test_basic_get(self):
         #create a basic record
-        tempRecord = self.client.add('/record/',
+        tempRecord = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
@@ -956,7 +960,7 @@ class RecordPutTests(TestCase):
 
     #simple put request for Record
     def test_basic_put(self):
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                      {
                                          enrollment: 1,
                                          project: 1002,
@@ -989,7 +993,7 @@ class RecordPutTests(TestCase):
 
     #invalid put request --> update non-is_update field
     def test_invalid_put(self):
-        record = self.client.add('/record/',
+        record = self.client.post('/record/',
                                  {
                                      enrollment: 1,
                                      project: 1002,
