@@ -25,65 +25,56 @@ class RecordPostTest(TestCase):
         self.Client = Client()
 
     # creates an example college
-    @staticmethod
-    def exampleCollege():
+    def exampleCollege(self):
         return College(name='Example College')
 
     # creates an example department
-    @staticmethod
-    def exampleDepartment():
-        college0 = exampleCollege()
+    def exampleDepartment(self):
+        college0 = self.exampleCollege()
         college0.save()
         return Department(name='Example Department', college=college0)
 
     # creates an example course
-    @staticmethod
     def exampleCourse(self):
         department0 = self.exampleDepartment()
         department0.save()
         return Course(id='CS4500', name='Software Development', department=department0)
 
     # creates an example community_partner
-    @staticmethod
-    def exampleCommunityPartner():
+    def exampleCommunityPartner(self):
         return CommunityPartner(name='Example CP0')
 
     # creates an example project
-    @staticmethod
-    def exampleProject():
-        cp0 = exampleCommunityPartner()
+    def exampleProject(self):
+        cp0 = self.exampleCommunityPartner()
         cp0.save()
-        course0 = exampleCourse()
+        course0 = self.exampleCourse()
         course0.save()
         return Project(name="STT", course=course0, community_partner=cp0,
                        description="Time Tracking",start_date="2016-12-12",end_date="2016-12-23",
                        longitude=None,latitude=None)
 
     # creates an example semester
-    @staticmethod
-    def exampleSemester():
+    def exampleSemester(self):
         return Semester(name='FALL2016', start_date='2016-09-01',end_date='2017-01-01', is_active=True)
 
     # creates an example category
-    @staticmethod
-    def exampleCategory():
+    def exampleCategory(self):
         return RecordCategory(name='DS')
 
     # creates an example user
-    @staticmethod
-    def exampleUser():
+    def exampleUser(self):
         return User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
 
     # creates an example enrollment
-    @staticmethod
-    def exampleEnrollment():
-        user0 = exampleUser()
+    def exampleEnrollment(self):
+        user0 = self.exampleUser()
         user0.save()
-        course0 = exampleCourse()
+        course0 = self.exampleCourse()
         course0.save()
-        semester0 = exampleSemester()
+        semester0 = self.exampleSemester()
         semester0.save()
-        project0 = exampleProject()
+        project0 = self.exampleProject()
         project0.save()
         return Enrollment(user=user0, course=course0, semester=semester0,meeting_days="MWR",
                           meeting_start_time="09:00",meeting_end_time="12:00",project=project0,
@@ -95,10 +86,10 @@ class RecordPostTest(TestCase):
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
 
-        enrollment0 = exampleEnrollment()
+        enrollment0 = self.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project
-        category0 = exampleCategory()
+        category0 = self.exampleCategory()
         category0.save()
         record = self.client.post('/record/',
                                   {
@@ -118,7 +109,7 @@ class RecordPostTest(TestCase):
         record_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEquals(record.status_code, 200)
         self.assertEquals(record_json_string['enrollment'], enrollment0.id)
-        self.assertEquals(record_json_string['project'], project0)
+        self.assertEquals(record_json_string['project'], project0_id)
         self.assertEquals(record_json_string['date'], "2016-11-27")
         self.assertEquals(record_json_string['start_time'], "08:00")
         self.assertEquals(record_json_string['total_hours'], 4.5)
