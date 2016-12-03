@@ -4,6 +4,7 @@ import json
 from django.test import TestCase
 from django.test import Client
 from base.models import *
+from django.contrib.auth.models import User
 
 
 # Unit Tests for Record Model
@@ -53,29 +54,17 @@ class RecordPostTest(TestCase):
         p0_json_string = json.loads(project0.content.decode('utf-8'))
         self.assertEqual(project0.status_code, 201)
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
-                            end_date='2017-01-01', is_active=True)
+                             end_date='2017-01-01', is_active=True)
         semester0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
-        user0 = self.client.post('/user/',
-                                 {
-                                    'password': '1234',
-                                    'last_login': None,
-                                    'is_superuser': 0,
-                                    'username': 'test@husky.neu.edu',
-                                    'first_name': 'Billy',
-                                    'last_name':'Test',
-                                    'email': 'test@husky.neu.edu',
-                                    'is_staff': 0,
-                                    'is_active': 1,
-                                    'date_joined': '2016-08-20'
-                                 })
 
-        user0_json_string = json.loads(user0.content.decode('utf-8'))
+        user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
+        user0.save()
         self.assertEqual(user0.status_code, 201)
         enrollment0 = self.client.post('/enrollment/',
                                        {
-                                           'user': user0_json_string['id'],
+                                           'user': user0.id,
                                            'course': course.id,
                                            'semester': semester0.name,
                                            'meeting_days': 'MWR',
@@ -979,20 +968,20 @@ class RecordGetTests(TestCase):
     def test_basic_get(self):
         # create a basic record
         record = self.client.post('/record/',
-                                      {
-                                          'enrollment': 1,
-                                          'project': 1002,
-                                          'date': "2016-11-27",
-                                          'start_time': "08:00",
-                                          'total_hours': 4.5,
-                                          'longitude': 42.3399,
-                                          'latitude': 71.0891,
-                                          'category': "TO",
-                                          'is_active': True,
-                                          'comments': "Comments",
-                                          'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
-                                                         "{'firstName':'Peter', 'lastName':'Jones'}]}"
-                                      })
+                                  {
+                                      'enrollment': 1,
+                                      'project': 1002,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 42.3399,
+                                      'latitude': 71.0891,
+                                      'category': "TO",
+                                      'is_active': True,
+                                      'comments': "Comments",
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
+                                  })
         record_json_string = json.loads(record.content.decode('utf-8'))
         record2 = self.client.get('/record/' + str(record_json_string['id']) + '/')
         record2_json_string = json.loads(record2.content.decode('utf-8'))
