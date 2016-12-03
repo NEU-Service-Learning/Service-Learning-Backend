@@ -329,6 +329,30 @@ Returns all Projects in a course. Takes a Course ID.
             ]
         }
 
+## Course Sections [/course/{course_id}/sections/]
+
+### Get Course Sections [GET]
+
+Get the sections of a course
+
++ Request (application/json)
+
+        {
+            "id": "CS4500"
+        }
+        
++ Response 200 (application/json)
+       
+        [
+            {
+                "professor":"Mike",
+                "meeting_days":"MWR",
+                "meeting_start_time":"23:23:00",
+                "meeting_end_time":"23:23:00",
+                "crn":"56323"
+            }
+        ]
+
 ## New Project [/project/]
 
 ### Create a new Project [POST]
