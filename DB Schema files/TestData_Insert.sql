@@ -72,14 +72,14 @@ insert into Semester (name, start_date, end_date, is_active)
 
 
 -- Enrollment --
-insert into Enrollment (user_id, course_id, semester_id, crn, is_active)
-	values (2, 'CS4500', 'FALL2016', '12235', true);
+insert into Enrollment (user_id, course_id, semester_id, project_id, crn, is_active)
+	values (2, 'CS4500', 'FALL2016', null, '12235', true);
 	
-insert into Enrollment (user_id, course_id, semester_id, crn, is_active)
-	values (3, 'CS1200', 'SPRING2017', '44221', false);
+insert into Enrollment (user_id, course_id, semester_id, project_id, crn, is_active)
+	values (3, 'CS1200', 'SPRING2017', null, '44221', false);
 	
-insert into Enrollment (user_id, course_id, semester_id, crn, is_active)
-	values (8, 'CS4500', 'FALL2016', '56323', true);
+insert into Enrollment (user_id, course_id, semester_id, project_id, crn, is_active)
+	values (8, 'CS4500', 'FALL2016', 2, '56323', true);
 	
 -- Community Partner --
 insert into Community_Partner (name)

@@ -329,6 +329,30 @@ Returns all Projects in a course. Takes a Course ID.
             ]
         }
 
+## Course Sections [/course/{course_id}/sections/]
+
+### Get Course Sections [GET]
+
+Get the sections of a course
+
++ Request (application/json)
+
+        {
+            "id": "CS4500"
+        }
+        
++ Response 200 (application/json)
+       
+        [
+            {
+                "professor":"Mike",
+                "meeting_days":"MWR",
+                "meeting_start_time":"23:23:00",
+                "meeting_end_time":"23:23:00",
+                "crn":"56323"
+            }
+        ]
+
 ## New Project [/project/]
 
 ### Create a new Project [POST]
@@ -549,7 +573,7 @@ Takes a Communtiy Partner ID and returns all Projects associated.
         }
 
 
-## Community Partner Active Projects [/communityPartner/{communityPartner_id}/projectsactive]
+## Community Partner Active Projects [/communityPartner/{communityPartner_id}/projects/active]
 
 ### Get Active Projects for a Community Partner [GET]
 
@@ -944,6 +968,9 @@ Enrolls a User in a section of a Course
             "user_id": 99999,
             "course_id": "CS4500",
             "semester_name": "FALL2016",
+            "meeting_days": "MWF",
+            "start_time": "9:50:00",
+            "end_time": "11:30:00",
             "CRN": "99999",
             "is_active": true
         }
@@ -961,8 +988,9 @@ Enrolls a User in a section of a Course
                 "user_id": 99999,
                 "course_id": "CS4500",
                 "semester_name": "FALL2016",
-                "meeting_days": "MWR",
-                "meeting_start time": "9:50:00",
-                "meeting_end time": "11:30:00",
+                "meeting_days": "MWF",
+                "start_time": "9:50:00",
+                "end_time": "11:30:00",
+                "CRN": "99999",
                 "is_active": true
             }
