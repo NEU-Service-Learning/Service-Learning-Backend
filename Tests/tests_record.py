@@ -57,11 +57,18 @@ class RecordPostTest(TestCase):
         category0 = RecordCategory(name='DS')
         category0.save()
 
-        user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
-        user0.save()
+        #user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
+        #user0.save()
+        user0 = self.client.post('/user',
+                                 {
+                                     "username": "ek@ek.ek",
+                                     "email": "ek@ek.ek",
+                                     "password": "1234"
+                                 })
+        u0_json_string = json.loads(user0.content.decode('utf-8'))
         enrollment0 = self.client.post('/enrollment/',
                                        {
-                                           "user": user0.id,
+                                           "user": u0_json_string['id'],
                                            "course": course.id,
                                            "semester": semester0.name,
                                            "meeting_days": "MWR",
