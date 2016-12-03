@@ -47,8 +47,8 @@ class RecordPostTest(TestCase):
                                         "description": "Time Tracking",
                                         "start_date": "2016-12-12",
                                         "end_date": "2016-12-13",
-                                        "longitude": None,
-                                        "latitude": None
+                                        "longitude": '40.0',
+                                        "latitude": '30.0'
                                     })
         p0_json_string = json.loads(project0.content.decode('utf-8'))
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
