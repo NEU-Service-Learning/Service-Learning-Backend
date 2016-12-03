@@ -14,7 +14,8 @@ class SemesterDetail(generics.ListCreateAPIView):
 
 	""" API Endpoint for Semesters
 	POST - Create a semester
-	GET - Get info on a semester for a given semester id
+	GET - Get info on a semester for a given semester idi
+	PUT - Update info on a semester, given its name
 	"""
 
 	# permission_classes = (permissions.IsAuthenticated, )
@@ -56,7 +57,6 @@ class SemesterDetail(generics.ListCreateAPIView):
 		print (serializer)
 		if serializer.is_valid():
 			if (request.data['start_date'] < request.data['end_date']):
-				print ("MAde it")
 				serializer.save()
 				return Response(serializer.data)
 			else:
@@ -76,12 +76,18 @@ class StartSemester(generics.CreateAPIView):
 		if request.user.groups.contains('admin'):
 			current = Semesters.objects.get(is_active=True)
 			Enrollments.objects.filter(semester=current).update(is_active=False)
-			coming_up = Semesters.objects.filter(is_active=False, start_date > date.today()).order_by('start_date')
+			coming_up = Semesters.objects.filter(is_active=False).filter(start_date > date.today()).order_by('start_date')
 			try:
 				next_selection = coming_up[0]
 			except IndexError:
 				raise Http404("No next semester available")
 			Enrollments.objects.filter(semester=next_selection).update(is_active=True)
-			Users.filter(Enrollment__
+			for person in Users.objects.all():
+				actives = Enrollments.objects.filter(user_id=person.id).aggregate(Sum(is_active)
+				
+				if actives = 0:
+					person.is_active(False)
+				else:
+					person.is_active(True)
 		else:
 			return Response(status=status.HTTP_403_FORBIDDEN)
