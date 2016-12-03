@@ -44,10 +44,17 @@ class RecordPostTest(TestCase):
         project0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
-
+        user0 = User(password='1234', last_login=None, is_superuser=0,username='test@husky.neu.edu',
+                     first_name='Billy', last_name='Test', email='test@husky.neu.edu',
+                     is_staff=0,is_active=1,date_joined='2016-08-20')
+        user0.save()
+        enrollment0 = Enrollment(user=user0,course=course0,semester=semester0,meeting_days='MWR',
+                                 meeting_start_time='08:00',meeting_end_time='10:00',project=project0,
+                                 is_active=1,crn='12345')
+        enrollment0.save()
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
+                                      'enrollment': emrollment0,
                                       'project': project0,
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
