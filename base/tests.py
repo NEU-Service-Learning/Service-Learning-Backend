@@ -81,7 +81,6 @@ class SemesterTests(TestCase):
 			"is_active": 'true'
 		}), content_type="application/json")
 		s1_json = json.loads(semester.content.decode('utf-8'))
-		print(s1_json)
 		self.assertEqual(semester.status_code, 200)
 		self.assertEqual(s1_json['is_active'], True)
 		
@@ -129,7 +128,7 @@ class SemesterTests(TestCase):
 		})
 		self.assertEqual(semester.status_code, 400)
 #		
-	def start_semester(self):
+	def test_start_semester(self):
 		
 		# Set up current semester
 		first_semester = self.client.post('/semester/',
@@ -139,9 +138,10 @@ class SemesterTests(TestCase):
 			"end_date": "2016-12-31",
 			"is_active": 'true'
 		})
+		s0_json = json.loads(first_semester.content.decode('utf-8'))
 		self.assertEqual(first_semester.status_code, 201)
-		self.assertEqual(first_semester.context['name'], "FALL2016")
-		self.assertEqual(first_semester.context['is_active'], True)
+		self.assertEqual(s0_json['name'], "FALL2016")
+		self.assertEqual(s0_json['is_active'], True)
 		
 		# Set up the semester to transition to
 		second_semester = self.client.post('/semester/',
@@ -151,18 +151,21 @@ class SemesterTests(TestCase):
 			"end_date": "2017-12-31",
 			"is_active": 'false'
 		})
+		s1_json = json.loads(second_semester.content.decode('utf-8'))
 		self.assertEqual(second_semester.status_code, 201)
-		self.assertEqual(second_semester.context['name'], "FALL2017")
-		self.assertEqual(second_semester.context['is_active'], False)
+		self.assertEqual(s1_json['name'], "FALL2017")
+		self.assertEqual(s1_json['is_active'], False)
 		
 		# Change semester
-		next_semester = self.client.get('/semester/start_next')
+		next_semester = self.client.post('/semester/startnext/')
 		self.assertEqual(next_semester.status_code, 200)
 		
 		# Verify that first is inactivated and second is activated
-		next_semester = self.client.get('/semester/', second_semester.context['name'])
-		assertEqual(next_semester.context['is_active'], True)
+		next_semester = self.client.get('/semester/'+ s1_json['name'] + '/')
+		s1_json = json.loads(next_semester.content.decode('utf-8'))
+		self.assertEqual(s1_json['is_active'], True)
 		
-		first_semester = self.client.get('/semester/', first_semester.context['name'])
-		assertEqual(first_semester.context['is_active'], False)
+		first_semester = self.client.get('/semester/'+ s0_json['name'] + '/')
+		s0_json = json.loads(first_semester.content.decode('utf-8'))
+		self.assertEqual(s0_json['is_active'], False)
 		

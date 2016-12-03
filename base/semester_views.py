@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.db.models import Sum
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework import generics
@@ -8,8 +9,8 @@ from rest_framework import status
 
 from base.semester_serializer import SemesterSerializer
 
-from base.models import Semester
-
+from base.models import Semester, Enrollment
+import datetime
 class SemesterDetail(generics.ListCreateAPIView):
 
 	""" API Endpoint for Semesters
@@ -54,7 +55,6 @@ class SemesterDetail(generics.ListCreateAPIView):
 		):
 		semester = self.get_object(pk)
 		serializer = SemesterSerializer(semester, data=request.data)
-		print (serializer)
 		if serializer.is_valid():
 			if (request.data['start_date'] < request.data['end_date']):
 				serializer.save()
@@ -72,22 +72,23 @@ class StartSemester(generics.CreateAPIView):
 		request,
 		format=None,
 		):
-		permission_classes = (permissions.IsAuthenticated, )
-		if request.user.groups.contains('admin'):
-			current = Semesters.objects.get(is_active=True)
-			Enrollments.objects.filter(semester=current).update(is_active=False)
-			coming_up = Semesters.objects.filter(is_active=False).filter(start_date > date.today()).order_by('start_date')
+		#permission_classes = (permissions.IsAuthenticated, )
+		if True: #request.user.groups.contains('admin'):
+			current = Semester.objects.get(is_active=True)
+			Enrollment.objects.filter(semester=current).update(is_active=False)
+			coming_up = Semester.objects.filter(is_active=False).filter(start_date__gt=datetime.date.today()).exclude(name=current).order_by('start_date')
 			try:
 				next_selection = coming_up[0]
 			except IndexError:
 				raise Http404("No next semester available")
-			Enrollments.objects.filter(semester=next_selection).update(is_active=True)
-			for person in Users.objects.all():
-				actives = Enrollments.objects.filter(user_id=person.id).aggregate(Sum(is_active)
-				
-				if actives = 0:
-					person.is_active(False)
+			Enrollment.objects.filter(semester=next_selection).update(is_active=True)
+			for person in User.objects.all():
+				actives = Enrollment.objects.filter(user_id=person.id).aggregate(sum=Sum('is_active'))['sum']				
+				if actives == 0:
+					person.is_active=False
 				else:
-					person.is_active(True)
+					person.is_active=True
+				person.save()
+			return Response(status=status.HTTP_200_OK)
 		else:
 			return Response(status=status.HTTP_403_FORBIDDEN)
