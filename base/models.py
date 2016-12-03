@@ -83,7 +83,7 @@ class Record(models.Model):
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
     comments = models.TextField(blank=True, null=True)
-    extra_field = models.CharField(max_length=45, blank=True, null=True)
+    extra_field = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         db_table = 'Record'

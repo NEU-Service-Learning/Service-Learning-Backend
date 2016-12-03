@@ -69,8 +69,6 @@ class RecordPostTest(TestCase):
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         record_json_string = json.loads(record.content.decode('utf-8'))
-        self.assertEqual(record.content,"")
-        
         self.assertEquals(record.status_code, 201)
         self.assertEquals(record_json_string['enrollment'], 1)
         self.assertEquals(record_json_string['project'], 1)
