@@ -1054,17 +1054,22 @@ class RecordPostTest(TestCase):
 class RecordGetTests(TestCase):
     # simple get request for Record
     def test_basic_get(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # create a basic record
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
@@ -1084,14 +1089,16 @@ class RecordGetTests(TestCase):
 
     # invalid get request --> id does not exist
     def test_no_id(self):
-        record = self.client.get('/record/', sys.maxsize)
+        record = self.client.get('/record/', {"id": 99999})
+        self.assertEqual(record.content,"")
         self.assertEqual(record.status_code, 400)
 
     # invalid get request --> null or non-int id
     def test_invalid_id(self):
-        record = self.client.get('/record/', None)
+        record = self.client.get('/record/', {"id": None})
+        self.assertEqual(record.content,"")
         self.assertEqual(record.status_code, 400)
-        record = self.client.get('/record/', "12")
+        record = self.client.get('/record/', {"id": "1"})
         self.assertEqual(record.status_code, 400)
 
 
