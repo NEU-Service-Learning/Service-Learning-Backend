@@ -27,14 +27,31 @@ class RecordPostTest(TestCase):
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
-        college0 = College(name='Example College')
-        college0.save()
-        department0 = Department(name='Example Department', college=college0)
-        department0.save()
-        course0 = Course(id='CS4500', name='Software Development', department=department0)
-        course0.save()
-        college_json_string = json.loads(college0.content.decode('utf-8'))
-        assertEqual(college0.status_code, 200)
+        college = College(name='Example College')
+        college.save()
+        department = Department(name='Example Department', college=college)
+        department.save()
+        course = Course(id='CS4500', name='Software Development', department=department)
+        course.save()
+
+        communityPartner0 = self.client.post('/communityPartner/',
+                                             {
+                                                 "name": "Example Community Partner 0"
+                                             })
+        cp0_json_string = json.loads(communityPartner0.content.decode('utf-8'))
+        project0 = self.client.post('/project/',
+                                    {
+                                        "name": "Service Learning Time Tracker",
+                                        "course": course.id,
+                                        "community_partner": cp0_json_string['id'],
+                                        "description": "Time Tracking",
+                                        "start_date": "2016-12-12",
+                                        "end_date": "2016-12-13",
+                                        "longitude": "40.0",
+                                        "latitude": "30.0"
+                                    })
+        p0_json_string = json.loads(project0.content.decode('utf-8'))
+        self.assertEqual(project0.status_code, 201)
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                             end_date='2017-01-01', is_active=True)
         semester0.save()
