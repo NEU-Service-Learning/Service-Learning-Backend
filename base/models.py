@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
+from django.http import Http404
 
 from django.db import models
 from django.db.models.signals import post_save
@@ -78,11 +79,17 @@ class Record(models.Model):
     date = models.DateField()
     start_time = models.TimeField(blank=True, null=True)
     total_hours = models.DecimalField(max_digits=4, decimal_places=2)
+    if total_hours <= 0 or total_hours > 24:
+        raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    if ~(longitude is None ^ latitude is None):
+        raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
     comments = models.TextField(blank=True, null=True)
+    if comments == "":
+        raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     extra_field = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:

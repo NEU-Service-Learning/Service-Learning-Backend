@@ -96,7 +96,7 @@ class RecordPostTest(TestCase):
                                       'enrollment': enrollment0.id,
                                       'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
@@ -111,7 +111,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['enrollment'], enrollment0.id)
         self.assertEquals(record_json_string['project'], project0_id)
         self.assertEquals(record_json_string['date'], "2016-11-27")
-        self.assertEquals(record_json_string['start_time'], "08:00")
+        self.assertEquals(record_json_string['start_time'], "08:00:00")
         self.assertEquals(record_json_string['total_hours'], 4.5)
         self.assertEquals(record_json_string['longitude'], 42.3399)
         self.assertEquals(record_json_string['latitude'], 71.0891)
@@ -125,6 +125,7 @@ class RecordPostTest(TestCase):
         project0 = self.exampleProject()
         category0 = self.exampleCategory()
         category0.save()
+        # null enrollment
         record = self.client.post('/record/',
                                   {
                                       'enrollment': None,
@@ -143,9 +144,6 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 400)
 
         # invalid enrollment (negative int)
-        project0 = self.exampleProject()
-        category0 = self.exampleCategory()
-        category0.save()
         record = self.client.post('/record/',
                                   {
                                       'enrollment': -1,
@@ -164,9 +162,6 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 400)
 
         # invalid enrollment (zero)
-        project0 = self.exampleProject()
-        category0 = self.exampleCategory()
-        category0.save()
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 0,
@@ -182,13 +177,9 @@ class RecordPostTest(TestCase):
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
-        record_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEqual(record.status_code, 400)
 
         # invalid enrollment (decimal)
-        project0 = self.exampleProject()
-        category0 = self.exampleCategory()
-        category0.save()
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 12.1,
@@ -207,9 +198,6 @@ class RecordPostTest(TestCase):
         self.assertEqual(record.status_code, 400)
 
         # invalid enrollment (does not exist)
-        project0 = self.exampleProject()
-        category0 = self.exampleCategory()
-        category0.save()
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 999999,
@@ -230,79 +218,87 @@ class RecordPostTest(TestCase):
 
     # invalid or missing project
     def test_project(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        category0 = self.exampleCategory()
+        category0.save()
         # null project
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
+                                      'enrollment': enrollment0.id,
                                       'project': None,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid project (negative int)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': -1001,
+                                      'enrollment': enrollment0.id,
+                                      'project': -1,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid project (zero)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
+                                      'enrollment': enrollment0.id,
                                       'project': 0,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid project (decimal)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1001.2,
+                                      'enrollment': enrollment0.id,
+                                      'project': 12.4,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
-        # valid project (max int)
+        # invalid project (does not exist)
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 1,
-                                      'project': sys.maxsize,
+                                      'project': 99999,
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
                                       'total_hours': 4,
@@ -315,633 +311,705 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 200)
 
-        # invalid project (max int + 1)
-        record = self.client.post('/record/',
-                                  {
-                                      'enrollment': 1,
-                                      'project': sys.maxsize + 1,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
-                                      'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': None
-                                  })
-        self.assertEqual(record.status_code, 400)
 
     # invalid or missing date
     def test_date(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null date
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 2,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': None,
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid date (incomplete entry)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
-                                      'date': "2016-11",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "12-29",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid date (non-date string)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
-                                      'date': "apples",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "Hello",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid date (decimal)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
-                                      'date': 12.2,
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': 12.01,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid start_time
     def test_start_time(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null start_time (int) --> VALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
                                       'start_time': None,
-                                      'total_hours': 4,
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
         # invalid start_time (int)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
                                       'start_time': 8,
-                                      'total_hours': 4,
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid start_time (time doesn't exist)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "24:01",
-                                      'total_hours': 4,
+                                      'start_time': "24:00:01",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid start_time (non-time string)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': "1",
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "apples",
-                                      'total_hours': 4,
+                                      'start_time': "Hello",
+                                      'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid or missing total_hours
     def test_total_hours(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null total_hours
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': None,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid total_hours (negative number)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': -4,
+                                      'start_time': "08:00:00",
+                                      'total_hours': -2.2,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid total_hours (must be greater than zero)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': 0,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # valid total_hours (24 hours)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': 24,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
         # invalid total_hours (24.01 hours)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 25,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 24.01,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid longitude
     def test_longitude(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null longitude (and latitude) --> VALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': None,
                                       'latitude': None,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
         # null longitude (latitude correct) --> INVALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': None,
-                                      'latitude': 34.8954,
-                                      'category': "TO",
+                                      'latitude': 71.0123,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid longitude (non-Decimal)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': "56.8908",
-                                      'latitude': 34.8954,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': "33.132",
+                                      'latitude': 71.1012,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid longitude (max-int)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': sys.maxsize,
-                                      'latitude': 34.8954,
-                                      'category': "TO",
+                                      'latitude': 81.122,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid latitude
     def test_latitude(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null latitude (and longitude) --> VALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
                                       'longitude': None,
                                       'latitude': None,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
         # null latitude (longitude correct) --> INVALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 65.9880,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 72.112,
                                       'latitude': None,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid latitude (non-Decimal)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 56.8908,
-                                      'latitude': "34.8954",
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.213,
+                                      'latitude': "12.212",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid latitude (max-int)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 56.8908,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
                                       'latitude': sys.maxsize,
-                                      'category': "TO",
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid or missing category
     def test_category(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
         # null category
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 2,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
                                       'category': None,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
-        # invalid category (negative int)
+        # invalid category (not listed in categories)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': -2,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': "TD",
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
-        # invalid category (zero)
+        # invalid category (multiple categories listed)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': 0,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': "TO,DS",
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
-        # invalid category (max int)
+        # invalid category (non-string)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': sys.maxsize,
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': 121,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
-        self.assertEqual(record.status_code, 400)
-
-        # invalid category (max int + 1)
-        record = self.client.post('/record/',
-                                  {
-                                      'enrollment': 1,
-                                      'project': 1002,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': sys.maxsize + 1,
-                                      'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': None
-                                  })
-        self.assertEqual(record.status_code, 400)
-
-        # invalid category (non-enum String)
-        record = self.client.post('/record/',
-                                  {
-                                      'enrollment': 1,
-                                      'project': 1002,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TS",
-                                      'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': None
-                                  })
-        self.assertEqual(record.status_code, 400)
-
+    self.assertEqual(record.status_code, 400)
     # invalid or missing active indicator
     def test_is_active(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+
         # on creation of new model, should default to True
         # null is_active
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': None,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid is_active (non-boolean)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
-                                      'is_active': "Hello",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
+                                      'is_active': 12,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # valid is_active (1)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': 1,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
+        # invalid is_active (False - 0)
+        record = self.client.post('/record/',
+                                  {
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
+                                      'is_active': 0,
+                                      'comments': "Comments",
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
+                                  })
+        self.assertEqual(record.status_code, 400)
         # invalid is_active (False)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
-                                      'is_active': False,  # should default to True on creation
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
+                                      'is_active': False,
                                       'comments': "Comments",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
     # invalid comments
     def test_comments(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null comments --> VALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': None
+                                      'comments': None,
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
 
         # invalid comments (empty string)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 4,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "",
-                                      'extra_field': None
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid comments (decimal)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': "4",
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
-                                      'comments': 12.1,
-                                      'extra_field': None
+                                      'comments': 5.3,
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 400)
 
+        # valid comments (long-string)
+        record = self.client.post('/record/',
+                                  {
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
+                                      'is_active': True,
+                                      'comments': "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
+                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
+                                  })
+        self.assertEqual(record.status_code, 200)
+
     # invalid extra_field
     def test_extra_field(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
         # null extra_field --> VALID
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
-                                      'comments': None,
+                                      'comments': "Comments",
                                       'extra_field': None
                                   })
         self.assertEqual(record.status_code, 200)
@@ -949,31 +1017,31 @@ class RecordPostTest(TestCase):
         # invalid extra_field (non-json)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': 12
+                                      'extra_field': 55
                                   })
         self.assertEqual(record.status_code, 400)
 
         # invalid extra_field (json of invalid format)
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
-                                      'total_hours': 3,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': "TO",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 71.124,
+                                      'latitude': 72.1217,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
