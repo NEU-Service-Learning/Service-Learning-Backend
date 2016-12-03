@@ -40,7 +40,7 @@ class RecordPostTest(TestCase):
         community_partner0.save()
         project0 = Project(name='Service Learning', course=course0, community_partner=community_partner0,
                           start_date='2016-09-01',end_date='2017-01-02',description=None,
-                          longitute=None,latitude=None)
+                          longitude=None,latitude=None)
         project0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
