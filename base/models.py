@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
 from django.http import Http404
+from rest_framework.response import Response
 
 from django.db import models
 from django.db.models.signals import post_save
