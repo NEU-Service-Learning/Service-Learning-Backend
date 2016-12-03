@@ -30,7 +30,7 @@ class RecordPostTest(TestCase):
 
     # creates an example department
     def exampleDepartment(self):
-        college0 = exampleCollege(self)
+        college0 = self.exampleCollege()
         college0.save()
         return Department(name='Example Department', college=college0)
 
@@ -38,7 +38,7 @@ class RecordPostTest(TestCase):
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
-        department0 = exampleDepartment(self)
+        department0 = self.exampleDepartment()
         department0.save()
         course0 = Course(id='CS4500', name='Software Development', department=department0)
         course0.save()
