@@ -61,7 +61,6 @@ class RecordPostTest(TestCase):
 
         user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
         user0.save()
-        self.assertEqual(user0.status_code, 201)
         enrollment0 = self.client.post('/enrollment/',
                                        {
                                            'user': user0.id,
