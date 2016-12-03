@@ -1,8 +1,9 @@
 import unittest
 import sys
+import json
 from django.test import TestCase
 from django.test import Client
-from base.models import Record
+from base.models import *
 
 
 # Unit Tests for Record Model
@@ -26,32 +27,50 @@ class RecordPostTest(TestCase):
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
+        college0 = College(name='Example College')
+        college0.save()
+        department0 = Department(name='Example Department', college=college0)
+        department0.save()
+        course0 = Course(id='CS4500', name='Software Development', department=department0)
+        course0.save()
+        semester = Semester(name='FALL2016', start_date='2016-09-01',
+                            end_date='2017-01-01', is_active=True)
+        semester.save()
+        community_partner0 = CommunityPartner(name='CP1')
+        community_partner0.save()
+        project0 = Project(name='Service Learning', course=1, community_partner=1,
+                          start_date='2016-09-01',end_date='2017-01-02',description=None,
+                          longitute=None,latitude=None)
+        project0.save()
+        category0 = RecordCategory(name='DS')
+        category0.save()
         record = self.client.post('/record/',
                                   {
                                       'enrollment': 1,
-                                      'project': 1002,
+                                      'project': 1,
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
                                       'total_hours': 4.5,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
-                                      'category': "TO",
+                                      'category': "DS",
                                       'is_active': True,
                                       'comments': "Comments",
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
+        record_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEquals(record.status_code, 200)
-        self.assertEquals(record.context['enrollment'], 1)
-        self.assertEquals(record.context['project'], 1002)
-        self.assertEquals(record.context['date'], "2016-11-27")
-        self.assertEquals(record.context['start_time'], "08:00")
-        self.assertEquals(record.context['total_hours'], 4)
-        self.assertEquals(record.context['longitude'], 42.3399)
-        self.assertEquals(record.context['latitude'], 71.0891)
-        self.assertEquals(record.context['category'], 2)
-        self.assertEquals(record.context['comments'], "Comments")
-        self.assertEquals(record.context['extra_field'], None)
+        self.assertEquals(record_json_string['enrollment'], 1)
+        self.assertEquals(record_json_string['project'], 1)
+        self.assertEquals(record_json_string['date'], "2016-11-27")
+        self.assertEquals(record_json_string['start_time'], "08:00")
+        self.assertEquals(record_json_string['total_hours'], 4.5)
+        self.assertEquals(record_json_string['longitude'], 42.3399)
+        self.assertEquals(record_json_string['latitude'], 71.0891)
+        self.assertEquals(record_json_string['category'], "DS")
+        self.assertEquals(record_json_string['comments'], "Comments")
+        self.assertEquals(record_json_string['extra_field'], None)
 
     # invalid or missing enrollment
     def test_enrollment(self):
@@ -932,14 +951,14 @@ class RecordGetTests(TestCase):
                                                          "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                       })
         record = self.client.get('/record/', tempRecord.context['id'])
-        self.assertEqual(record.context['enrollment'], tempRecord.context['enrollment'])
-        self.assertEqual(record.context['date'], tempRecord.context['date'])
-        self.assertEqual(record.context['start_time'], tempRecord.context['start_time'])
-        self.assertEqual(record.context['total_hours'], tempRecord.context['total_hours'])
-        self.assertEqual(record.context['category'], tempRecord.context['category'])
-        self.assertEqual(record.context['is_active'], tempRecord.context['is_active'])
-        self.assertEqual(record.context['comments'], tempRecord.context['comments'])
-        self.assertEqual(record.context['extra_field'], tempRecord.context['extra_field'])
+        self.assertEqual(record_json_string['enrollment'], tempRecord.context['enrollment'])
+        self.assertEqual(record_json_string['date'], tempRecord.context['date'])
+        self.assertEqual(record_json_string['start_time'], tempRecord.context['start_time'])
+        self.assertEqual(record_json_string['total_hours'], tempRecord.context['total_hours'])
+        self.assertEqual(record_json_string['category'], tempRecord.context['category'])
+        self.assertEqual(record_json_string['is_active'], tempRecord.context['is_active'])
+        self.assertEqual(record_json_string['comments'], tempRecord.context['comments'])
+        self.assertEqual(record_json_string['extra_field'], tempRecord.context['extra_field'])
 
     # invalid get request --> id does not exist
     def test_no_id(self):
@@ -973,7 +992,7 @@ class RecordPutTests(TestCase):
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
-        self.assertTrue(record.context['is_active'])
+        self.assertTrue(record_json_string['is_active'])
         self.client.put('/record', {
             'enrollment': 1,
             'project': 1002,
@@ -989,7 +1008,7 @@ class RecordPutTests(TestCase):
                            "{'firstName':'Peter', 'lastName':'Jones'}]}"
         })
         self.assertEqual(record.status_code, 200)
-        self.assertFalse(record.context['is_active'])
+        self.assertFalse(record_json_string['is_active'])
 
     # invalid put request --> update non-is_update field
     def test_invalid_put(self):
@@ -1008,7 +1027,7 @@ class RecordPutTests(TestCase):
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         self.assertEqual(record.status_code, 200)
-        self.assertTrue(record.context['is_active'])
+        self.assertTrue(record_json_string['is_active'])
         self.client.put('/record', {
             'enrollment': 1,
             'project': 1003,  # edited
