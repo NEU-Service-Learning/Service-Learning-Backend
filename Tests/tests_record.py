@@ -52,15 +52,11 @@ class RecordPostTest(TestCase):
                                     })
         p0_json_string = json.loads(project0.content.decode('utf-8'))
         self.assertEqual(project0.status_code, 201)
+        """
+
         semester0 = Semester(name='FALL2016', start_date='2016-09-01',
                             end_date='2017-01-01', is_active=True)
         semester0.save()
-        community_partner0 = CommunityPartner(name='CP1')
-        community_partner0.save()
-        project0 = Project(name='Service Learning', course=course0, community_partner=community_partner0,
-                          start_date='2016-09-01',end_date='2017-01-02',description=None,
-                          longitude=None,latitude=None)
-        project0.save()
         category0 = RecordCategory(name='DS')
         category0.save()
         user0 = User(password='1234', last_login=None, is_superuser=0,username='test@husky.neu.edu',
@@ -98,7 +94,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['category'], "DS")
         self.assertEquals(record_json_string['comments'], "Comments")
         self.assertEquals(record_json_string['extra_field'], None)
-
+        """
     # invalid or missing enrollment
     def test_enrollment(self):
         # null enrollment
