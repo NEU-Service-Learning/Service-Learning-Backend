@@ -28,15 +28,15 @@ class RecordPostTest(TestCase):
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
-        college = College(name='Example College')
-        college.save()
-        department = Department(name='Example Department', college=college)
-        department.save()
-        course = Course(id='CS4500', name='Software Development', department=department)
-        course.save()
+        college0 = College(name='Example College')
+        college0.save()
+        department0 = Department(name='Example Department', college=college0)
+        department0.save()
+        course0 = Course(id='CS4500', name='Software Development', department=department0)
+        course0.save()
         communityPartner0 = CommunityPartner(name='Example CP0')
         communityPartner0.save()
-        project0 = Project(name="STT", course=course.id, community_partner=communityPartner0.id,
+        project0 = Project(name="STT", course=course0, community_partner=communityPartner0,
                            description="Time Tracking",start_date="2016-12-12",end_date="2016-12-23",
                            longitude=None,latitude=None)
         project0.save()
@@ -48,24 +48,15 @@ class RecordPostTest(TestCase):
 
         user0 = User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
         user0.save()
-        enrollment0 = self.client.post('/enrollment/',
-                                       {
-                                           "user": user0.id,
-                                           "course": course.id,
-                                           "semester": semester0.name,
-                                           "meeting_days": "MWR",
-                                           "meeting_start_time": "09:00",
-                                           "meeting_end_time": "10:00",
-                                           "project": project0.id,
-                                           "is_active": 1,
-                                           "crn": "12345"
-                                       })
-        en0_json_string = json.loads(enrollment0.content.decode('utf-8'))
-        self.assertEqual(enrollment0.status_code, 201)
+        enrollment0 = Enrollment(user=user0, course=course0, semester=semester0,meeting_days="MWR",
+                                 meeting_start_time="09:00",meeting_end_time="12:00",project=project0,
+                                 is_active=1,crn="12345")
+
+        enrollment0.save()
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': en0_json_string['id'],
-                                      'project': p0_json_string['id'],
+                                      'enrollment': enrollment0.id,
+                                      'project': project0.id,
                                       'date': "2016-11-27",
                                       'start_time': "08:00",
                                       'total_hours': 4.5,
