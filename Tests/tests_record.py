@@ -24,13 +24,21 @@ class RecordPostTest(TestCase):
     def setUp(self):
         self.Client = Client()
 
+    # creates an example college
+    def exampleCollege(self):
+        return College(name='Example College')
+
+    # creates an example department
+    def exampleDepartment(self):
+        college0 = exampleCollege(self)
+        college0.save()
+        return Department(name='Example Department', college=college0)
+
     # Simple creation of Record
     # -(id is auto-incremented in database)
     # -optional fields: start_time, Location, comments, extra_field
     def test_basic_post(self):
-        college0 = College(name='Example College')
-        college0.save()
-        department0 = Department(name='Example Department', college=college0)
+        department0 = exampleDepartment(self)
         department0.save()
         course0 = Course(id='CS4500', name='Software Development', department=department0)
         course0.save()
@@ -69,7 +77,7 @@ class RecordPostTest(TestCase):
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
         record_json_string = json.loads(record.content.decode('utf-8'))
-        self.assertEquals(record.status_code, 201)
+        self.assertEquals(record.status_code, 200)
         self.assertEquals(record_json_string['enrollment'], 1)
         self.assertEquals(record_json_string['project'], 1)
         self.assertEquals(record_json_string['date'], "2016-11-27")
