@@ -35,7 +35,8 @@ class RecordDetail(APIView):
 
     def put(self, request, pk, format=None):
         record = self.get_object(pk)
-        record.update(is_active=False)
+        record.is_active = False
+        record.save()
         return self.post(self, request, format=None)
 
 class RecordList(APIView):
