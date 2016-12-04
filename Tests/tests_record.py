@@ -1147,6 +1147,16 @@ class RecordPutTests(TestCase):
         record2_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEqual(record.status_code, 200)
         self.assertEqual(record_json_string['id'], record2_json_string['id'])
+        self.assertEqual(record_json_string['enrollment'], record2_json_string['enrollment'])
+        self.assertEqual(record_json_string['project'], record2_json_string['project'])
+        self.assertEqual(record_json_string['date'], record2_json_string['date'])
+        self.assertEqual(record_json_string['start_time'], record2_json_string['start_time'])
+        self.assertEqual(record_json_string['total_hours'], record2_json_string['total_hours'])
+        self.assertEqual(record_json_string['longitude'], record2_json_string['longitude'])
+        self.assertEqual(record_json_string['latitude'], record2_json_string['latitude'])
+        self.assertEqual(record_json_string['category'], record2_json_string['category'])
+        self.assertEqual(record_json_string['comments'], record2_json_string['comments'])
+        self.assertEqual(record_json_string['extra_field'], record2_json_string['extra_field'])
         self.assertFalse(record_json_string['is_active'])
 
     # invalid put request --> update non-is_update field
