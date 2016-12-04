@@ -10,6 +10,9 @@ from datetime import datetime
 
 # Unit Tests for Record Model
 
+# Note: Django automatically converts type mismatches if it can
+# i.e. an integer field that takes in "12" is automatically converted to 12
+
 
 class ExampleTest(TestCase):
     def test_equal(self):
@@ -683,7 +686,7 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 400)
 
-        # invalid latitude (non-Decimal)
+        # valid latitude (string Decimal)
         record = self.client.post('/record/',
                                   {
                                       'enrollment': enrollment0.id,
@@ -699,7 +702,7 @@ class RecordPostTest(TestCase):
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
-        self.assertEqual(record.status_code, 400)
+        self.assertEqual(record.status_code, 200)
 
         # invalid latitude (max-int)
         record = self.client.post('/record/',
@@ -1014,7 +1017,6 @@ class RecordPostTest(TestCase):
 
 # GET TESTS #
 class RecordGetTests(TestCase):
-
     # creates an example college
     def exampleCollege(self):
         return College(name='Example College')
@@ -1070,6 +1072,7 @@ class RecordGetTests(TestCase):
         return Enrollment(user=user0, course=course0, semester=semester0,meeting_days="MWR",
                           meeting_start_time="09:00",meeting_end_time="12:00",project=project0,
                           is_active=1,crn="12345")
+
     # simple get request for Record
     def test_basic_get(self):
         enrollment0 = self.exampleEnrollment()
@@ -1106,18 +1109,8 @@ class RecordGetTests(TestCase):
 
     # invalid get request --> id does not exist
     def test_no_id(self):
-        record = self.client.get('/record/', {"id": 99999})
-        self.assertEqual(record.content,"")
-        self.assertEqual(record.status_code, 400)
-
-    # invalid get request --> null or non-int id
-    def test_invalid_id(self):
-        record = self.client.get('/record/', {"id": None})
-        self.assertEqual(record.content,"")
-        self.assertEqual(record.status_code, 400)
-        record = self.client.get('/record/', {"id": "1"})
-        self.assertEqual(record.status_code, 400)
-
+        record = self.client.get('/record/99999/')
+        self.assertEqual(record.status_code, 404)
 
 # PUT TESTS ##
 class RecordPutTests(TestCase):
@@ -1220,7 +1213,6 @@ class RecordPutTests(TestCase):
         # update record
         record2 = self.client.put('/record/%d/' % record_json_string['id'], json.dumps(new_info), content_type="application/json")
         record2_json_string = json.loads(record2.content.decode('utf-8'))
-        print(record_json_string, record2_json_string) 
         self.assertEqual(record.status_code, 200)
         self.assertNotEqual(record_json_string['id'], record2_json_string['id'])
         self.assertEqual(record_json_string['enrollment'], record2_json_string['enrollment'])
@@ -1232,8 +1224,8 @@ class RecordPutTests(TestCase):
         self.assertEqual(record_json_string['latitude'], record2_json_string['latitude'])
         self.assertEqual(record_json_string['category'], record2_json_string['category'])
         self.assertEqual(record_json_string['comments'], record2_json_string['comments'])
-        self.assertEqual(record_json_string['extra_field'], record2_json_string['extra_field'])
-        self.assertFalse(record_json_string['is_active'])
+        self.assertEqual(record_json_string['extra_field'], str(record2_json_string['extra_field']))
+        self.assertFalse(Record.objects.get(pk=record_json_string['id']).is_active)
 
     # invalid put request --> update non-is_update field
     def test_invalid_put(self):
@@ -1261,37 +1253,37 @@ class RecordPutTests(TestCase):
         self.assertEqual(record.status_code, 200)
         self.assertTrue(record_json_string['is_active'])
 
-        # update record
-        self.client.put('/record/%d/' % record_json_string['id'],
-                                  {
-                                      'enrollment': enrollment0.id,
-                                      'project': project0_id,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00:00",
-                                      'total_hours': -10,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': category0.name,
-                                      'is_active': False,
-                                      'comments': "Comments",
-                                      'extra_field': None
-                                  })
-        self.assertEqual(record.status_code, 200)
+        new_info = {
+	    'enrollment': enrollment0.id,
+	    'project': project0_id,
+	    'date': "2016-11-27",
+	    'start_time': "08:00:00",
+            'total_hours': -10,
+	    'longitude': 42.3399,
+	    'latitude': 71.0891,
+	    'category': category0.name,
+	    'is_active': False,
+	    'comments': "Comments",
+	    'extra_field': None
+        }
 
         # update record
-        self.client.put('/record/%d/' % record_json_string['id'],
-                        {
-                            'id': 999999,
-                            'enrollment': enrollment0.id,
-                            'project': project0_id,
-                            'date': "2016-11-27",
-                            'start_time': "08:00:00",
-                            'total_hours': 4.5,
-                            'longitude': 42.3399,
-                            'latitude': 71.0891,
-                            'category': category0.name,
-                            'is_active': False,
-                            'comments': "Comments",
-                            'extra_field': None
-                        })
+        record = self.client.put('/record/%d/' % record_json_string['id'], json.dumps(new_info), content_type="application/json")
         self.assertEqual(record.status_code, 400)
+
+        new_info = {
+	    'enrollment': enrollment0.id,
+	    'project': project0_id,
+	    'date': "2016-11-27",
+	    'start_time': "08:00:00",
+            'total_hours': -10,
+	    'longitude': 42.3399,
+	    'latitude': 71.0891,
+	    'category': category0.name,
+	    'is_active': False,
+	    'comments': "Comments",
+	    'extra_field': None
+        }
+        # update record
+        record = self.client.put('/record/%s/' % "99999", json.dumps(new_info), content_type="application/json")
+        self.assertEqual(record.status_code, 404)

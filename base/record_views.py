@@ -34,10 +34,9 @@ class RecordDetail(APIView):
 
     def put(self, request, pk, format=None):
         record = self.get_object(pk)
-        record.is_active=False
+        record.is_active = False
         record.save()
         return self.post(request)
-
 
 class RecordList(APIView):
     """

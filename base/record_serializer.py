@@ -8,3 +8,8 @@ class RecordSerializer(serializers.ModelSerializer):
         model = Record
         fields = ('id', 'enrollment', 'project', 'date', 'start_time', 'total_hours', 'longitude', 'latitude',
                   'category', 'is_active', 'comments', 'extra_field')
+
+    def validate(self, data):
+        if ('latitude' in data and 'longitude' not in data) or ('latitude' not in data and 'longitude' in data):
+            raise serializers.ValidationError("Need to provide both longitude and latitude or neither!")
+        return data
