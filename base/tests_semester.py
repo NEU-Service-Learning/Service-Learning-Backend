@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.test import Client
 from base.models import *
-import json, datetime
+import json
+from datetime import datetime
 
 		
 class SemesterTests(TestCase):
