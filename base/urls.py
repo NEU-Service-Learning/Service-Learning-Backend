@@ -7,6 +7,7 @@ from . import course_views
 from . import department_views
 from . import college_views
 from . import user_views
+from . import semester_views
 from . import record_views
 
 urlpatterns = [
@@ -32,6 +33,9 @@ urlpatterns = [
     url(r'^enrollments/crn/(?P<crn>[0-9]+)/$', enrollment_views.EnrollmentCRNList.as_view()),
     url(r'^enroll/(?P<pk>[0-9]+)/$', enrollment_views.EnrollmentDetail.as_view()),
     url(r'^enroll/$', enrollment_views.EnrollmentDetail.as_view()),
+    url(r'semester/$', semester_views.SemesterDetail.as_view()),
+    url(r'semester/startnext/$', semester_views.StartSemester.as_view()),
+    url(r'semester/(?P<pk>[\w{}.-]{1,40})/$', semester_views.SemesterDetail.as_view()),
     url(r'communityPartner/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/projects/$', community_partner_views.CommunityPartnerProjects.as_view()),
