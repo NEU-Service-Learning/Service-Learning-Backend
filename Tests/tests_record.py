@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.test import Client
 from base.models import *
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 # Unit Tests for Record Model
@@ -402,7 +403,7 @@ class RecordPostTest(TestCase):
                                       'enrollment': enrollment0.id,
                                       'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': None,
+                                      'start_time': datetime.now().time(),
                                       'total_hours': 4.50,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
@@ -580,8 +581,6 @@ class RecordPostTest(TestCase):
                                       'date': "2016-11-27",
                                       'start_time': "08:00:00",
                                       'total_hours': 4.5,
-                                      'longitude': None,
-                                      'latitude': None,
                                       'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
@@ -616,7 +615,7 @@ class RecordPostTest(TestCase):
                                       'date': "2016-11-27",
                                       'start_time': "08:00:00",
                                       'total_hours': 4.5,
-                                      'longitude': "33.132",
+                                      'longitude': "not a number haha!",
                                       'latitude': 71.1012,
                                       'category': category0.name,
                                       'is_active': True,
@@ -659,8 +658,6 @@ class RecordPostTest(TestCase):
                                       'date': "2016-11-27",
                                       'start_time': "08:00:00",
                                       'total_hours': 4.5,
-                                      'longitude': None,
-                                      'latitude': None,
                                       'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
@@ -678,7 +675,6 @@ class RecordPostTest(TestCase):
                                       'start_time': "08:00:00",
                                       'total_hours': 4.5,
                                       'longitude': 72.112,
-                                      'latitude': None,
                                       'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
@@ -863,7 +859,7 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 200)
 
-        # invalid is_active (False - 0)
+        # valid is_active (False - 0)
         record = self.client.post('/record/',
                                   {
                                       'enrollment': enrollment0.id,
@@ -879,7 +875,7 @@ class RecordPostTest(TestCase):
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
-        self.assertEqual(record.status_code, 400)
+        self.assertEqual(record.status_code, 200)
         # invalid is_active (False)
         record = self.client.post('/record/',
                                   {
@@ -1258,4 +1254,3 @@ class RecordPutTests(TestCase):
                             'extra_field': None
                         })
         self.assertEqual(record.status_code, 400)
-
