@@ -27,12 +27,7 @@ class SemesterDetail(generics.ListCreateAPIView):
 		except Semester.DoesNotExist:
 			raise Http404("Object doesn't exist")
 
-	def get(
-		self,
-		request,
-		pk,
-		format=None,
-		):
+	def get(self, request, pk, format=None):
 		semester = self.get_object(pk)
 		serializer = SemesterSerializer(semester)
 		return Response(serializer.data)
@@ -47,12 +42,7 @@ class SemesterDetail(generics.ListCreateAPIView):
 				return Response('Malformed date(s)', status=status.HTTP_400_BAD_REQUEST)
 		return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 	
-	def put(
-		self,
-		request,
-		pk,
-		format=None,
-		):
+	def put(self, request, pk, format=None):
 		semester = self.get_object(pk)
 		serializer = SemesterSerializer(semester, data=request.data)
 		if serializer.is_valid():
@@ -67,11 +57,7 @@ class SemesterDetail(generics.ListCreateAPIView):
 
 class StartSemester(generics.CreateAPIView):
 
-	def post(
-		self,
-		request,
-		format=None,
-		):
+	def post(self, request,	format=None):
 		#permission_classes = (permissions.IsAuthenticated, )
 		if True: #request.user.groups.contains('admin'):
 			current = Semester.objects.get(is_active=True)
