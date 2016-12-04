@@ -1192,7 +1192,7 @@ class RecordPutTests(TestCase):
                                       'project': project0_id,
                                       'date': "2016-11-27",
                                       'start_time': "08:00:00",
-                                      'total_hours': 6,
+                                      'total_hours': -10,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
                                       'category': category0.name,
@@ -1201,3 +1201,22 @@ class RecordPutTests(TestCase):
                                       'extra_field': None
                                   })
         self.assertEqual(record.status_code, 400)
+
+        # update record
+        self.client.put('/record/',
+                        {
+                            'id': 999999,
+                            'enrollment': enrollment0.id,
+                            'project': project0_id,
+                            'date': "2016-11-27",
+                            'start_time': "08:00:00",
+                            'total_hours': 4.5,
+                            'longitude': 42.3399,
+                            'latitude': 71.0891,
+                            'category': category0.name,
+                            'is_active': False,
+                            'comments': "Comments",
+                            'extra_field': None
+                        })
+        self.assertEqual(record.status_code, 400)
+
