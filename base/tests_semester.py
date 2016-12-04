@@ -128,7 +128,6 @@ class SemesterTests(TestCase):
 
 	def test_start_semester(self):
 		
-		
 		# Set up current semester
 		first_semester = self.client.post('/semester/',
 		{
@@ -149,15 +148,13 @@ class SemesterTests(TestCase):
 			"start_date": "2017-09-01",
 			"end_date": "2017-12-31",
 			"is_active": 'false'
-		})
-		
+		})		
 		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
         self.user.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester="FALL2016", meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
-        enrollment.save()
+		enrollment.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester="SPRING2017", meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
-        enrollment.save()
-		
+		enrollment.save()
 		
 		s1_json = json.loads(second_semester.content.decode('utf-8'))
 		self.assertEqual(second_semester.status_code, 201)
