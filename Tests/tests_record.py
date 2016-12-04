@@ -112,7 +112,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['project'], project0_id)
         self.assertEquals(record_json_string['date'], "2016-11-27")
         self.assertEquals(record_json_string['start_time'], "08:00:00")
-        self.assertEquals(record_json_string['total_hours'], 4.50)
+        self.assertEquals(record_json_string['total_hours'], '4.50')
         self.assertEquals(record_json_string['longitude'], 42.3399)
         self.assertEquals(record_json_string['latitude'], 71.0891)
         self.assertEquals(record_json_string['category'], "DS")
@@ -1013,22 +1013,6 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 200)
 
-        # invalid extra_field (non-json)
-        record = self.client.post('/record/',
-                                  {
-                                      'enrollment': enrollment0.id,
-                                      'project': project0_id,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00:00",
-                                      'total_hours': 4.5,
-                                      'longitude': 71.124,
-                                      'latitude': 72.1217,
-                                      'category': category0.name,
-                                      'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': 55
-                                  })
-        self.assertEqual(record.status_code, 400)
 
         # invalid extra_field (json of invalid format)
         record = self.client.post('/record/',
@@ -1104,10 +1088,10 @@ class RecordGetTests(TestCase):
 class RecordPutTests(TestCase):
     # simple put request for Record
     def test_basic_put(self):
-        enrollment0 = RecordPostTest.exampleEnrollment()
+        enrollment0 = RecordPostTest.exampleEnrollment(self)
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory()
+        category0 = RecordPostTest.exampleCategory(self)
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1160,10 +1144,10 @@ class RecordPutTests(TestCase):
 
     # invalid put request --> update non-is_update field
     def test_invalid_put(self):
-        enrollment0 = RecordPostTest.exampleEnrollment()
+        enrollment0 = RecordPostTest.exampleEnrollment(self)
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory()
+        category0 = RecordPostTest.exampleCategory(self)
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
