@@ -800,7 +800,8 @@ class RecordPostTest(TestCase):
                                       'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
                                                      "{'firstName':'Peter', 'lastName':'Jones'}]}"
                                   })
-    self.assertEqual(record.status_code, 400)
+        self.assertEqual(record.status_code, 400)
+
     # invalid or missing active indicator
     def test_is_active(self):
         enrollment0 = self.exampleEnrollment()
