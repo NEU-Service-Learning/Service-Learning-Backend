@@ -113,8 +113,8 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['date'], "2016-11-27")
         self.assertEquals(record_json_string['start_time'], "08:00:00")
         self.assertEquals(record_json_string['total_hours'], '4.50')
-        self.assertEquals(record_json_string['longitude'], 42.3399)
-        self.assertEquals(record_json_string['latitude'], 71.0891)
+        self.assertEquals(record_json_string['longitude'], '42.339900')
+        self.assertEquals(record_json_string['latitude'], '71.089100')
         self.assertEquals(record_json_string['category'], "DS")
         self.assertEquals(record_json_string['comments'], "Comments")
         self.assertEquals(record_json_string['extra_field'], "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
@@ -308,7 +308,7 @@ class RecordPostTest(TestCase):
                                       'comments': "Comments",
                                       'extra_field': None
                                   })
-        self.assertEqual(record.status_code, 200)
+        self.assertEqual(record.status_code, 400)
 
     # invalid or missing date
     def test_date(self):
@@ -1086,12 +1086,68 @@ class RecordGetTests(TestCase):
 
 # PUT TESTS ##
 class RecordPutTests(TestCase):
+    # creates an example college
+    def exampleCollege(self):
+        return College(name='Example College')
+
+    # creates an example department
+    def exampleDepartment(self):
+        college0 = self.exampleCollege()
+        college0.save()
+        return Department(name='Example Department', college=college0)
+
+    # creates an example course
+    def exampleCourse(self):
+        department0 = self.exampleDepartment()
+        department0.save()
+        return Course(id='CS4500', name='Software Development', department=department0)
+
+    # creates an example community_partner
+    def exampleCommunityPartner(self):
+        return CommunityPartner(name='Example CP0')
+
+    # creates an example project
+    def exampleProject(self):
+        cp0 = self.exampleCommunityPartner()
+        cp0.save()
+        course0 = self.exampleCourse()
+        course0.save()
+        return Project(name="STT", course=course0, community_partner=cp0,
+                       description="Time Tracking", start_date="2016-12-12", end_date="2016-12-23",
+                       longitude=None, latitude=None)
+
+    # creates an example semester
+    def exampleSemester(self):
+        return Semester(name='FALL2016', start_date='2016-09-01', end_date='2017-01-01', is_active=True)
+
+    # creates an example category
+    def exampleCategory(self):
+        return RecordCategory(name='DS')
+
+    # creates an example user
+    def exampleUser(self):
+        return User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
+
+    # creates an example enrollment
+    def exampleEnrollment(self):
+        user0 = self.exampleUser()
+        user0.save()
+        course0 = self.exampleCourse()
+        course0.save()
+        semester0 = self.exampleSemester()
+        semester0.save()
+        project0 = self.exampleProject()
+        project0.save()
+        return Enrollment(user=user0, course=course0, semester=semester0, meeting_days="MWR",
+                          meeting_start_time="09:00", meeting_end_time="12:00", project=project0,
+                          is_active=1, crn="12345")
+
     # simple put request for Record
     def test_basic_put(self):
-        enrollment0 = RecordPostTest.exampleEnrollment(self)
+        enrollment0 = self.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory(self)
+        category0 = self.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1144,10 +1200,10 @@ class RecordPutTests(TestCase):
 
     # invalid put request --> update non-is_update field
     def test_invalid_put(self):
-        enrollment0 = RecordPostTest.exampleEnrollment(self)
+        enrollment0 = self.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory(self)
+        category0 = self.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
