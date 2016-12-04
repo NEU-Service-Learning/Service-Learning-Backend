@@ -149,12 +149,12 @@ class SemesterTests(TestCase):
 			"end_date": "2017-12-31",
 			"is_active": 'false'
 		})
+		self.department = Department("test", self.college.name)
+		self.department.save()
 		self.course = Course("CS4500", "Software Dev", self.department.name)
 		self.course.save()
 		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
 		self.user.save()
-		self.department = Department("test", self.college.name)
-		self.department.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester="FALL2016", meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
 		enrollment.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester="SPRING2017", meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
