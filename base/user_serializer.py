@@ -9,7 +9,7 @@ class UserSerializer(UserDetailsSerializer):
 
     class Meta:
         model = User
-        fields = UserDetailsSerializer.Meta.fields + ('role',)
+        fields = UserDetailsSerializer.Meta.fields + ('role', 'id')
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})

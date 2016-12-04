@@ -10,8 +10,7 @@ from . import user_views
 
 
 urlpatterns = [
-    #url(r'/$', views.Instructors.as_view(), name='instructors'),
-    #url(r'instructors/(?P<pk>[0-9]+)/$', views.InstructorsDetail.as_view()),
+    url(r'^me/$', user_views.MyUser.as_view()),
     url(r'^users/$', user_views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', user_views.UserDetail.as_view()),
     url(r'^courses/$', course_views.CourseList.as_view()),
