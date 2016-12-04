@@ -1014,12 +1014,68 @@ class RecordPostTest(TestCase):
 
 # GET TESTS #
 class RecordGetTests(TestCase):
+
+    # creates an example college
+    def exampleCollege(self):
+        return College(name='Example College')
+
+    # creates an example department
+    def exampleDepartment(self):
+        college0 = self.exampleCollege()
+        college0.save()
+        return Department(name='Example Department', college=college0)
+
+    # creates an example course
+    def exampleCourse(self):
+        department0 = self.exampleDepartment()
+        department0.save()
+        return Course(id='CS4500', name='Software Development', department=department0)
+
+    # creates an example community_partner
+    def exampleCommunityPartner(self):
+        return CommunityPartner(name='Example CP0')
+
+    # creates an example project
+    def exampleProject(self):
+        cp0 = self.exampleCommunityPartner()
+        cp0.save()
+        course0 = self.exampleCourse()
+        course0.save()
+        return Project(name="STT", course=course0, community_partner=cp0,
+                       description="Time Tracking",start_date="2016-12-12",end_date="2016-12-23",
+                       longitude=None,latitude=None)
+
+    # creates an example semester
+    def exampleSemester(self):
+        return Semester(name='FALL2016', start_date='2016-09-01',end_date='2017-01-01', is_active=True)
+
+    # creates an example category
+    def exampleCategory(self):
+        return RecordCategory(name='DS')
+
+    # creates an example user
+    def exampleUser(self):
+        return User(username="ek@ek.ek", email="ek@ek.ek", password="password1")
+
+    # creates an example enrollment
+    def exampleEnrollment(self):
+        user0 = self.exampleUser()
+        user0.save()
+        course0 = self.exampleCourse()
+        course0.save()
+        semester0 = self.exampleSemester()
+        semester0.save()
+        project0 = self.exampleProject()
+        project0.save()
+        return Enrollment(user=user0, course=course0, semester=semester0,meeting_days="MWR",
+                          meeting_start_time="09:00",meeting_end_time="12:00",project=project0,
+                          is_active=1,crn="12345")
     # simple get request for Record
     def test_basic_get(self):
-        enrollment0 = RecordPostTest.exampleEnrollment()
+        enrollment0 = self.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory()
+        category0 = self.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1147,22 +1203,24 @@ class RecordPutTests(TestCase):
         self.assertEqual(record.status_code, 200)
         self.assertTrue(record_json_string['is_active'])
 
+        new_info = {
+	    'enrollment': enrollment0.id,
+	    'project': project0_id,
+	    'date': "2016-11-27",
+	    'start_time': "08:00:00",
+	    'total_hours': 6,
+	    'longitude': 42.3399,
+	    'latitude': 71.0891,
+	    'category': category0.name,
+	    'is_active': True,
+	    'comments': "Comments",
+	    'extra_field': None
+        }
+
         # update record
-        self.client.put('/record/',
-                                  {
-                                      'enrollment': enrollment0.id,
-                                      'project': project0_id,
-                                      'date': "2016-11-27",
-                                      'start_time': "08:00:00",
-                                      'total_hours': 6,
-                                      'longitude': 42.3399,
-                                      'latitude': 71.0891,
-                                      'category': category0.name,
-                                      'is_active': True,
-                                      'comments': "Comments",
-                                      'extra_field': None
-                                  })
-        record2_json_string = json.loads(record.content.decode('utf-8'))
+        record2 = self.client.put('/record/%d/' % record_json_string['id'], json.dumps(new_info), content_type="application/json")
+        record2_json_string = json.loads(record2.content.decode('utf-8'))
+        print(record_json_string, record2_json_string) 
         self.assertEqual(record.status_code, 200)
         self.assertNotEqual(record_json_string['id'], record2_json_string['id'])
         self.assertEqual(record_json_string['enrollment'], record2_json_string['enrollment'])
@@ -1204,7 +1262,7 @@ class RecordPutTests(TestCase):
         self.assertTrue(record_json_string['is_active'])
 
         # update record
-        self.client.put('/record/' + record_json_string['id'] + '/',
+        self.client.put('/record/%d/' % record_json_string['id'],
                                   {
                                       'enrollment': enrollment0.id,
                                       'project': project0_id,
@@ -1218,10 +1276,10 @@ class RecordPutTests(TestCase):
                                       'comments': "Comments",
                                       'extra_field': None
                                   })
-        self.assertEqual(record.status_code, 400)
+        self.assertEqual(record.status_code, 200)
 
         # update record
-        self.client.put('/record/',
+        self.client.put('/record/%d/' % record_json_string['id'],
                         {
                             'id': 999999,
                             'enrollment': enrollment0.id,
