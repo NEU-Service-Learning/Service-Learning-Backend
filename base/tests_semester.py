@@ -34,6 +34,12 @@ class SemesterTests(TestCase):
 		self.assertEqual(s1_json['name'], "FALL2020")
 		self.assertEqual(s1_json['is_active'], False)
 		
+	def test_bad_get_semester(self):
+	
+		# Semester that does not exist
+		semester = self.client.get('/semester/SPRING93/')
+		self.assertEqual(semester.status_code, 404)
+		
 	def test_bad_post_semester(self):
 	
 		# Semester with inconsistent_dates
@@ -44,6 +50,10 @@ class SemesterTests(TestCase):
 			"end_date": "2016-09-01",
 			"is_active": 'false'
 		})
+		self.assertEqual(semester.status_code, 400)
+		 
+		# Semester with no data
+		semester = self.client.post('/semester/', {})
 		self.assertEqual(semester.status_code, 400)
 			
 	def test_basic_put_semester(self):
@@ -156,4 +166,9 @@ class SemesterTests(TestCase):
 		first_semester = self.client.get('/semester/'+ s0_json['name'] + '/')
 		s0_json = json.loads(first_semester.content.decode('utf-8'))
 		self.assertEqual(s0_json['is_active'], False)
+		
+		# Verify that we can't move to the next semester if there is none
+		next_semester = self.client.post('/semester/startnext/')
+		self.assertEqual(next_semester.status_code, 404)
+		
 		
