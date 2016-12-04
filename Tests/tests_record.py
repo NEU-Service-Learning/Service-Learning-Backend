@@ -1075,10 +1075,10 @@ class RecordGetTests(TestCase):
 
     # simple get request for Record
     def test_basic_get(self):
-        enrollment0 = RecordPostTest.exampleEnrollment()
+        enrollment0 = self.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = RecordPostTest.exampleCategory()
+        category0 = self.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1109,13 +1109,13 @@ class RecordGetTests(TestCase):
 
     # invalid get request --> id does not exist
     def test_no_id(self):
-        record = self.client.get('/record/', {}, 99999)
+        record = self.client.get('/record/', {}, pk=99999)
         self.assertEqual(record.content,"")
         self.assertEqual(record.status_code, 400)
 
     # invalid get request --> null or non-int id
     def test_invalid_id(self):
-        record = self.client.get('/record/', {"id": None}, None)
+        record = self.client.get('/record/', {"id": None}, pk=None)
         self.assertEqual(record.content,"")
         self.assertEqual(record.status_code, 400)
 
@@ -1261,7 +1261,7 @@ class RecordPutTests(TestCase):
         self.assertTrue(record_json_string['is_active'])
 
         # update record
-        self.client.put('/record/' + record_json_string['id'] + '/',
+        self.client.put('/record/' + str(record_json_string['id']) + '/',
                                   {
                                       'enrollment': enrollment0.id,
                                       'project': project0_id,
