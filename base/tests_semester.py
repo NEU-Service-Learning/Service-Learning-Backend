@@ -149,6 +149,8 @@ class SemesterTests(TestCase):
 			"end_date": "2017-12-31",
 			"is_active": 'false'
 		})
+		self.college = College("hello")
+		self.college.save()
 		self.department = Department("test", self.college.name)
 		self.department.save()
 		self.course = Course("CS4500", "Software Dev", self.department.name)
