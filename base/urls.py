@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^college/(?P<pk>[a-zA-Z0-9][\w|\W]+)/$', college_views.CollegeDetail.as_view()),
     url(r'^enrollments/$', enrollment_views.EnrollmentList.as_view()),
     url(r'^enrollments/(?P<course>[A-Z0-9]+)/$', enrollment_views.EnrollmentCourseList.as_view()),
-    url(r'^enrollments/(?P<crn>[0-9]+)/$', enrollment_views.EnrollmentCRNList.as_view()),
+    url(r'^enrollments/crn/(?P<crn>[0-9]+)/$', enrollment_views.EnrollmentCRNList.as_view()),
     url(r'^enroll/(?P<pk>[0-9]+)/$', enrollment_views.EnrollmentDetail.as_view()),
     url(r'^enroll/$', enrollment_views.EnrollmentDetail.as_view()),
     #url(r'users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
