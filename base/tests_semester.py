@@ -148,7 +148,9 @@ class SemesterTests(TestCase):
 			"start_date": "2017-09-01",
 			"end_date": "2017-12-31",
 			"is_active": 'false'
-		})		
+		})
+		self.course = Course("CS4500", "Software Dev", self.department.name)
+		self.course.save()
 		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
 		self.user.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester="FALL2016", meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
