@@ -93,7 +93,7 @@ class Record(models.Model):
         db_table = 'Record'
 
     def clean(self):
-        if self.longitude ^ self.latitude:
+        if (self.longitude and not self.latitude) or (not self.longitude and self.latitude):
             raise ValidationError(_(u"Need to provide both longitude and latitude or neither!"))
 
     def save(self, *args, **kwargs):
