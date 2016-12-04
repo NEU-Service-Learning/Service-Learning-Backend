@@ -80,16 +80,16 @@ class Record(models.Model):
     date = models.DateField()
     start_time = models.TimeField(blank=True, null=True)
     total_hours = models.DecimalField(max_digits=4, decimal_places=2)
-    if getattr(self, 'total_hours') <= Decimal(0) or getattr(self, 'total_hours') > Decimal(24):
+    if getattr(models, 'total_hours') <= Decimal(0) or getattr(models, 'total_hours') > Decimal(24):
         raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    if ~(longitude is None ^ latitude is None):
+    if ~(getattr(models, 'longitude') is None ^ getattr(models,'latitude') is None):
         raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
     comments = models.TextField(blank=True, null=True)
-    if comments == "":
+    if getattr(models,comments) == "":
         raise Response(models.exceptions, status=status.HTTP_400_BAD_REQUEST)
     extra_field = models.CharField(max_length=200, blank=True, null=True)
 
