@@ -79,19 +79,20 @@ class Record(models.Model):
     project = models.ForeignKey(Project, models.DO_NOTHING)
     date = models.DateField()
     start_time = models.TimeField(blank=True, null=True)
-    total_hours = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(24)])
+    total_hours = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(0.1),
+                                                                                  MaxValueValidator(24)])
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     category = models.ForeignKey('RecordCategory', models.DO_NOTHING)
     is_active = models.BooleanField(default=True)
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=False, null=True)
     extra_field = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'Record'
 
     def clean(self):
-        if (self.longitude and not self.latitude) or (not self.longitude and self.latitude):
+        if self.longitude ^ self.latitude:
             raise ValidationError(_(u"Need to provide both longitude and latitude or neither!"))
 
 

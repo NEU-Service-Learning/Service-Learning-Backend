@@ -97,7 +97,7 @@ class RecordPostTest(TestCase):
                                       'project': project0_id,
                                       'date': "2016-11-27",
                                       'start_time': "08:00:00",
-                                      'total_hours': 4.5,
+                                      'total_hours': 4.50,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
                                       'category': category0.name,
@@ -112,7 +112,7 @@ class RecordPostTest(TestCase):
         self.assertEquals(record_json_string['project'], project0_id)
         self.assertEquals(record_json_string['date'], "2016-11-27")
         self.assertEquals(record_json_string['start_time'], "08:00:00")
-        self.assertEquals(record_json_string['total_hours'], 4.5)
+        self.assertEquals(record_json_string['total_hours'], 4.50)
         self.assertEquals(record_json_string['longitude'], 42.3399)
         self.assertEquals(record_json_string['latitude'], 71.0891)
         self.assertEquals(record_json_string['category'], "DS")
@@ -215,7 +215,6 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 400)
 
-
     # invalid or missing project
     def test_project(self):
         enrollment0 = self.exampleEnrollment()
@@ -311,7 +310,6 @@ class RecordPostTest(TestCase):
                                   })
         self.assertEqual(record.status_code, 200)
 
-
     # invalid or missing date
     def test_date(self):
         enrollment0 = self.exampleEnrollment()
@@ -398,14 +396,14 @@ class RecordPostTest(TestCase):
         project0_id = enrollment0.project.id
         category0 = self.exampleCategory()
         category0.save()
-        # null start_time (int) --> VALID
+        # null start_time (VALID)
         record = self.client.post('/record/',
                                   {
                                       'enrollment': enrollment0.id,
                                       'project': project0_id,
                                       'date': "2016-11-27",
                                       'start_time': None,
-                                      'total_hours': 4.5,
+                                      'total_hours': 4.50,
                                       'longitude': 42.3399,
                                       'latitude': 71.0891,
                                       'category': category0.name,
@@ -1055,10 +1053,10 @@ class RecordPostTest(TestCase):
 class RecordGetTests(TestCase):
     # simple get request for Record
     def test_basic_get(self):
-        enrollment0 = self.exampleEnrollment()
+        enrollment0 = RecordPostTest.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = self.exampleCategory()
+        category0 = RecordPostTest.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1106,10 +1104,10 @@ class RecordGetTests(TestCase):
 class RecordPutTests(TestCase):
     # simple put request for Record
     def test_basic_put(self):
-        enrollment0 = self.exampleEnrollment()
+        enrollment0 = RecordPostTest.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = self.exampleCategory()
+        category0 = RecordPostTest.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
@@ -1162,10 +1160,10 @@ class RecordPutTests(TestCase):
 
     # invalid put request --> update non-is_update field
     def test_invalid_put(self):
-        enrollment0 = self.exampleEnrollment()
+        enrollment0 = RecordPostTest.exampleEnrollment()
         enrollment0.save()
         project0_id = enrollment0.project.id
-        category0 = self.exampleCategory()
+        category0 = RecordPostTest.exampleCategory()
         category0.save()
         # create a basic record
         record = self.client.post('/record/',
