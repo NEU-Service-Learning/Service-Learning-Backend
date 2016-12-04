@@ -1072,8 +1072,7 @@ class RecordGetTests(TestCase):
                                       'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
-                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
+                                      'extra_field': None
                                   })
         record_json_string = json.loads(record.content.decode('utf-8'))
         record2 = self.client.get('/record/' + str(record_json_string['id']) + '/')
@@ -1106,37 +1105,48 @@ class RecordGetTests(TestCase):
 class RecordPutTests(TestCase):
     # simple put request for Record
     def test_basic_put(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        # create a basic record
         record = self.client.post('/record/',
                                   {
-                                      'enrollment': 1,
-                                      'project': 1002,
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
                                       'date': "2016-11-27",
-                                      'start_time': "08:00",
+                                      'start_time': "08:00:00",
                                       'total_hours': 4.5,
-                                      'longitude': 42.3399, 'latitude': 71.0891,
-                                      'category': "TO",
+                                      'longitude': 42.3399,
+                                      'latitude': 71.0891,
+                                      'category': category0.name,
                                       'is_active': True,
                                       'comments': "Comments",
-                                      'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
-                                                     "{'firstName':'Peter', 'lastName':'Jones'}]}"
+                                      'extra_field': None
                                   })
+        record_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEqual(record.status_code, 200)
         self.assertTrue(record_json_string['is_active'])
-        self.client.put('/record', {
-            'enrollment': 1,
-            'project': 1002,
-            'date': "2016-11-27",
-            'start_time': "08:00",
-            'total_hours': 4.5,
-            'longitude': 42.3399,
-            'latitude': 71.0891,
-            'category': "TO",
-            'is_active': False,
-            'comments': "Comments",
-            'extra_field': "{'employees':[{'firstName':'John', 'lastName':'Doe'}, "
-                           "{'firstName':'Peter', 'lastName':'Jones'}]}"
-        })
+
+        # update record
+        self.client.post('/record/',
+                                  {
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 42.3399,
+                                      'latitude': 71.0891,
+                                      'category': category0.name,
+                                      'is_active': False,
+                                      'comments': "Comments",
+                                      'extra_field': None
+                                  })
+        record2_json_string = json.loads(record.content.decode('utf-8'))
         self.assertEqual(record.status_code, 200)
+        self.assertEqual(record_json_string['id'], record2_json_string['id'])
         self.assertFalse(record_json_string['is_active'])
 
     # invalid put request --> update non-is_update field
