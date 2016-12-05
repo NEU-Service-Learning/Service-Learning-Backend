@@ -1226,19 +1226,26 @@ class RecordGetTests(TestCase):
 
     # get total hours for a given course
     def test_hours_for_course(self):
-        enrollment0 = self.exampleEnrollment()
-        enrollment0.save()
+        user0 = self.exampleUser()
+        user0.save()
+        course0 = self.exampleCourse()
+        course0.save()
+        semester0 = self.exampleSemester()
+        semester0.save()
         project0 = self.exampleProject()
         project0.save()
+        return Enrollment(user=user0, course=course0, semester=semester0, meeting_days="MWR",
+                          meeting_start_time="09:00", meeting_end_time="12:00", project=project0,
+                          is_active=1, crn="12345")
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/')
+        record_hours = self.client.get('/record/hours/course/' + str(course0.id) + '/')
         self.assertEqual(record_hours.status_code, 200)
-        record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/2016-01-01/2017-01-01/')
+        record_hours = self.client.get('/record/hours/course/' + str(course0.id) + '/2016-01-01/2017-01-01/')
         self.assertEqual(record_hours.status_code, 200)
 
 # PUT TESTS ##
