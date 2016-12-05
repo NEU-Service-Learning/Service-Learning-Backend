@@ -189,6 +189,68 @@ class SemesterTests(TestCase):
 		next_semester = self.client.post('/semester/startnext/')
 		self.assertEqual(next_semester.status_code, 404)
 		
+	def test_start_semester_2(self):
+		
+		# Set up current semester
+		first_semester = self.client.post('/semester/',
+		{
+			"name": "FALL2016",
+			"start_date": "2016-09-01",
+			"end_date": "2016-12-31",
+			"is_active": 'true'
+		})
+		s0_json = json.loads(first_semester.content.decode('utf-8'))
+		self.assertEqual(first_semester.status_code, 201)
+		self.assertEqual(s0_json['name'], "FALL2016")
+		self.assertEqual(s0_json['is_active'], True)
+		
+		# Set up the semester to transition to
+		second_semester = self.client.post('/semester/',
+		{
+			"name": "FALL2017",
+			"start_date": "2017-09-01",
+			"end_date": "2017-12-31",
+			"is_active": 'false'
+		})
+		self.college = College("hello")
+		self.college.save()
+		self.department = Department("test", self.college.name)
+		self.department.save()
+		self.course = Course("CS4500", "Software Dev", self.department.name)
+		self.course.save()
+		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
+		self.user.save()
+		self.semester = Semester(name="sem1", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
+		self.semester.save()
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345", is_active=True)
+		enrollment.save()
+		self.semester = Semester(name="sem2", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
+		self.semester.save()
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345", is_active=True)
+		enrollment.save()
+		
+		s1_json = json.loads(second_semester.content.decode('utf-8'))
+		self.assertEqual(second_semester.status_code, 201)
+		self.assertEqual(s1_json['name'], "FALL2017")
+		self.assertEqual(s1_json['is_active'], False)
+		
+		# Change semester
+		next_semester = self.client.post('/semester/startnext/')
+		self.assertEqual(next_semester.status_code, 200)
+		
+		# Verify that first is inactivated and second is activated
+		next_semester = self.client.get('/semester/'+ s1_json['name'] + '/')
+		s1_json = json.loads(next_semester.content.decode('utf-8'))
+		self.assertEqual(s1_json['is_active'], True)
+		
+		first_semester = self.client.get('/semester/'+ s0_json['name'] + '/')
+		s0_json = json.loads(first_semester.content.decode('utf-8'))
+		self.assertEqual(s0_json['is_active'], False)
+		
+		# Verify that we can't move to the next semester if there is none
+		next_semester = self.client.post('/semester/startnext/')
+		self.assertEqual(next_semester.status_code, 404)
+		
 	
 		
 		
