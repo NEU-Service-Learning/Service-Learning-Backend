@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from django.http import Http404
+from django.db.models import Sum
 
 from base.record_serializer import RecordSerializer
 
