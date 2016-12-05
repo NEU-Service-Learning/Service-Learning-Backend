@@ -60,7 +60,7 @@ urlpatterns = [
     url(r'record/hours/project/(?P<project>[0-9]+)/$', record_views.RecordHoursForProject.as_view()),
     url(r'record/hours/project/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})/(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2})/$',
         record_views.RecordHoursForProject.as_view()),
-    url(r'record/hours/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordHoursForProject.as_view()),
+    url(r'record/hours/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordHoursForCourse.as_view()),
     url(r'record/hours/course/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})/(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2})/$',
         record_views.RecordHoursForProject.as_view())
 ]
