@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'project/(?P<pk>[0-9]+)/$', project_views.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/students/$', project_views.ProjectStudents.as_view()),
     url(r'record/$', record_views.RecordDetail.as_view()),
+    url(r'record/exportall/$', record_views.RecordsExport.as_view()),
     url(r'record/(?P<pk>[0-9]+)/$', record_views.RecordDetail.as_view())
 ]
 
