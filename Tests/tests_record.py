@@ -1116,40 +1116,56 @@ class RecordGetTests(TestCase):
     def test_get_all_records(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0 = self.exampleProject()
-        project0.save()
+        project0_id = enrollment0.project.id
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=project0,date="2016-11-22",start_time=None,
-                        total_hours=5,longitude=None,latitude=None,category=category0,is_active=True,
-                        comments=None,extra_field=None)
-        record.save()
-        record2 = Record(enrollment=enrollment0, project=project0,date="2015-11-22",start_time=None,
-                         total_hours=5,longitude=None,latitude=None,category=category0,is_active=True,
-                         comments=None,extra_field=None)
-        record2.save()
+        record = self.client.post('/record/',
+                                  {
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 42.3399,
+                                      'latitude': 71.0891,
+                                      'category': category0.name,
+                                      'is_active': True,
+                                      'comments': "Comments",
+                                      'extra_field': None
+                                  })
         get_records = self.client.get('/record/all/') # get all records, no date specified
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertEqual(json_string[0]['is_active'], True)
-
         get_records = self.client.get('/records/all/' + "2016-01-01,2017-01-01" + '/')
+        self.assertEqual(get_records.status_code,200)
 
     # get all records for a user
     def test_get_records_user(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0 = self.exampleProject()
-        project0.save()
+        project0_id = enrollment0.project.id
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
-                        comments=None, extra_field=None)
-        record.save()
-        get_records = self.client.get('/record/user/' + str(enrollment0.user.id) + '/')
+        user0 = self.exampleUser()
+        user0.save()
+        record = self.client.post('/record/',
+                                  {
+                                      'enrollment': enrollment0.id,
+                                      'project': project0_id,
+                                      'date': "2016-11-27",
+                                      'start_time': "08:00:00",
+                                      'total_hours': 4.5,
+                                      'longitude': 42.3399,
+                                      'latitude': 71.0891,
+                                      'category': category0.name,
+                                      'is_active': True,
+                                      'comments': "Comments",
+                                      'extra_field': None
+                                  })
+        json_string = json.loads(record.content.decode('utf-8'))
+        get_records = self.client.get('/record/user/' + str(user0.id) + '/')
         self.assertEqual(get_records.status_code,200)
-        json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertEqual(json_string[0]['is_active'], True)
 
     # get all records for a course
