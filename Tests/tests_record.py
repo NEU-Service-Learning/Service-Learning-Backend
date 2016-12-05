@@ -1135,6 +1135,7 @@ class RecordGetTests(TestCase):
                                   })
         record = self.client.get('/record/exportall/')
         self.assertEqual(record.status_code, 200)
+        self.assertEqual(record.get('Content-Disposition'), 'attachment; filename="All-Records.csv"')
 		
 
 # PUT TESTS ##
