@@ -85,7 +85,7 @@ as `student` and all others will be set to the `instructor` role.
                 "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
             }
 
-## Exisiting User [/user/{user_id}]
+## Exisiting User [/users/{user_id}]
 
 ### Get User Information [GET]
 
@@ -113,6 +113,9 @@ Takes a User ID and returns the associated User.
             "projects": [
                 99999,
             ],
+            "sections": [
+                "12677",
+            ],
             "is_active": true,
         }
 
@@ -137,35 +140,6 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
         }
 
 + Response 200
-
-## Expanded User Info [/user/{user_id}/expanded]
-
-### Get User Expanded Info [GET]
-
-Get an expanded version of the user, including full name of courses and projects. Takes User ID.
-
-+ Request (application/json)
-
-        {
-            "email": "kename.f@husky.neu.edu",
-        }
-
-+ Response 200 (application/json)
-       
-        {
-            "id": 99999,
-            "first_name": "Fa",
-            "last_name": "Kename",
-            "username": "kename.f@husky.neu.edu",
-            "role": "student",
-            "courses": [
-                "Software Development",
-            ],
-            "projects": [
-                "Service-Learning Time Tracker",
-            ],
-            "is_active": true,
-        }
 
 ## Current Logged in User [/me/]
 
@@ -1033,3 +1007,96 @@ Enrolls a User in a section of a Course
                 "CRN": "99999",
                 "is_active": true
             }
+            
+## Enrollments [/enrollments/]
+
+### Get all enrollments [GET]
+
+Get all enrollments.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 25,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": false,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS1200",
+                "semester": "SPRING2017",
+                "is_active": false,
+                "crn": "44221",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+        ]
+        
+## Enrollments Course [/enrollments/{course_name}/]
+
+### Get all active enrollments associated with given course [GET]
+
+Given a course name, retrieve all active enrollments associated with the given course.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 8,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            }
+        ]
+        
+## Enrollments CRN [/enrollments/crn/{crn}/]
+
+### Get all active enrollments associated with given CRN [GET]
+
+Given a course CRN, retrieve all active enrollments associated with the given course.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 8,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            }
+        ]

@@ -39,10 +39,10 @@ Run `python manage.py test`
 `alias startenv='source ./env/bin/activate'`
 
 **Auto generates new migrations for model changes:**
-alias makemigrate='python3 manage.py makemigrations base'
+alias makemigrate=`python3 manage.py makemigrations base`
 
 **Runs all of the migrations:**
-alias migrate='python3 manage.py migrate'
+alias migrate=`python3 manage.py migrate`
 
 # Coverage
 
