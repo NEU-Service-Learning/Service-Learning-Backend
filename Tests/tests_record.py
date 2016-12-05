@@ -1112,6 +1112,131 @@ class RecordGetTests(TestCase):
         record = self.client.get('/record/99999/')
         self.assertEqual(record.status_code, 404)
 
+    # get all active records
+    def test_get_all_records(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id,date="2016-11-22",start_time=None,
+                        total_hours=5,longitude=42.3399,latitude=71.0921,category=category0.name,is_active=True,
+                        comments=None,extra_field=None)
+        record.save()
+        record2 = Record(enrollment=enrollment0, project=project0_id,date="2015-11-22",start_time=None,
+                         total_hours=5,longitude=42.3399,latitude=71.0921,category=category0.name,is_active=True,
+                         comments=None,extra_field=None)
+        record2.save()
+        get_records = self.client.get('/record/all') # get all records, no date specified
+        self.assertEqual(get_records.status_code,200)
+        json_string = json.loads(get_records.content.decode('utf-8'))
+        self.assertEqual(json_string[0]['is_active'], True)
+
+        get_records = self.client.get('/records/start_date/' + "2016-01-01")
+
+    # get all records for a user
+    def test_get_records_user(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        get_records = self.client.get('/record/user/' + enrollment0.user.id + '/')
+        self.assertEqual(get_records.status_code,200)
+        json_string = json.loads(get_records.content.decode('utf-8'))
+        self.assertTrue(json_string[0]['is_active'])
+
+    # get all records for a course
+    def test_get_records_course(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        get_records = self.client.get('/record/course/' + enrollment0.course.id + '/')
+        self.assertEqual(get_records.status_code,200)
+        json_string = json.loads(get_records.content.decode('utf-8'))
+        self.assertTrue(json_string[0]['is_active'])
+
+    # get all records for a project
+    def test_get_records_project(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        get_records = self.client.get('/record/project/' + record.project.id + '/')
+        self.assertEqual(get_records.status_code,200)
+        json_string = json.loads(get_records.content.decode('utf-8'))
+        self.assertTrue(json_string[0]['is_active'])
+
+    # get total hours for a given user id
+    def test_hours_for_user(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        record2 = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=7, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record2.save()
+        record_hours = self.client.get('/record/hours/user/' + enrollment0.user.id + '/')
+        self.assertEqual(record_hours.status_code,200)
+        json_string = json.loads(record_hours.content.decode('utf-8'))
+        self.assertEqual(json_string[0],12)
+
+    # get total hours for a given project id
+    def test_hours_for_project(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        record_hours = self.client.get('/record/hours/project/' + project0_id + '/')
+        self.assertEqual(record_hours.status_code, 200)
+        json_string = json.loads(record_hours.content.decode('utf-8'))
+        self.assertEqual(json_string[0], 5)
+
+    # get total hours for a given course
+    def test_hours_for_course(self):
+        enrollment0 = self.exampleEnrollment()
+        enrollment0.save()
+        project0_id = enrollment0.project.id
+        category0 = self.exampleCategory()
+        category0.save()
+        record = Record(enrollment=enrollment0, project=project0_id, date="2016-11-22", start_time=None,
+                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
+                        comments=None, extra_field=None)
+        record.save()
+        record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/')
+        self.assertEqual(record_hours.status_code, 200)
+        json_string = json.loads(record_hours.content.decode('utf-8'))
+        self.assertEqual(json_string[0], 5)
+
+
+
+
 # PUT TESTS ##
 class RecordPutTests(TestCase):
     # creates an example college
@@ -1197,17 +1322,17 @@ class RecordPutTests(TestCase):
         self.assertTrue(record_json_string['is_active'])
 
         new_info = {
-	    'enrollment': enrollment0.id,
-	    'project': project0_id,
-	    'date': "2016-11-27",
-	    'start_time': "08:00:00",
-	    'total_hours': 6,
-	    'longitude': 42.3399,
-	    'latitude': 71.0891,
-	    'category': category0.name,
-	    'is_active': True,
-	    'comments': "Comments",
-	    'extra_field': None
+            'enrollment': enrollment0.id,
+            'project': project0_id,
+            'date': "2016-11-27",
+            'start_time': "08:00:00",
+            'total_hours': 6,
+            'longitude': 42.3399,
+            'latitude': 71.0891,
+            'category': category0.name,
+            'is_active': True,
+            'comments': "Comments",
+            'extra_field': None
         }
 
         # update record
@@ -1227,7 +1352,7 @@ class RecordPutTests(TestCase):
         self.assertEqual(record_json_string['extra_field'], str(record2_json_string['extra_field']))
         self.assertFalse(Record.objects.get(pk=record_json_string['id']).is_active)
 
-    # invalid put request --> update non-is_update field
+    # invalid put request
     def test_invalid_put(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
@@ -1254,17 +1379,17 @@ class RecordPutTests(TestCase):
         self.assertTrue(record_json_string['is_active'])
 
         new_info = {
-	    'enrollment': enrollment0.id,
-	    'project': project0_id,
-	    'date': "2016-11-27",
-	    'start_time': "08:00:00",
+            'enrollment': enrollment0.id,
+            'project': project0_id,
+            'date': "2016-11-27",
+            'start_time': "08:00:00",
             'total_hours': -10,
-	    'longitude': 42.3399,
-	    'latitude': 71.0891,
-	    'category': category0.name,
-	    'is_active': False,
-	    'comments': "Comments",
-	    'extra_field': None
+            'longitude': 42.3399,
+            'latitude': 71.0891,
+            'category': category0.name,
+            'is_active': False,
+            'comments': "Comments",
+            'extra_field': None
         }
 
         # update record
@@ -1272,17 +1397,17 @@ class RecordPutTests(TestCase):
         self.assertEqual(record.status_code, 400)
 
         new_info = {
-	    'enrollment': enrollment0.id,
-	    'project': project0_id,
-	    'date': "2016-11-27",
-	    'start_time': "08:00:00",
+            'enrollment': enrollment0.id,
+            'project': project0_id,
+            'date': "2016-11-27",
+            'start_time': "08:00:00",
             'total_hours': -10,
-	    'longitude': 42.3399,
-	    'latitude': 71.0891,
-	    'category': category0.name,
-	    'is_active': False,
-	    'comments': "Comments",
-	    'extra_field': None
+            'longitude': 42.3399,
+            'latitude': 71.0891,
+            'category': category0.name,
+            'is_active': False,
+            'comments': "Comments",
+            'extra_field': None
         }
         # update record
         record = self.client.put('/record/%s/' % "99999", json.dumps(new_info), content_type="application/json")
