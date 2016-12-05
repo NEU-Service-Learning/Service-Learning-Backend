@@ -5,10 +5,9 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
-from django.http import Http404
+from django.http import Http404, HttpResponse
 import csv
 from base.record_serializer import RecordSerializer
-
 
 class RecordDetail(APIView):
     """
@@ -126,12 +125,12 @@ class RecordsExport(APIView):
 	"""
 	"""
 	
-	def get(self, request, pk, format=None):
+	def get(self, request, format=None):
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="All-Records.csv"'
 		writer = csv.writer(response)
-		for record in Record.objects.filter(is_Active=True):
+		for record in Record.objects.filter(is_active=True):
 			temp = RecordSerializer(record, many = False)
-			writer.writerow(temp.data)
+			writer.writerow(temp.data.values())
 
 		return response
