@@ -1112,9 +1112,9 @@ class RecordGetTests(TestCase):
         record = self.client.get('/record/99999/')
         self.assertEqual(record.status_code, 404)
 		
-	def test_export_records(self):
-		enrollment0 = self.exampleEnrollment()
-        enrollment0.save()
+    def test_export_records(self):
+        enrollment0 = self.exampleEnrollment()
+       	enrollment0.save()
         project0_id = enrollment0.project.id
         category0 = self.exampleCategory()
         category0.save()
@@ -1133,8 +1133,8 @@ class RecordGetTests(TestCase):
                                       'comments': "Comments",
                                       'extra_field': None
                                   })
-		record = self.client.get('/record/exportall/')
-		self.assertEqual(record.status_code, 200)
+        record = self.client.get('/record/exportall/')
+        self.assertEqual(record.status_code, 200)
 		
 
 # PUT TESTS ##

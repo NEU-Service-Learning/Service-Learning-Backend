@@ -131,7 +131,7 @@ class RecordsExport(APIView):
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="All-Records.csv"'
 		writer = csv.writer(response)
-		for record in Record.objects.filter(is_Active=True):
+		for record in Record.objects.filter(is_active=True):
 			temp = RecordSerializer(record, many = False)
 			writer.writerow(temp.data.values())
 
