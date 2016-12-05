@@ -127,6 +127,8 @@ class RecordHoursForCourse(APIView):
             records = Record.objects.filter(is_active=True, enrollment__in=Enrollment.objects.filter(course=course)
                                             .values('id').distinct(), date=[start_date, end_date])\
                 .aggregate(Sum('total_hours'))
+        serializer = RecordSerializer(records, many=True)
+        return Response(serializer.data)
 
 
 class RecordsExport(APIView):

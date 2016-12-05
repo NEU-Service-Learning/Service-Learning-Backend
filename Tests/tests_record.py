@@ -1204,7 +1204,7 @@ class RecordGetTests(TestCase):
         record.save()
         record_hours = self.client.get('/record/hours/user/' + str(user0.id) + '/')
         self.assertEqual(record_hours.status_code,200)
-        record_hours = self.client.get('/record/hours/course/2016-01-01/2017-01-01/')
+        record_hours = self.client.get('/record/hours/course/' + str(user0.id) + '/2016-01-01/2017-01-01/')
         self.assertEqual(record_hours.status_code, 200)
 
     # get total hours for a given project id
@@ -1221,7 +1221,7 @@ class RecordGetTests(TestCase):
         record.save()
         record_hours = self.client.get('/record/hours/project/' + str(project0.id) + '/')
         self.assertEqual(record_hours.status_code, 200)
-        record_hours = self.client.get('/record/hours/project/2016-01-01/2017-01-01/')
+        record_hours = self.client.get('/record/hours/project/' + str(project0.id) + '/2016-01-01/2017-01-01/')
         self.assertEqual(record_hours.status_code, 200)
 
     # get total hours for a given course
@@ -1238,7 +1238,7 @@ class RecordGetTests(TestCase):
         record.save()
         record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/')
         self.assertEqual(record_hours.status_code, 200)
-        record_hours = self.client.get('/record/hours/course/2016-01-01/2017-01-01/')
+        record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/2016-01-01/2017-01-01/')
         self.assertEqual(record_hours.status_code, 200)
 
 # PUT TESTS ##
