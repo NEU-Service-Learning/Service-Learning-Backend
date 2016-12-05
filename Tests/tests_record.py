@@ -1125,7 +1125,7 @@ class RecordGetTests(TestCase):
                         comments=None,extra_field=None)
         record.save()
         record2 = Record(enrollment=enrollment0, project=project0,date="2015-11-22",start_time=None,
-                         total_hours=5,longitude=None,latitude=None,category=category0,is_active=True,
+                         total_hours=6,longitude=None,latitude=None,category=category0,is_active=True,
                          comments=None,extra_field=None)
         record2.save()
         get_records = self.client.get('/record/all/') # get all records, no date specified
@@ -1221,7 +1221,7 @@ class RecordGetTests(TestCase):
         record.save()
         record_hours = self.client.get('/record/hours/project/' + str(project0.id) + '/')
         self.assertEqual(record_hours.status_code, 200)
-        record_hours = self.client.get('/record/hours/course/2016-01-01/2017-01-01/')
+        record_hours = self.client.get('/record/hours/project/2016-01-01/2017-01-01/')
         self.assertEqual(record_hours.status_code, 200)
 
     # get total hours for a given course
