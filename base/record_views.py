@@ -9,6 +9,7 @@ from django.http import Http404, HttpResponse
 
 from base.record_serializer import RecordSerializer
 
+import csv
 
 class RecordDetail(APIView):
     """
