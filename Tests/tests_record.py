@@ -1116,14 +1116,15 @@ class RecordGetTests(TestCase):
     def test_get_all_records(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project,date="2016-11-22",start_time=None,
+        record = Record(enrollment=enrollment0, project=project0,date="2016-11-22",start_time=None,
                         total_hours=5,longitude=42.3399,latitude=71.0921,category=category0.name,is_active=True,
                         comments=None,extra_field=None)
         record.save()
-        record2 = Record(enrollment=enrollment0, project=enrollment0.project,date="2015-11-22",start_time=None,
+        record2 = Record(enrollment=enrollment0, project=project0,date="2015-11-22",start_time=None,
                          total_hours=5,longitude=42.3399,latitude=71.0921,category=category0.name,is_active=True,
                          comments=None,extra_field=None)
         record2.save()
@@ -1138,10 +1139,11 @@ class RecordGetTests(TestCase):
     def test_get_records_user(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
@@ -1154,10 +1156,11 @@ class RecordGetTests(TestCase):
     def test_get_records_course(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
@@ -1170,10 +1173,11 @@ class RecordGetTests(TestCase):
     def test_get_records_project(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
@@ -1186,14 +1190,15 @@ class RecordGetTests(TestCase):
     def test_hours_for_user(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        record2 = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record2 = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=7, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record2.save()
@@ -1206,10 +1211,11 @@ class RecordGetTests(TestCase):
     def test_hours_for_project(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
@@ -1222,10 +1228,11 @@ class RecordGetTests(TestCase):
     def test_hours_for_course(self):
         enrollment0 = self.exampleEnrollment()
         enrollment0.save()
-        project0_id = enrollment0.project.id
+        project0 = self.exampleProject()
+        project0.save()
         category0 = self.exampleCategory()
         category0.save()
-        record = Record(enrollment=enrollment0, project=enrollment0.project, date="2016-11-22", start_time=None,
+        record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
                         total_hours=5, longitude=42.3399, latitude=71.0921, category=category0.name, is_active=True,
                         comments=None, extra_field=None)
         record.save()
