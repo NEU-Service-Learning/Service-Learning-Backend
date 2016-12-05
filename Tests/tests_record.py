@@ -1132,7 +1132,7 @@ class RecordGetTests(TestCase):
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertEqual(json_string[0]['is_active'], True)
-        get_records = self.client.get('/records/all/' + "2016-01-01,2017-01-01" + '/')
+        get_records = self.client.get('/record/all/' + "2016-01-01/2017-01-01" + '/')
         self.assertEqual(get_records.status_code,200)
 
     # get all records for a user

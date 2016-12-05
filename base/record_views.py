@@ -48,9 +48,9 @@ class RecordList(APIView):
 
     def get(self, request, start_date=None, end_date=None, format=None):
         if start_date is None or end_date is None:
-            records = Record.objects.filter(is_active=True).values('id').distinct()
+            records = Record.objects.filter(is_active=True)
         else:
-            records = Record.objects.filter(date=[start_date, end_date], is_active=True).values('id').distinct()
+            records = Record.objects.filter(date__range=[start_date, end_date], is_active=True)
         serializer = RecordSerializer(records, many=True)
         return Response(serializer.data)
 
@@ -94,11 +94,10 @@ class RecordHoursForUser(APIView):
             records = Record.objects.filter(is_active=True, enrollment__in=Enrollment.objects.filter(user=user)
                                             .values('id').distinct()).aggregate(Sum('total_hours'))
         else:
-            records = Record.objects.filter(date=[start_date, end_date], is_active=True, enrollment__in=Enrollment.
+            records = Record.objects.filter(date__range=[start_date, end_date], is_active=True, enrollment__in=Enrollment.
                                             objects.filter(user=user).values('id').distinct())\
                 .aggregate(Sum('total_hours'))
-        serializer = RecordSerializer(records, many=True)
-        return Response(serializer.data)
+        return Response({'total_hours': records['total_hours__sum'] or 0})
 
 class RecordHoursForProject(APIView):
     """
@@ -109,10 +108,9 @@ class RecordHoursForProject(APIView):
         if start_date is None or end_date is None:
             records = Record.objects.filter(is_active=True, project=project).aggregate(Sum('total_hours'))
         else:
-            records = Record.objects.filter(is_active=True, project=project, date=[start_date, end_date])\
+            records = Record.objects.filter(is_active=True, project=project, date__range=[start_date, end_date])\
                 .aggregate(Sum('total_hours'))
-        serializer = RecordSerializer(records, many=True)
-        return Response(serializer.data)
+        return Response({'total_hours': records['total_hours__sum'] or 0})
 
 class RecordHoursForCourse(APIView):
     """
@@ -125,10 +123,9 @@ class RecordHoursForCourse(APIView):
                                             .values('id').distinct()).aggregate(Sum('total_hours'))
         else:
             records = Record.objects.filter(is_active=True, enrollment__in=Enrollment.objects.filter(course=course)
-                                            .values('id').distinct(), date=[start_date, end_date])\
+                                            .values('id').distinct(), date__range=[start_date, end_date])\
                 .aggregate(Sum('total_hours'))
-        serializer = RecordSerializer(records, many=True)
-        return Response(serializer.data)
+        return Response({'total_hours': records['total_hours__sum'] or 0})
 
 
 class RecordsExport(APIView):
