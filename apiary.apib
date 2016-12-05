@@ -85,7 +85,7 @@ as `student` and all others will be set to the `instructor` role.
                 "key": "8dc772f34177bd654bb8e70e3b22635004fb0de3",
             }
 
-## Exisiting User [/user/{user_id}]
+## Exisiting User [/users/{user_id}]
 
 ### Get User Information [GET]
 
@@ -137,35 +137,6 @@ Updates a User with the given fields. Have to provide all the fields, provide ex
         }
 
 + Response 200
-
-## Expanded User Info [/user/{user_id}/expanded]
-
-### Get User Expanded Info [GET]
-
-Get an expanded version of the user, including full name of courses and projects. Takes User ID.
-
-+ Request (application/json)
-
-        {
-            "email": "kename.f@husky.neu.edu",
-        }
-
-+ Response 200 (application/json)
-       
-        {
-            "id": 99999,
-            "first_name": "Fa",
-            "last_name": "Kename",
-            "username": "kename.f@husky.neu.edu",
-            "role": "student",
-            "courses": [
-                "Software Development",
-            ],
-            "projects": [
-                "Service-Learning Time Tracker",
-            ],
-            "is_active": true,
-        }
 
 ## Current Logged in User [/me/]
 
