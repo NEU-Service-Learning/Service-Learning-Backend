@@ -1121,11 +1121,11 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0,date="2016-11-22",start_time=None,
-                        total_hours=5,longitude=42.3399,latitude=71.0921,category=category0,is_active=True,
+                        total_hours=5,longitude=None,latitude=None,category=category0,is_active=True,
                         comments=None,extra_field=None)
         record.save()
         record2 = Record(enrollment=enrollment0, project=project0,date="2015-11-22",start_time=None,
-                         total_hours=5,longitude=42.3399,latitude=71.0921,category=category0,is_active=True,
+                         total_hours=5,longitude=None,latitude=None,category=category0,is_active=True,
                          comments=None,extra_field=None)
         record2.save()
         get_records = self.client.get('/record/all/') # get all records, no date specified
@@ -1144,7 +1144,7 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         get_records = self.client.get('/record/user/' + enrollment0.user.id + '/')
@@ -1161,7 +1161,7 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         get_records = self.client.get('/record/course/' + enrollment0.course.id + '/')
@@ -1178,7 +1178,7 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         get_records = self.client.get('/record/project/' + record.project.id + '/')
@@ -1195,11 +1195,11 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         record2 = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=7, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=7, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record2.save()
         record_hours = self.client.get('/record/hours/user/' + enrollment0.user.id + '/')
@@ -1216,7 +1216,7 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         record_hours = self.client.get('/record/hours/project/' + project0_id + '/')
@@ -1233,7 +1233,7 @@ class RecordGetTests(TestCase):
         category0 = self.exampleCategory()
         category0.save()
         record = Record(enrollment=enrollment0, project=project0, date="2016-11-22", start_time=None,
-                        total_hours=5, longitude=42.3399, latitude=71.0921, category=category0, is_active=True,
+                        total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
         record_hours = self.client.get('/record/hours/course/' + enrollment0.course.id + '/')
