@@ -158,7 +158,7 @@ class SemesterTests(TestCase):
 		self.course.save()
 		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
 		self.user.save()
-		self.semester = Semester(name="sem1", start_date=datetime.now(), end_date=datetime.now(), is_active=True)
+		self.semester = Semester(name="sem1", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
 		self.semester.save()
 		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
 		enrollment.save()
