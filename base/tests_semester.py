@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.test import Client
 from base.models import *
 import json
+from datetime import datetime
 
 		
 class SemesterTests(TestCase):
@@ -149,6 +150,23 @@ class SemesterTests(TestCase):
 			"end_date": "2017-12-31",
 			"is_active": 'false'
 		})
+		self.college = College("hello")
+		self.college.save()
+		self.department = Department("test", self.college.name)
+		self.department.save()
+		self.course = Course("CS4500", "Software Dev", self.department.name)
+		self.course.save()
+		self.user = User(username="kename.f@neu.edu", first_name="Fa", password="password1")
+		self.user.save()
+		self.semester = Semester(name="sem1", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
+		self.semester.save()
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
+		enrollment.save()
+		self.semester = Semester(name="sem2", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
+		self.semester.save()
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
+		enrollment.save()
+		
 		s1_json = json.loads(second_semester.content.decode('utf-8'))
 		self.assertEqual(second_semester.status_code, 201)
 		self.assertEqual(s1_json['name'], "FALL2017")
@@ -170,5 +188,7 @@ class SemesterTests(TestCase):
 		# Verify that we can't move to the next semester if there is none
 		next_semester = self.client.post('/semester/startnext/')
 		self.assertEqual(next_semester.status_code, 404)
+		
+	
 		
 		
