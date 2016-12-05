@@ -1199,7 +1199,8 @@ class RecordGetTests(TestCase):
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        user0 = enrollment0.user
+        user0 = self.exampleUser()
+        user0.save()
         record_hours = self.client.get('/record/hours/user/' + str(user0.id) + '/')
         self.assertEqual(record_hours.status_code,200)
         json_string = json.loads(record_hours.content.decode('utf-8'))
@@ -1240,7 +1241,8 @@ class RecordGetTests(TestCase):
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        course0 = enrollment0.course
+        course0 = self.exampleCourse()
+        course0.save()
         record_hours = self.client.get('/record/hours/course/' + course0.id + '/')
         self.assertEqual(record_hours.status_code, 200)
         json_string = json.loads(record_hours.content.decode('utf-8'))
