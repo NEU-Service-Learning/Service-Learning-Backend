@@ -48,9 +48,9 @@ class RecordList(APIView):
 
     def get(self, request, start_date=None, end_date=None, format=None):
         if start_date is None or end_date is None:
-            records = Record.objects.filter(is_active=True).values('id')
+            records = Record.objects.filter(is_active=True).values('id').distinct()
         else:
-            records = Record.objects.filter(date=[start_date, end_date], is_active=True).values('id')
+            records = Record.objects.filter(date=[start_date, end_date], is_active=True).values('id').distinct()
         serializer = RecordSerializer(records, many=True)
         return Response(serializer.data)
 

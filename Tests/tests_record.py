@@ -1200,7 +1200,7 @@ class RecordGetTests(TestCase):
                         comments=None, extra_field=None)
         record.save()
         user0 = enrollment0.user
-        record_hours = self.client.get('/record/hours/user/' + user0.id + '/')
+        record_hours = self.client.get('/record/hours/user/' + str(user0.id) + '/')
         self.assertEqual(record_hours.status_code,200)
         json_string = json.loads(record_hours.content.decode('utf-8'))
         self.assertEqual(json_string[0],5)
