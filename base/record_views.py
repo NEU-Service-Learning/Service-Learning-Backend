@@ -128,7 +128,6 @@ class RecordHoursForCourse(APIView):
             records = Record.objects.filter(is_active=True, course=course, date=[start_date, end_date])\
                 .aggregate(Sum('total_hours'))
 
-<<<<<<< HEAD
 
 class RecordsExport(APIView):
     """
@@ -143,18 +142,3 @@ class RecordsExport(APIView):
             writer.writerow(temp.data.values())
 
         return response
-=======
-class RecordsExport(APIView):
-	"""
-	"""
-	
-	def get(self, request, format=None):
-		response = HttpResponse(content_type='text/csv')
-		response['Content-Disposition'] = 'attachment; filename="All-Records.csv"'
-		writer = csv.writer(response)
-		for record in Record.objects.filter(is_Active=True):
-			temp = RecordSerializer(record, many = False)
-			writer.writerow(temp.data.values())
-
-		return response
->>>>>>> 3c7dc477f024458cf6a1847ac32d4fc918bfd3a1
