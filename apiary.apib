@@ -167,6 +167,31 @@ Get an expanded version of the user, including full name of courses and projects
             "is_active": true,
         }
 
+## Current Logged in User [/me/]
+
+### Get Current User [GET]
+
+Returns the currently logged in User
+
++ Response 200 (application/json)
+       
+        {
+            "id": 99999,
+            "first_name": "Fa",
+            "last_name": "Kename",
+            "username": "kename.f@husky.neu.edu",
+            "role": "student",
+            "courses": [
+                "CS4500",
+                "CS2500",
+                "CS2510",
+            ],
+            "projects": [
+                99999,
+            ],
+            "is_active": true,
+        }
+
 ## Course Collection [/courses]
 
 ### Get all Courses [GET]
