@@ -69,8 +69,8 @@ class RecordListByCourse(APIView):
     Takes a Course ID and returns all Records for that Course
     """
     def get(self, request, course, format=None):
-        courses = Course.objects.filter(course=course).values('id').distinct()
-        records = Record.objects.filter(is_active=True, course__in=courses).order_by('-date')
+        records = Record.objects.filter(is_active=True,
+                                        enrollment__in=Enrollment.objects.filter(course=course).values('id').distinct())
         serializer = RecordSerializer(records, many=True)
         return Response(serializer.data)
 
