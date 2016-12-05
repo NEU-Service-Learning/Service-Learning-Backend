@@ -160,11 +160,11 @@ class SemesterTests(TestCase):
 		self.user.save()
 		self.semester = Semester(name="sem1", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
 		self.semester.save()
-		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345", is_active=False)
 		enrollment.save()
 		self.semester = Semester(name="sem2", start_date=datetime.now(), end_date=datetime.now(), is_active=False)
 		self.semester.save()
-		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345")
+		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345", is_active=False)
 		enrollment.save()
 		
 		s1_json = json.loads(second_semester.content.decode('utf-8'))
