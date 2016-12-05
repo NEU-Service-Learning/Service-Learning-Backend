@@ -120,9 +120,9 @@ class RecordHoursForCourse(APIView):
     def get(self, request, course, start_date=None, end_date=None, format=None):
         enrollments = Enrollment.objects.filter(course=course).values('id').distinct()
         if start_date is None or end_date is None:
-            records = Record.objects.filter(is_active=True, course=course).aggregate(Sum('total_hours'))
+            records = Record.objects.filter(is_active=True, enrollments__in=enrollments).aggregate(Sum('total_hours'))
         else:
-            records = Record.objects.filter(is_active=True, course=course, date=[start_date, end_date])\
+            records = Record.objects.filter(is_active=True, enrollments__in=enrollments, date=[start_date, end_date])\
                 .aggregate(Sum('total_hours'))
 
 
