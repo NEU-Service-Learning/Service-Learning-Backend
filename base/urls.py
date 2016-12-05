@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'record/project/(?P<project>[0-9]+)/$', record_views.RecordListByProject.as_view()),
     url(r'record/hours/user/(?P<user>[0-9]+)/$', record_views.RecordHoursForUser.as_view()),
     url(r'record/hours/project/(?P<project>[0-9]+)/$', record_views.RecordHoursForProject.as_view()),
-    url(r'record/hours/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordHoursForProject.as_view())
+    url(r'record/hours/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordHoursForProject.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
