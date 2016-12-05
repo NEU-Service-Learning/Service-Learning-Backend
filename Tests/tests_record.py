@@ -1185,7 +1185,6 @@ class RecordGetTests(TestCase):
                         comments=None, extra_field=None)
         record.save()
         get_records = self.client.get('/record/project/' + str(record.project.id) + '/')
-        self.assertEqual(get_records.content,"")
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertEqual(json_string[0]['is_active'], True)

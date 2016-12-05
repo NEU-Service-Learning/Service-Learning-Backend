@@ -7,7 +7,6 @@ from . import course_views
 from . import department_views
 from . import college_views
 from . import user_views
-from . import semester_views
 from . import record_views
 
 urlpatterns = [
@@ -33,9 +32,6 @@ urlpatterns = [
     url(r'^enrollments/crn/(?P<crn>[0-9]+)/$', enrollment_views.EnrollmentCRNList.as_view()),
     url(r'^enroll/(?P<pk>[0-9]+)/$', enrollment_views.EnrollmentDetail.as_view()),
     url(r'^enroll/$', enrollment_views.EnrollmentDetail.as_view()),
-    url(r'semester/$', semester_views.SemesterDetail.as_view()),
-    url(r'semester/startnext/$', semester_views.StartSemester.as_view()),
-    url(r'semester/(?P<pk>[\w{}.-]{1,40})/$', semester_views.SemesterDetail.as_view()),
     url(r'communityPartner/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/$', community_partner_views.CommunityPartnerDetail.as_view()),
     url(r'communityPartner/(?P<pk>[0-9]+)/projects/$', community_partner_views.CommunityPartnerProjects.as_view()),
@@ -45,7 +41,14 @@ urlpatterns = [
     url(r'project/(?P<pk>[0-9]+)/$', project_views.ProjectDetail.as_view()),
     url(r'project/(?P<pk>[0-9]+)/students/$', project_views.ProjectStudents.as_view()),
     url(r'record/$', record_views.RecordDetail.as_view()),
-    url(r'record/(?P<pk>[0-9]+)/$', record_views.RecordDetail.as_view())
+    url(r'record/(?P<pk>[0-9]+)/$', record_views.RecordDetail.as_view()),
+    url(r'record/all/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2}/$'),
+    url(r'record/user/(?P<pk>[0-9]+)/$', record_views.RecordListByUser.as_view()),
+    url(r'record/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordListByCourse.as_view()),
+    url(r'record/project/(?P<pk>[0-9]+)/$', record_views.RecordListByProject.as_view()),
+    url(r'record/hours/user/(?P<pk>[0-9]+)/$', record_views.RecordHoursForUser.as_view()),
+    url(r'record/hours/project/(?P<pk>[0-9]+)/$', record_views.RecordHoursForProject.as_view()),
+    url(r'record/hours/course/(?P<course>[A-Z0-9]+)/$', record_views.RecordHoursForProject.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
