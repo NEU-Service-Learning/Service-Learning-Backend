@@ -1,0 +1,5 @@
+[run]
+omit =
+  base/admin.py
+  base/models.py
+  base/apps.py
