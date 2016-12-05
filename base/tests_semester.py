@@ -4,6 +4,7 @@ from base.models import *
 import json
 from datetime import datetime
 
+
 		
 class SemesterTests(TestCase):
 	def setUp(self):
@@ -35,12 +36,15 @@ class SemesterTests(TestCase):
 		self.assertEqual(s1_json['name'], "FALL2020")
 		self.assertEqual(s1_json['is_active'], False)
 		
+<<<<<<< HEAD
 	def test_bad_get_semester(self):
 	
 		# Semester that does not exist
 		semester = self.client.get('/semester/SPRING93/')
 		self.assertEqual(semester.status_code, 404)
 		
+=======
+>>>>>>> master
 	def test_bad_post_semester(self):
 	
 		# Semester with inconsistent_dates
@@ -52,11 +56,27 @@ class SemesterTests(TestCase):
 			"is_active": 'false'
 		})
 		self.assertEqual(semester.status_code, 400)
+<<<<<<< HEAD
 		 
 		# Semester with no data
 		semester = self.client.post('/semester/', {})
 		self.assertEqual(semester.status_code, 400)
 			
+=======
+		
+		# Semester with non-string name
+		semester = self.client.post('/semester/',
+		{
+			"name": 45,
+			"start_date": "2016-09-01",
+			"end_date": "2016-12-31",
+			"is_active": 'true'
+		})
+		#self.assertEqual(semester.status_code, 400)
+		
+	
+	
+>>>>>>> master
 	def test_basic_put_semester(self):
 	
 		# Set up semester
@@ -98,33 +118,58 @@ class SemesterTests(TestCase):
 		self.assertEqual(s0_json['is_active'], False)
 		
 		# Modify the semester with bad is_active
+<<<<<<< HEAD
 		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),json.dumps(
+=======
+		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
+>>>>>>> master
 		{
 			"name":	 "FALL2016",
 			"start_date": "2016-09-01",
 			"end_date": "2016-12-31",
+<<<<<<< HEAD
 			"is_active": None,
 		}), content_type="application/json")
 		self.assertEqual(semester.status_code, 400)
 		
 		# Modify the semester with bad start_date
 		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),json.dumps(
+=======
+			"is_active": "sometimes"
+		})
+		self.assertEqual(semester.status_code, 415)
+		
+		# Modify the semester with bad start_date
+		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
+>>>>>>> master
 		{
 			"name":	 "FALL2016",
 			"start_date": "2017-09-01",
 			"end_date": "2016-12-31",
 			"is_active": 'false'
+<<<<<<< HEAD
 		}), content_type="application/json")
 		self.assertEqual(semester.status_code, 400)
 		
 		# Modify the semester with bad end_date
 		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),json.dumps(
+=======
+		})
+		self.assertEqual(semester.status_code, 422)
+		
+		# Modify the semester with bad end_date
+		semester = self.client.put('/semester/{semester_id}/'.format(semester_id = s0_json['name']),
+>>>>>>> master
 		{
 			"name":	 "FALL2016",
 			"start_date": "2016-09-01",
 			"end_date": "2016-08-31",
 			"is_active": 'false'
+<<<<<<< HEAD
 		}), content_type="application/json")
+=======
+		})
+>>>>>>> master
 		self.assertEqual(semester.status_code, 400)
 
 	def test_start_semester(self):
@@ -150,6 +195,7 @@ class SemesterTests(TestCase):
 			"end_date": "2017-12-31",
 			"is_active": 'false'
 		})
+<<<<<<< HEAD
 		self.college = College("hello")
 		self.college.save()
 		self.department = Department("test", self.college.name)
@@ -167,6 +213,8 @@ class SemesterTests(TestCase):
 		enrollment = Enrollment(user=self.user, course=self.course, semester=self.semester, meeting_days="MWF", meeting_start_time=datetime.now().time(), meeting_end_time=datetime.now().time(), crn="12345", is_active=False)
 		enrollment.save()
 		
+=======
+>>>>>>> master
 		s1_json = json.loads(second_semester.content.decode('utf-8'))
 		self.assertEqual(second_semester.status_code, 201)
 		self.assertEqual(s1_json['name'], "FALL2017")
@@ -185,6 +233,7 @@ class SemesterTests(TestCase):
 		s0_json = json.loads(first_semester.content.decode('utf-8'))
 		self.assertEqual(s0_json['is_active'], False)
 		
+<<<<<<< HEAD
 		# Verify that we can't move to the next semester if there is none
 		next_semester = self.client.post('/semester/startnext/')
 		self.assertEqual(next_semester.status_code, 404)
@@ -254,3 +303,5 @@ class SemesterTests(TestCase):
 	
 		
 		
+=======
+>>>>>>> master
