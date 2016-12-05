@@ -1004,3 +1004,96 @@ Enrolls a User in a section of a Course
                 "CRN": "99999",
                 "is_active": true
             }
+            
+## Enrollments [/enrollments/]
+
+### Get all enrollments [GET]
+
+Get all enrollments.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 25,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": false,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS1200",
+                "semester": "SPRING2017",
+                "is_active": false,
+                "crn": "44221",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+        ]
+        
+## Enrollments Course [/enrollments/{course_name}/]
+
+### Get all active enrollments associated with given course [GET]
+
+Given a course name, retrieve all active enrollments associated with the given course.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 8,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            }
+        ]
+        
+## Enrollments CRN [/enrollments/crn/{crn}/]
+
+### Get all active enrollments associated with given CRN [GET]
+
+Given a course CRN, retrieve all active enrollments associated with the given course.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "user": 8,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            },
+            {
+                "user": 3,
+                "course": "CS4500",
+                "semester": "FALL2016",
+                "is_active": true,
+                "crn": "56323",
+                "meeting_days": "MWR",
+                "meeting_start_time": "23:23:54.304023",
+                "meeting_end_time": "23:23:54.204104"
+            }
+        ]
