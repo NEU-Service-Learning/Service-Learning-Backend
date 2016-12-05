@@ -1150,7 +1150,7 @@ class RecordGetTests(TestCase):
         get_records = self.client.get('/record/user/' + str(enrollment0.user.id) + '/')
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
-        self.assertTrue(json_string[0]['is_active'])
+        self.assertEqual(json_string[0]['is_active'], True)
 
     # get all records for a course
     def test_get_records_course(self):
@@ -1167,7 +1167,7 @@ class RecordGetTests(TestCase):
         get_records = self.client.get('/record/course/' + enrollment0.course.id + '/')
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
-        self.assertTrue(json_string[0]['is_active'])
+        self.assertEqual(json_string[0]['is_active'], True)
 
     # get all records for a project
     def test_get_records_project(self):
@@ -1184,7 +1184,7 @@ class RecordGetTests(TestCase):
         get_records = self.client.get('/record/project/' + str(record.project.id) + '/')
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
-        self.assertTrue(json_string[0]['is_active'])
+        self.assertEqual(json_string[0]['is_active'], True)
 
     # get total hours for a given user id
     def test_hours_for_user(self):
