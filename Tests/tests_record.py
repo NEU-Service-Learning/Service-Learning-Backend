@@ -1147,7 +1147,7 @@ class RecordGetTests(TestCase):
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        get_records = self.client.get('/record/user/' + enrollment0.user.id + '/')
+        get_records = self.client.get('/record/user/' + str(enrollment0.user.id) + '/')
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertTrue(json_string[0]['is_active'])
@@ -1181,7 +1181,7 @@ class RecordGetTests(TestCase):
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        get_records = self.client.get('/record/project/' + record.project.id + '/')
+        get_records = self.client.get('/record/project/' + str(record.project.id) + '/')
         self.assertEqual(get_records.status_code,200)
         json_string = json.loads(get_records.content.decode('utf-8'))
         self.assertTrue(json_string[0]['is_active'])
@@ -1202,7 +1202,7 @@ class RecordGetTests(TestCase):
                         total_hours=7, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record2.save()
-        record_hours = self.client.get('/record/hours/user/' + enrollment0.user.id + '/')
+        record_hours = self.client.get('/record/hours/user/' + str(enrollment0.user.id) + '/')
         self.assertEqual(record_hours.status_code,200)
         json_string = json.loads(record_hours.content.decode('utf-8'))
         self.assertEqual(json_string[0],12)
@@ -1219,7 +1219,7 @@ class RecordGetTests(TestCase):
                         total_hours=5, longitude=None, latitude=None, category=category0, is_active=True,
                         comments=None, extra_field=None)
         record.save()
-        record_hours = self.client.get('/record/hours/project/' + project0_id + '/')
+        record_hours = self.client.get('/record/hours/project/' + str(project0.id) + '/')
         self.assertEqual(record_hours.status_code, 200)
         json_string = json.loads(record_hours.content.decode('utf-8'))
         self.assertEqual(json_string[0], 5)
