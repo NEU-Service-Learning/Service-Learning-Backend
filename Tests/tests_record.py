@@ -1111,7 +1111,7 @@ class RecordGetTests(TestCase):
     def test_no_id(self):
         record = self.client.get('/record/99999/')
         self.assertEqual(record.status_code, 404)
-		
+
     def test_export_records(self):
         enrollment0 = self.exampleEnrollment()
        	enrollment0.save()
@@ -1136,7 +1136,7 @@ class RecordGetTests(TestCase):
         record = self.client.get('/record/exportall/')
         self.assertEqual(record.status_code, 200)
         self.assertEqual(record.get('Content-Disposition'), 'attachment; filename="All-Records.csv"')
-		
+
 
     # get all active records
     def test_get_all_records(self):
