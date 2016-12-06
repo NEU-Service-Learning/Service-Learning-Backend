@@ -115,17 +115,22 @@ class RecordHoursForProject(APIView):
 class RecordHoursForUserProject(APIView):
     """
     Takes a User ID and Project ID, returns the sum of all logged hours for
-    that user for that project
+    that user for that project for the given time range
+    (assumes forever if no range is given)
     """
 
-    def get(self, request, user, project, format=None):
-        records = Record.objects.filter(is_active=True, project=project, enrollment__user=user).aggregate(Sum('total_hours'))
+    def get(self, request, user, project, start_date=None, end_date=None,  format=None):
+        if start_date is None or end_date is None:
+            records = Record.objects.filter(is_active=True, project=project, enrollment__user=user).aggregate(Sum('total_hours'))
+        else:
+            records = Record.objects.filter(is_active=True, project=project, enrollment__user=user, date__range=[start_date, end_date])\
+                .aggregate(Sum('total_hours'))
         return Response({'total_hours': records['total_hours__sum'] or 0})
 
 class RecordHoursForCourse(APIView):
     """
     Takes a Course ID and returns the total recorded hours for the given time range
-    (assumes forever if no range is given)
+    (assumes forever if no range is given) 
     """
     def get(self, request, course, start_date=None, end_date=None, format=None):
         if start_date is None or end_date is None:
