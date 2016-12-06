@@ -18,7 +18,7 @@ class SemesterDetail(generics.ListCreateAPIView):
 	GET - Get info on a semester for a given semester idi
 	PUT - Update info on a semester, given its name
 	"""
-
+	serializer_class = SemesterSerializer
 	# permission_classes = (permissions.IsAuthenticated, )
 
 	def get_object(self, pk):
