@@ -3,16 +3,18 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_auth.serializers import UserDetailsSerializer
 from rest_auth.registration.serializers import RegisterSerializer
+from base.enrollment_serializer import EnrollmentSerializer
 
 class UserSerializer(UserDetailsSerializer):
     role = serializers.CharField(source="userprofile.role")
+    enrollments = serializers.SerializerMethodField('get_all_enrollments')
     courses = serializers.SerializerMethodField('get_all_courses')
     projects = serializers.SerializerMethodField('get_all_projects')
     sections = serializers.SerializerMethodField('get_all_sections')
 
     class Meta:
         model = User
-        fields = UserDetailsSerializer.Meta.fields + ('role', 'id', 'courses', 'projects', 'sections')
+        fields = UserDetailsSerializer.Meta.fields + ('role', 'id', 'courses', 'projects', 'sections', 'enrollments')
 
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('userprofile', {})
@@ -29,6 +31,10 @@ class UserSerializer(UserDetailsSerializer):
 
     def get_all_courses(self, obj):
         return set(Enrollment.objects.filter(user=obj).values_list("course", flat=True))
+
+    def get_all_enrollments(self, obj):
+        enrollments = Enrollment.objects.filter(user=obj)
+        return EnrollmentSerializer(enrollments, many=True).data
 
     def get_all_projects(self, obj):
         return set(Enrollment.objects.filter(user=obj).values_list("project", flat=True))
