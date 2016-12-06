@@ -58,9 +58,9 @@ urlpatterns = [
     url(r'^record/hours/user/(?P<user>[0-9]+)/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})/'
         r'(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2})/$',record_views.RecordHoursForUser.as_view()),
     url(r'^record/hours/user/(?P<user>[0-9]+)/project/(?P<project>[0-9]+)/$',
-        record_views.RecordHoursForUserProject.as_view())
+        record_views.RecordHoursForUserProject.as_view()),
     url(r'^record/hours/user/(?P<user>[0-9]+)/project/(?P<project>[0-9]+)/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})/(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2})/$',
-        record_views.RecordHoursForUserProject.as_view())
+        record_views.RecordHoursForUserProject.as_view()),
     url(r'^record/hours/project/(?P<project>[0-9]+)/$', record_views.RecordHoursForProject.as_view()),
     url(r'^record/hours/project/(?P<project>[0-9]+)/(?P<start_date>\d{4}[-/]\d{2}[-/]\d{2})/'
         r'(?P<end_date>\d{4}[-/]\d{2}[-/]\d{2})/$',record_views.RecordHoursForProject.as_view()),
