@@ -121,6 +121,7 @@ class RecordHoursForUserProject(APIView):
     def get(self, request, user, project, format=None):
         records = Record.objects.filter(is_active=True, project=project, enrollment__user=user).aggregate(Sum('total_hours'))
         return Response({'total_hours': records['total_hours__sum'] or 0})
+
 class RecordHoursForCourse(APIView):
     """
     Takes a Course ID and returns the total recorded hours for the given time range
