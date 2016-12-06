@@ -56,6 +56,8 @@ class Enrollment(models.Model):
     project = models.ForeignKey('Project', models.DO_NOTHING, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     crn = models.CharField(max_length=5)
+    required_hours = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True,
+                                         validators=[MinValueValidator(0.1), MaxValueValidator(24)])
 
     class Meta:
         db_table = 'Enrollment'

@@ -47,3 +47,4 @@ alias migrate=`python3 manage.py migrate`
 # Coverage
 
 To update the coverage badge, run the tests then run `coverage-badge -f -o coverage.svg` and commit the new `coverage.svg` file.
+
